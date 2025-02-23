@@ -6,8 +6,8 @@ import { useState } from "react";
 
 const Battle = () => {
   const [code, setCode] = useState(`# Write your Python code here
-def find_num(arr):
-    arr.sort()`);
+def find_lca(tree, p, q):
+    # Write your code here`);
 
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white">
@@ -16,15 +16,15 @@ def find_num(arr):
         <div className="flex items-center gap-2">
           <Users className="w-5 h-5 text-[#95FF66]" />
           <span className="text-[#95FF66]">Battling:</span>
-          <span>kevin liu</span>
+          <span>William Lafond</span>
         </div>
         <div className="flex items-center gap-4">
           <div className="glass px-3 py-1.5 rounded-md flex items-center gap-2">
             <Timer className="w-4 h-4 text-[#95FF66]" />
-            <span className="text-[#95FF66] font-mono">04:51</span>
+            <span className="text-[#95FF66] font-mono">03:02</span>
           </div>
           <div className="glass px-3 py-1.5 rounded-md text-sm">
-            30 total tests
+            2 total tests
           </div>
         </div>
       </div>
@@ -60,25 +60,18 @@ def find_num(arr):
           <div className="glass rounded-lg p-4">
             <div className="flex items-center gap-2 mb-4">
               <Code className="w-4 h-4 text-[#95FF66]" />
-              <h2 className="text-lg">Find the Missing Number in an Array</h2>
+              <h2 className="text-lg">Find the Lowest Common Ancestor in a Binary Tree</h2>
             </div>
             <p className="text-gray-300 mb-6">
-              Given an array of integers from 1 to n with one number missing, write a function
-              to find the missing number.
+              Write a function to find the lowest common ancestor (LCA) of two nodes in a binary tree.
             </p>
             <div className="mb-4">
               <h3 className="text-[#95FF66] mb-2">Examples:</h3>
               <div className="glass rounded-md p-3 mb-3 font-mono text-sm">
                 <div className="text-gray-400 mb-1">Input:</div>
-                <div>[1, 2, 4, 5, 6]</div>
+                <div>{"tree": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], "p": 5, "q": 1}</div>
                 <div className="text-gray-400 mt-2 mb-1">Output:</div>
                 <div>3</div>
-              </div>
-              <div className="glass rounded-md p-3 font-mono text-sm">
-                <div className="text-gray-400 mb-1">Input:</div>
-                <div>[3, 7, 1, 2, 8, 4, 5]</div>
-                <div className="text-gray-400 mt-2 mb-1">Output:</div>
-                <div>6</div>
               </div>
             </div>
           </div>
@@ -95,15 +88,15 @@ def find_num(arr):
                   <span>0%</span>
                 </div>
                 <Progress value={0} className="h-2 bg-white/10" />
-                <div className="text-right text-xs text-gray-400 mt-1">0 / 30 tests passed</div>
+                <div className="text-right text-xs text-gray-400 mt-1">0 / 2 tests passed</div>
               </div>
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <span>kevin liu's Progress</span>
+                  <span>William Lafond's Progress</span>
                   <span>0%</span>
                 </div>
                 <Progress value={0} className="h-2 bg-white/10" />
-                <div className="text-right text-xs text-gray-400 mt-1">0 / 30 tests passed</div>
+                <div className="text-right text-xs text-gray-400 mt-1">0 / 2 tests passed</div>
               </div>
             </div>
           </div>

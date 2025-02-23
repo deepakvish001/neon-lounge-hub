@@ -1,8 +1,22 @@
 
 import { Button } from "@/components/ui/button";
-import { UserCircle } from "lucide-react";
+import { UserCircle, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Header = () => {
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error("Error signing out");
+    } else {
+      navigate("/auth");
+    }
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 glass">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -18,9 +32,12 @@ export const Header = () => {
           >
             Join Game
           </Button>
-          <Button className="bg-primary hover:bg-primary/80 transition-colors flex items-center gap-2">
-            <UserCircle size={20} />
-            Sign In
+          <Button
+            onClick={handleSignOut}
+            className="bg-primary hover:bg-primary/80 transition-colors flex items-center gap-2"
+          >
+            <LogOut size={20} />
+            Sign Out
           </Button>
         </div>
       </div>

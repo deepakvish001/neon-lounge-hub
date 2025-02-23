@@ -69,7 +69,7 @@ def find_lca(tree, p, q):
               <h3 className="text-[#95FF66] mb-2">Examples:</h3>
               <div className="glass rounded-md p-3 mb-3 font-mono text-sm">
                 <div className="text-gray-400 mb-1">Input:</div>
-                <div>{"tree": [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], "p": 5, "q": 1}</div>
+                <div>{`{tree: [3, 5, 1, 6, 2, 0, 8, null, null, 7, 4], p: 5, q: 1}`}</div>
                 <div className="text-gray-400 mt-2 mb-1">Output:</div>
                 <div>3</div>
               </div>

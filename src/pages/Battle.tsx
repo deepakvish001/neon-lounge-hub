@@ -94,7 +94,7 @@ def find_num(arr):
                   <span>Your Progress</span>
                   <span>0%</span>
                 </div>
-                <Progress value={0} className="h-2 bg-white/10" indicatorClassName="bg-[#95FF66]" />
+                <Progress value={0} className="h-2 bg-white/10" />
                 <div className="text-right text-xs text-gray-400 mt-1">0 / 30 tests passed</div>
               </div>
               <div>
@@ -102,7 +102,7 @@ def find_num(arr):
                   <span>kevin liu's Progress</span>
                   <span>0%</span>
                 </div>
-                <Progress value={0} className="h-2 bg-white/10" indicatorClassName="bg-[#95FF66]" />
+                <Progress value={0} className="h-2 bg-white/10" />
                 <div className="text-right text-xs text-gray-400 mt-1">0 / 30 tests passed</div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, RocketLaunch } from "lucide-react";
+import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Index = () => {
@@ -119,7 +119,7 @@ const Index = () => {
               <p className="text-sm text-muted-foreground">Practice competitive coding</p>
             </div>
             <div className="glass p-6 rounded-lg text-center hover-scale">
-              <RocketLaunch className="w-8 h-8 text-[#95FF66] mx-auto mb-4" />
+              <Rocket className="w-8 h-8 text-[#95FF66] mx-auto mb-4" />
               <h3 className="font-semibold mb-2">System Design</h3>
               <p className="text-sm text-muted-foreground">Build scalable systems</p>
             </div>

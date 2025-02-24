@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Battle from "./pages/Battle";
+import { Header } from "./components/Header";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,6 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Show nothing while we initialize
   if (session === null) {
     return null;
   }
@@ -45,28 +45,33 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <BrowserRouter>
-          <Toaster />
-          <Sonner />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Index />
-                </PrivateRoute>
-              }
-            />
-            <Route path="/auth" element={<Auth />} />
-            <Route
-              path="/battle"
-              element={
-                <PrivateRoute>
-                  <Battle />
-                </PrivateRoute>
-              }
-            />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="min-h-screen bg-[#0C0C0C]">
+            <Header />
+            <main className="pt-16">
+              <Toaster />
+              <Sonner />
+              <Routes>
+                <Route
+                  path="/"
+                  element={
+                    <PrivateRoute>
+                      <Index />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="/auth" element={<Auth />} />
+                <Route
+                  path="/battle"
+                  element={
+                    <PrivateRoute>
+                      <Battle />
+                    </PrivateRoute>
+                  }
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

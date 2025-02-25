@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import Battle from "./pages/Battle";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
+import Leaderboard from "./pages/Leaderboard";
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,14 @@ const App = () => {
                   element={
                     <PrivateRoute>
                       <Battle />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/leaderboard"
+                  element={
+                    <PrivateRoute>
+                      <Leaderboard />
                     </PrivateRoute>
                   }
                 />

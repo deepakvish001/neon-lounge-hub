@@ -50,6 +50,7 @@ export const Header = () => {
             <Button
               variant="ghost"
               className="flex items-center gap-2 hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all"
+              onClick={() => navigate('/leaderboard')}
             >
               <Trophy size={18} />
               Leaderboard

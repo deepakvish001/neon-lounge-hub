@@ -1,14 +1,38 @@
-
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useState } from "react";
 
 const Index = () => {
   const navigate = useNavigate();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [topic, setTopic] = useState("");
+  const [difficulty, setDifficulty] = useState("");
 
   const handleStartMatch = () => {
-    navigate('/battle');
+    setIsDialogOpen(true);
+  };
+
+  const handleStartBattle = () => {
+    if (topic && difficulty) {
+      navigate('/battle');
+      setIsDialogOpen(false);
+    }
   };
 
   return (
@@ -49,6 +73,66 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="bg-[#1C1C1C] border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center mb-4">
+              Choose Your Battle
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6 py-4">
+            <div className="space-y-2">
+              <label className="text-sm text-gray-400">Topic</label>
+              <Select value={topic} onValueChange={setTopic}>
+                <SelectTrigger className="w-full bg-black/50 border-white/10 text-white">
+                  <SelectValue placeholder="Select a topic" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1C1C1C] border-white/10">
+                  <SelectItem value="algorithms">Algorithms</SelectItem>
+                  <SelectItem value="data-structures">Data Structures</SelectItem>
+                  <SelectItem value="system-design">System Design</SelectItem>
+                  <SelectItem value="web-development">Web Development</SelectItem>
+                  <SelectItem value="databases">Databases</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm text-gray-400">Difficulty</label>
+              <Select value={difficulty} onValueChange={setDifficulty}>
+                <SelectTrigger className="w-full bg-black/50 border-white/10 text-white">
+                  <SelectValue placeholder="Select difficulty" />
+                </SelectTrigger>
+                <SelectContent className="bg-[#1C1C1C] border-white/10">
+                  <SelectItem value="easy">Easy</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="hard">Hard</SelectItem>
+                  <SelectItem value="expert">Expert</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          <DialogFooter className="sm:justify-center gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsDialogOpen(false)}
+              className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleStartBattle}
+              disabled={!topic || !difficulty}
+              className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black"
+            >
+              Start Battle
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Stats Section */}
       <section className="py-16 bg-[#0A0A0A]">

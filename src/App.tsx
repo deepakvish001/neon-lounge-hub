@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Battle from "./pages/Battle";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 
 const queryClient = new QueryClient();
 
@@ -45,9 +46,9 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <BrowserRouter>
-          <div className="min-h-screen bg-[#0C0C0C]">
+          <div className="min-h-screen bg-[#0C0C0C] flex flex-col">
             <Header />
-            <main className="pt-16">
+            <main className="flex-1 pt-16">
               <Toaster />
               <Sonner />
               <Routes>
@@ -71,6 +72,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
+            <Footer />
           </div>
         </BrowserRouter>
       </TooltipProvider>

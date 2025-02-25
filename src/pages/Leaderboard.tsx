@@ -57,13 +57,15 @@ const Leaderboard = () => {
 
           {/* Filters */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-4xl mx-auto">
-            <Input
-              placeholder="Search players..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-black/50 border-white/10 text-white placeholder:text-gray-500"
-              prefix={<Search className="w-4 h-4 text-gray-500" />}
-            />
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
+              <Input
+                placeholder="Search players..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-black/50 border-white/10 text-white placeholder:text-gray-500 pl-10"
+              />
+            </div>
             <Select value={timeFilter} onValueChange={setTimeFilter}>
               <SelectTrigger className="bg-black/50 border-white/10 text-white">
                 <SelectValue placeholder="Time Period" />

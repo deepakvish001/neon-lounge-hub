@@ -1,0 +1,209 @@
+
+import { useState } from "react";
+import { Book, BookOpen, Gamepad2, Code2, GraduationCap, Clock, Star, Trophy, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
+
+const Learn = () => {
+  const [selectedTab, setSelectedTab] = useState("tracks");
+
+  const learningTracks = [
+    {
+      title: "Algorithms Mastery",
+      description: "Master fundamental algorithms and problem-solving techniques",
+      progress: 65,
+      modules: 12,
+      duration: "8 weeks",
+      icon: Code2,
+    },
+    {
+      title: "Data Structures Deep Dive",
+      description: "Comprehensive study of essential data structures",
+      progress: 45,
+      modules: 8,
+      duration: "6 weeks",
+      icon: BookOpen,
+    },
+    {
+      title: "Competitive Programming",
+      description: "Advanced techniques for coding competitions",
+      progress: 30,
+      modules: 15,
+      duration: "12 weeks",
+      icon: Trophy,
+    },
+  ];
+
+  const featuredCourses = [
+    {
+      title: "Dynamic Programming",
+      level: "Advanced",
+      students: 1234,
+      rating: 4.8,
+      duration: "4 weeks",
+    },
+    {
+      title: "Graph Algorithms",
+      level: "Intermediate",
+      students: 2156,
+      rating: 4.9,
+      duration: "6 weeks",
+    },
+    {
+      title: "Binary Trees",
+      level: "Beginner",
+      students: 3789,
+      rating: 4.7,
+      duration: "3 weeks",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#0C0C0C] text-white pb-20">
+      {/* Hero Section */}
+      <section className="pt-24 pb-12 relative">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 relative">
+            <div className="absolute inset-0 bg-[#95FF66] blur-[100px] opacity-20 rounded-full"></div>
+            <GraduationCap className="w-16 h-16 text-[#95FF66] mx-auto mb-6 animate-bounce" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent neon-glow">
+              Master Your Skills
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Dive into our comprehensive learning paths and level up your programming expertise
+            </p>
+          </div>
+
+          {/* Learning Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto mb-12">
+            {[
+              { icon: BookOpen, label: "Courses", value: "50+" },
+              { icon: Trophy, label: "Skill Tracks", value: "12" },
+              { icon: Star, label: "Average Rating", value: "4.8" },
+            ].map((stat, index) => (
+              <div
+                key={index}
+                className="glass p-6 rounded-xl border border-white/10 animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <stat.icon className="w-8 h-8 text-[#95FF66] mb-3" />
+                <div className="text-2xl font-bold mb-1">{stat.value}</div>
+                <div className="text-gray-400">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Main Content */}
+      <section className="container mx-auto px-4">
+        <Tabs defaultValue="tracks" className="space-y-8">
+          <TabsList className="grid grid-cols-2 max-w-[400px] mx-auto bg-black/50 border border-white/10">
+            <TabsTrigger
+              value="tracks"
+              className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+            >
+              Learning Tracks
+            </TabsTrigger>
+            <TabsTrigger
+              value="featured"
+              className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+            >
+              Featured Courses
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="tracks" className="space-y-6">
+            {learningTracks.map((track, index) => (
+              <Card
+                key={index}
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in cursor-pointer"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader className="flex flex-row items-center gap-4">
+                  <div className="p-2 rounded-lg bg-[#95FF66]/10">
+                    <track.icon className="w-8 h-8 text-[#95FF66]" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-xl mb-1">{track.title}</CardTitle>
+                    <CardDescription>{track.description}</CardDescription>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <Progress value={track.progress} className="h-2 bg-white/5" />
+                    <div className="flex items-center justify-between text-sm text-gray-400">
+                      <div className="flex items-center gap-2">
+                        <BookOpen className="w-4 h-4" />
+                        {track.modules} modules
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-4 h-4" />
+                        {track.duration}
+                      </div>
+                      <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10">
+                        Continue <ChevronRight className="w-4 h-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </TabsContent>
+
+          <TabsContent value="featured" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {featuredCourses.map((course, index) => (
+              <Card
+                key={index}
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <CardHeader>
+                  <CardTitle className="text-lg">{course.title}</CardTitle>
+                  <CardDescription>
+                    <span className="inline-block px-2 py-1 rounded-full bg-[#95FF66]/10 text-[#95FF66] text-xs">
+                      {course.level}
+                    </span>
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between text-sm text-gray-400">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-4 h-4 text-[#95FF66]" fill="#95FF66" />
+                        {course.rating}
+                      </div>
+                      <div>{course.students.toLocaleString()} students</div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-4 h-4" />
+                        {course.duration}
+                      </div>
+                    </div>
+                    <Button className="w-full bg-[#95FF66] text-black hover:bg-[#95FF66]/90">
+                      Start Learning
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </TabsContent>
+        </Tabs>
+      </section>
+    </div>
+  );
+};
+
+export default Learn;

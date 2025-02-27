@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Book, BookOpen, Gamepad2, Code2, GraduationCap, Clock, Star, Trophy, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -51,6 +52,150 @@ const Learn = () => {
       modules: 10,
       duration: "10 weeks",
       icon: Server,
+    },
+    {
+      title: "Frontend Development",
+      description: "Modern web development with React and TypeScript",
+      progress: 80,
+      modules: 14,
+      duration: "10 weeks",
+      icon: Layout,
+    },
+    {
+      title: "Backend Engineering",
+      description: "Server-side development and API design",
+      progress: 55,
+      modules: 12,
+      duration: "12 weeks",
+      icon: Server,
+    },
+    {
+      title: "Database Management",
+      description: "Database design, optimization, and administration",
+      progress: 40,
+      modules: 8,
+      duration: "8 weeks",
+      icon: Database,
+    },
+    {
+      title: "Cloud Architecture",
+      description: "Cloud-native application development and deployment",
+      progress: 25,
+      modules: 10,
+      duration: "10 weeks",
+      icon: Server,
+    },
+    {
+      title: "Cybersecurity",
+      description: "Security fundamentals and best practices",
+      progress: 35,
+      modules: 12,
+      duration: "12 weeks",
+      icon: Shield,
+    },
+    {
+      title: "DevOps Practices",
+      description: "CI/CD, containerization, and deployment automation",
+      progress: 60,
+      modules: 10,
+      duration: "8 weeks",
+      icon: Binary,
+    },
+    {
+      title: "Performance Optimization",
+      description: "System performance analysis and optimization",
+      progress: 45,
+      modules: 8,
+      duration: "6 weeks",
+      icon: Flame,
+    },
+    {
+      title: "Machine Learning Basics",
+      description: "Fundamentals of AI and machine learning",
+      progress: 15,
+      modules: 15,
+      duration: "14 weeks",
+      icon: Brain,
+    },
+    {
+      title: "Operating Systems",
+      description: "Deep dive into OS concepts and implementation",
+      progress: 70,
+      modules: 12,
+      duration: "10 weeks",
+      icon: Cpu,
+    },
+    {
+      title: "Network Programming",
+      description: "Computer networks and distributed systems",
+      progress: 50,
+      modules: 10,
+      duration: "8 weeks",
+      icon: Globe,
+    },
+    {
+      title: "Software Architecture",
+      description: "Design patterns and architectural principles",
+      progress: 40,
+      modules: 12,
+      duration: "10 weeks",
+      icon: Layout,
+    },
+    {
+      title: "Mobile Development",
+      description: "Cross-platform mobile app development",
+      progress: 30,
+      modules: 14,
+      duration: "12 weeks",
+      icon: Layout,
+    },
+    {
+      title: "API Development",
+      description: "RESTful and GraphQL API design patterns",
+      progress: 55,
+      modules: 8,
+      duration: "6 weeks",
+      icon: Globe,
+    },
+    {
+      title: "Testing & QA",
+      description: "Comprehensive software testing methodologies",
+      progress: 65,
+      modules: 10,
+      duration: "8 weeks",
+      icon: Code2,
+    },
+    {
+      title: "Version Control",
+      description: "Advanced Git and collaboration workflows",
+      progress: 75,
+      modules: 6,
+      duration: "4 weeks",
+      icon: Binary,
+    },
+    {
+      title: "System Administration",
+      description: "Linux system administration and automation",
+      progress: 45,
+      modules: 12,
+      duration: "10 weeks",
+      icon: Terminal,
+    },
+    {
+      title: "Data Engineering",
+      description: "Big data processing and ETL pipelines",
+      progress: 35,
+      modules: 14,
+      duration: "12 weeks",
+      icon: Database,
+    },
+    {
+      title: "Blockchain Development",
+      description: "Smart contracts and decentralized applications",
+      progress: 20,
+      modules: 16,
+      duration: "14 weeks",
+      icon: Binary,
     }
   ];
 
@@ -257,16 +402,16 @@ const Learn = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-12">
             {[
               { icon: BookOpen, label: "Courses", value: "20+" },
-              { icon: Trophy, label: "Skill Tracks", value: "12" },
+              { icon: Trophy, label: "Skill Tracks", value: "22+" },
               { icon: Users, label: "Active Learners", value: "50k+" },
               { icon: Star, label: "Average Rating", value: "4.8" },
             ].map((stat, index) => (
               <div
                 key={index}
-                className="glass p-6 rounded-xl border border-white/10 animate-fade-in hover:border-[#95FF66]/50 transition-all cursor-pointer"
+                className="glass p-6 rounded-xl border border-white/10 animate-fade-in hover:border-[#95FF66]/50 transition-all cursor-pointer group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <stat.icon className="w-8 h-8 text-[#95FF66] mb-3" />
+                <stat.icon className="w-8 h-8 text-[#95FF66] mb-3 group-hover:scale-110 transition-transform" />
                 <div className="text-2xl font-bold mb-1">{stat.value}</div>
                 <div className="text-gray-400">{stat.label}</div>
               </div>
@@ -294,41 +439,46 @@ const Learn = () => {
           </TabsList>
 
           <TabsContent value="tracks" className="space-y-6">
-            {learningTracks.map((track, index) => (
-              <Card
-                key={index}
-                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in cursor-pointer group"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <CardHeader className="flex flex-row items-center gap-4">
-                  <div className="p-2 rounded-lg bg-[#95FF66]/10 group-hover:bg-[#95FF66]/20 transition-colors">
-                    <track.icon className="w-8 h-8 text-[#95FF66]" />
-                  </div>
-                  <div>
-                    <CardTitle className="text-xl mb-1">{track.title}</CardTitle>
-                    <CardDescription>{track.description}</CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <Progress value={track.progress} className="h-2 bg-white/5" />
-                    <div className="flex items-center justify-between text-sm text-gray-400">
-                      <div className="flex items-center gap-2">
-                        <BookOpen className="w-4 h-4" />
-                        {track.modules} modules
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4" />
-                        {track.duration}
-                      </div>
-                      <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10">
-                        Continue <ChevronRight className="w-4 h-4 ml-1" />
-                      </Button>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {learningTracks.map((track, index) => (
+                <Card
+                  key={index}
+                  className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in cursor-pointer group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardHeader className="flex flex-row items-center gap-4">
+                    <div className="p-2 rounded-lg bg-[#95FF66]/10 group-hover:bg-[#95FF66]/20 transition-colors">
+                      <track.icon className="w-8 h-8 text-[#95FF66] group-hover:scale-110 transition-transform" />
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                    <div>
+                      <CardTitle className="text-xl mb-1">{track.title}</CardTitle>
+                      <CardDescription>{track.description}</CardDescription>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <Progress value={track.progress} className="h-2 bg-white/5" />
+                        <span className="absolute right-0 top-[-20px] text-xs text-gray-400">{track.progress}%</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm text-gray-400">
+                        <div className="flex items-center gap-2">
+                          <BookOpen className="w-4 h-4" />
+                          {track.modules} modules
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Clock className="w-4 h-4" />
+                          {track.duration}
+                        </div>
+                        <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10 group-hover:translate-x-1 transition-transform">
+                          Continue <ChevronRight className="w-4 h-4 ml-1" />
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </TabsContent>
 
           <TabsContent value="featured" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

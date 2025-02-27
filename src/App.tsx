@@ -14,6 +14,7 @@ import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
 import Learn from "./pages/Learn";
+import TrackDetails from "./pages/TrackDetails";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,14 @@ const App = () => {
                   element={
                     <PrivateRoute>
                       <Learn />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/track/:trackId"
+                  element={
+                    <PrivateRoute>
+                      <TrackDetails />
                     </PrivateRoute>
                   }
                 />

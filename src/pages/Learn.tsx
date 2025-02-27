@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Book, BookOpen, Gamepad2, Code2, GraduationCap, Clock, Star, Trophy, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -56,7 +55,6 @@ const Learn = () => {
   ];
 
   const featuredCourses = [
-    // Algorithms & Data Structures Track
     {
       title: "Dynamic Programming Mastery",
       level: "Advanced",
@@ -84,7 +82,6 @@ const Learn = () => {
       duration: "3 weeks",
       icon: Binary,
     },
-    // System Design Track
     {
       title: "Distributed Systems Design",
       level: "Advanced",
@@ -112,7 +109,6 @@ const Learn = () => {
       duration: "4 weeks",
       icon: Globe,
     },
-    // Web Development Track
     {
       title: "Modern Frontend Architecture",
       level: "Advanced",
@@ -140,7 +136,6 @@ const Learn = () => {
       duration: "5 weeks",
       icon: Brain,
     },
-    // Security Track
     {
       title: "Web Security Fundamentals",
       level: "Intermediate",
@@ -159,7 +154,6 @@ const Learn = () => {
       duration: "8 weeks",
       icon: Shield,
     },
-    // Backend Development Track
     {
       title: "Microservices Architecture",
       level: "Advanced",
@@ -176,9 +170,8 @@ const Learn = () => {
       students: 1456,
       rating: 4.7,
       duration: "8 weeks",
-      icon: Cloud,
+      icon: Server,
     },
-    // Programming Languages
     {
       title: "Advanced JavaScript",
       level: "Advanced",
@@ -197,7 +190,6 @@ const Learn = () => {
       duration: "5 weeks",
       icon: Terminal,
     },
-    // Computer Science Fundamentals
     {
       title: "Operating Systems",
       level: "Advanced",
@@ -216,7 +208,6 @@ const Learn = () => {
       duration: "8 weeks",
       icon: Globe,
     },
-    // Performance & Optimization
     {
       title: "System Performance",
       level: "Advanced",

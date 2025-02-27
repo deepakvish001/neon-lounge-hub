@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Book, BookOpen, Gamepad2, Code2, GraduationCap, Clock, Star, Trophy, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -16,8 +15,10 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { useNavigate } from "react-router-dom";
 
 const Learn = () => {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState("tracks");
 
   const learningTracks = [
@@ -470,7 +471,12 @@ const Learn = () => {
                           <Clock className="w-4 h-4" />
                           {track.duration}
                         </div>
-                        <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10 group-hover:translate-x-1 transition-transform">
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="text-[#95FF66] hover:bg-[#95FF66]/10 group-hover:translate-x-1 transition-transform"
+                          onClick={() => navigate(`/track/${track.title.toLowerCase().replace(/ /g, '-')}`)}
+                        >
                           Continue <ChevronRight className="w-4 h-4 ml-1" />
                         </Button>
                       </div>

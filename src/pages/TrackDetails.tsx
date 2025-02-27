@@ -1,7 +1,6 @@
-
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy } from "lucide-react";
+import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -21,6 +20,21 @@ import {
 const TrackDetails = () => {
   const { trackId } = useParams();
   const [selectedTab, setSelectedTab] = useState("modules");
+
+  // Find the current track based on trackId
+  const tracks = {
+    "algorithms-mastery": {
+      title: "Algorithms Mastery",
+      description: "Master fundamental algorithms and problem-solving techniques",
+      icon: Brain,
+      progress: 45,
+      duration: "24 hours",
+      modules: 5,
+    },
+    // ... add other tracks as needed
+  };
+
+  const currentTrack = tracks[trackId as keyof typeof tracks] || tracks["algorithms-mastery"];
 
   const trackModules = [
     {
@@ -86,6 +100,79 @@ const TrackDetails = () => {
     }
   ];
 
+  const practiceProblems = [
+    {
+      title: "Binary Search Implementation",
+      difficulty: "Medium",
+      solved: true,
+      points: 100,
+      attempts: 45,
+      successRate: "85%",
+    },
+    {
+      title: "Graph Traversal Challenge",
+      difficulty: "Hard",
+      solved: false,
+      points: 150,
+      attempts: 32,
+      successRate: "62%",
+    },
+    // Add more practice problems
+  ];
+
+  const contests = [
+    {
+      title: "Weekly Algorithm Challenge",
+      startTime: "2024-03-20T15:00:00",
+      duration: "2 hours",
+      participants: 234,
+      difficulty: "Medium",
+      status: "Upcoming",
+    },
+    {
+      title: "Speed Coding Sprint",
+      startTime: "2024-03-22T18:00:00",
+      duration: "1 hour",
+      participants: 156,
+      difficulty: "Easy",
+      status: "Upcoming",
+    },
+  ];
+
+  const quizzes = [
+    {
+      title: "Algorithm Fundamentals",
+      questions: 20,
+      timeLimit: "30 mins",
+      completed: true,
+      score: "90%",
+    },
+    {
+      title: "Advanced Data Structures",
+      questions: 15,
+      timeLimit: "25 mins",
+      completed: false,
+      score: null,
+    },
+  ];
+
+  const reviews = [
+    {
+      user: "Alex Smith",
+      rating: 5,
+      comment: "Excellent course structure and content. Really helped me improve my problem-solving skills.",
+      date: "2024-03-15",
+      avatar: "AS",
+    },
+    {
+      user: "Maria Garcia",
+      rating: 4,
+      comment: "Very comprehensive coverage of algorithms. The practice problems are particularly helpful.",
+      date: "2024-03-14",
+      avatar: "MG",
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white pb-20">
       {/* Hero Section */}
@@ -95,13 +182,13 @@ const TrackDetails = () => {
             <div className="absolute inset-0 bg-[#95FF66] blur-[100px] opacity-20 rounded-full"></div>
             <div className="flex items-center gap-6 mb-8">
               <div className="p-4 rounded-xl bg-[#95FF66]/10">
-                <Terminal className="w-12 h-12 text-[#95FF66]" />
+                <currentTrack.icon className="w-12 h-12 text-[#95FF66]" />
               </div>
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent">
-                  Advanced Development Track
+                  {currentTrack.title}
                 </h1>
-                <p className="text-lg text-gray-400">Master modern development practices and techniques</p>
+                <p className="text-lg text-gray-400">{currentTrack.description}</p>
               </div>
             </div>
 
@@ -112,22 +199,22 @@ const TrackDetails = () => {
                   <div className="space-y-2">
                     <p className="text-gray-400">Overall Progress</p>
                     <div className="relative">
-                      <Progress value={45} className="h-2 bg-white/5" />
-                      <span className="absolute right-0 top-[-20px] text-xs text-gray-400">45%</span>
+                      <Progress value={currentTrack.progress} className="h-2 bg-white/5" />
+                      <span className="absolute right-0 top-[-20px] text-xs text-gray-400">{currentTrack.progress}%</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-[#95FF66]" />
                     <div>
                       <p className="text-sm text-gray-400">Duration</p>
-                      <p className="font-semibold">24 hours</p>
+                      <p className="font-semibold">{currentTrack.duration}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
                     <BookOpen className="w-5 h-5 text-[#95FF66]" />
                     <div>
                       <p className="text-sm text-gray-400">Modules</p>
-                      <p className="font-semibold">5 modules</p>
+                      <p className="font-semibold">{currentTrack.modules} modules</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
@@ -144,7 +231,7 @@ const TrackDetails = () => {
 
           {/* Main Content */}
           <Tabs defaultValue="modules" className="space-y-8">
-            <TabsList className="grid grid-cols-2 max-w-[400px] mx-auto bg-black/50 border border-white/10">
+            <TabsList className="grid grid-cols-6 max-w-[800px] mx-auto bg-black/50 border border-white/10">
               <TabsTrigger
                 value="modules"
                 className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
@@ -152,10 +239,34 @@ const TrackDetails = () => {
                 Modules
               </TabsTrigger>
               <TabsTrigger
+                value="practice"
+                className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+              >
+                Practice
+              </TabsTrigger>
+              <TabsTrigger
+                value="contest"
+                className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+              >
+                Contest
+              </TabsTrigger>
+              <TabsTrigger
+                value="quiz"
+                className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+              >
+                Quiz
+              </TabsTrigger>
+              <TabsTrigger
                 value="resources"
                 className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
               >
                 Resources
+              </TabsTrigger>
+              <TabsTrigger
+                value="reviews"
+                className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+              >
+                Reviews
               </TabsTrigger>
             </TabsList>
 
@@ -220,6 +331,121 @@ const TrackDetails = () => {
                       Download Resource
                     </Button>
                   </CardContent>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="practice" className="space-y-6">
+              {practiceProblems.map((problem, index) => (
+                <Card
+                  key={index}
+                  className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-[#95FF66]/10">
+                        <TestTube className="w-6 h-6 text-[#95FF66]" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{problem.title}</CardTitle>
+                        <div className="flex items-center gap-4 mt-2">
+                          <span className="text-sm text-gray-400">Difficulty: {problem.difficulty}</span>
+                          <span className="text-sm text-gray-400">Points: {problem.points}</span>
+                          <span className="text-sm text-gray-400">Success Rate: {problem.successRate}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90">
+                      {problem.solved ? "Review Solution" : "Solve Challenge"}
+                    </Button>
+                  </CardHeader>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="contest" className="space-y-6">
+              {contests.map((contest, index) => (
+                <Card
+                  key={index}
+                  className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-[#95FF66]/10">
+                        <Award className="w-6 h-6 text-[#95FF66]" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{contest.title}</CardTitle>
+                        <div className="flex items-center gap-4 mt-2">
+                          <span className="text-sm text-gray-400">Start: {new Date(contest.startTime).toLocaleString()}</span>
+                          <span className="text-sm text-gray-400">Duration: {contest.duration}</span>
+                          <span className="text-sm text-gray-400">Participants: {contest.participants}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90">
+                      Register Now
+                    </Button>
+                  </CardHeader>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="quiz" className="space-y-6">
+              {quizzes.map((quiz, index) => (
+                <Card
+                  key={index}
+                  className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in group"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardHeader className="flex flex-row items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="p-2 rounded-lg bg-[#95FF66]/10">
+                        <Brain className="w-6 h-6 text-[#95FF66]" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-xl">{quiz.title}</CardTitle>
+                        <div className="flex items-center gap-4 mt-2">
+                          <span className="text-sm text-gray-400">Questions: {quiz.questions}</span>
+                          <span className="text-sm text-gray-400">Time: {quiz.timeLimit}</span>
+                          {quiz.completed && <span className="text-sm text-gray-400">Score: {quiz.score}</span>}
+                        </div>
+                      </div>
+                    </div>
+                    <Button className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90">
+                      {quiz.completed ? "Review Quiz" : "Start Quiz"}
+                    </Button>
+                  </CardHeader>
+                </Card>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="reviews" className="space-y-6">
+              {reviews.map((review, index) => (
+                <Card
+                  key={index}
+                  className="glass border-white/10 hover:border-[#95FF66]/50 transition-all animate-fade-in"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <CardHeader className="flex flex-row items-start gap-4">
+                    <div className="w-12 h-12 rounded-full bg-[#95FF66]/10 flex items-center justify-center text-[#95FF66] font-semibold">
+                      {review.avatar}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <CardTitle className="text-lg">{review.user}</CardTitle>
+                        <div className="flex items-center gap-1">
+                          {Array.from({ length: review.rating }).map((_, i) => (
+                            <Star key={i} className="w-4 h-4 fill-[#95FF66] text-[#95FF66]" />
+                          ))}
+                        </div>
+                      </div>
+                      <CardDescription className="mt-2">{review.comment}</CardDescription>
+                      <div className="text-sm text-gray-400 mt-2">{review.date}</div>
+                    </div>
+                  </CardHeader>
                 </Card>
               ))}
             </TabsContent>

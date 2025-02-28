@@ -1,20 +1,51 @@
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, Command, Gamepad2, Code2, Trophy, Book } from "lucide-react";
+import { LogOut, LogIn, Command, Gamepad2, Code2, Trophy, Book } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export const Header = () => {
   const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is authenticated on component mount
+    const checkAuth = async () => {
+      const { data } = await supabase.auth.getSession();
+      setIsAuthenticated(!!data.session);
+      setLoading(false);
+    };
+
+    checkAuth();
+
+    // Listen for auth state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => {
+      // Cleanup subscription
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
   const handleSignOut = async () => {
+    setLoading(true);
     const { error } = await supabase.auth.signOut();
     if (error) {
       toast.error("Error signing out");
     } else {
+      toast.success("Signed out successfully");
       navigate("/auth");
     }
+    setLoading(false);
+  };
+
+  const handleSignIn = () => {
+    navigate("/auth");
   };
 
   return (
@@ -67,19 +98,33 @@ export const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              className="hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all hidden sm:flex"
-            >
-              Join Game
-            </Button>
-            <Button
-              onClick={handleSignOut}
-              className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black transition-all flex items-center gap-2 hover-scale"
-            >
-              <LogOut size={18} />
-              <span className="hidden sm:inline">Sign Out</span>
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button
+                  variant="ghost"
+                  className="hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all hidden sm:flex"
+                >
+                  Join Game
+                </Button>
+                <Button
+                  onClick={handleSignOut}
+                  disabled={loading}
+                  className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black transition-all flex items-center gap-2 hover-scale"
+                >
+                  <LogOut size={18} />
+                  <span className="hidden sm:inline">Sign Out</span>
+                </Button>
+              </>
+            ) : (
+              <Button
+                onClick={handleSignIn}
+                disabled={loading}
+                className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black transition-all flex items-center gap-2 hover-scale"
+              >
+                <LogIn size={18} />
+                <span className="hidden sm:inline">Sign In</span>
+              </Button>
+            )}
           </div>
         </div>
       </div>

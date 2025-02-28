@@ -1,6 +1,7 @@
+
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket } from "lucide-react";
+import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, LineChart, BookOpen, Mail, Calendar, Download, ExternalLink } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -16,6 +17,20 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import { useState } from "react";
 
 const Index = () => {
@@ -23,6 +38,7 @@ const Index = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("");
+  const [activeTab, setActiveTab] = useState("popular");
 
   const handleStartMatch = () => {
     setIsDialogOpen(true);
@@ -34,6 +50,117 @@ const Index = () => {
       setIsDialogOpen(false);
     }
   };
+
+  // Popular track data
+  const popularTracks = [
+    {
+      title: "System Design",
+      description: "Learn to design scalable distributed systems",
+      icon: Globe,
+      students: 5200,
+      rating: 4.9,
+      modules: 15,
+      slug: "system-design",
+    },
+    {
+      title: "Algorithms Mastery",
+      description: "Master fundamental algorithms and problem-solving techniques",
+      icon: BrainCircuit,
+      students: 4800,
+      rating: 4.8,
+      modules: 12,
+      slug: "algorithms-mastery",
+    },
+    {
+      title: "Frontend Development",
+      description: "Modern web development with React and TypeScript",
+      icon: Code,
+      students: 6300,
+      rating: 4.7,
+      modules: 14,
+      slug: "frontend-development",
+    },
+    {
+      title: "Database Management",
+      description: "Database design, optimization, and administration",
+      icon: Database,
+      students: 3900,
+      rating: 4.6,
+      modules: 10,
+      slug: "database-management",
+    }
+  ];
+
+  // Upcoming events
+  const upcomingEvents = [
+    {
+      title: "System Design Hackathon",
+      date: "May 15, 2024",
+      time: "10:00 AM - 6:00 PM",
+      participants: 150,
+      type: "Competition",
+    },
+    {
+      title: "Algorithm Strategies Webinar",
+      date: "May 22, 2024",
+      time: "2:00 PM - 4:00 PM",
+      participants: 500,
+      type: "Webinar",
+    },
+    {
+      title: "Code Battle Championship",
+      date: "June 5, 2024",
+      time: "9:00 AM - 5:00 PM",
+      participants: 300,
+      type: "Tournament",
+    }
+  ];
+
+  // Testimonials
+  const testimonials = [
+    {
+      name: "Sarah Johnson",
+      role: "Frontend Developer at Google",
+      content: "The Algorithm challenges helped me ace my technical interviews. I highly recommend this platform to anyone looking to improve their coding skills.",
+      avatar: "SJ",
+    },
+    {
+      name: "Michael Chen",
+      role: "Systems Engineer at Amazon",
+      content: "The system design course transformed my understanding of scalable architecture. The real-time battles were incredibly engaging and improved my problem-solving skills.",
+      avatar: "MC",
+    },
+    {
+      name: "Emily Rodriguez",
+      role: "Software Architect at Microsoft",
+      content: "This platform has been instrumental in my career growth. The challenging problems and competitive environment pushed me to become a better developer.",
+      avatar: "ER",
+    }
+  ];
+
+  // Achievement stats
+  const achievements = [
+    {
+      title: "Challenges Completed",
+      count: "250K+",
+      icon: CheckCircle,
+    },
+    {
+      title: "Job Placements",
+      count: "12K+",
+      icon: Briefcase,
+    },
+    {
+      title: "Competition Winners",
+      count: "5K+",
+      icon: Trophy,
+    },
+    {
+      title: "Countries Reached",
+      count: "120+",
+      icon: Globe,
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white">
@@ -158,8 +285,66 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* Learning Tracks Section */}
       <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Popular Learning Tracks</h2>
+              <p className="text-muted-foreground">Start your journey with our curated learning paths</p>
+            </div>
+            <div className="mt-4 md:mt-0">
+              <Button 
+                onClick={() => navigate('/learn')} 
+                variant="outline" 
+                className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+              >
+                View All Tracks <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {popularTracks.map((track, index) => (
+              <Card 
+                key={index} 
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all group hover-scale"
+                onClick={() => navigate(`/track-details/${track.slug}`)}
+              >
+                <CardHeader className="space-y-1">
+                  <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center mb-2 group-hover:bg-[#95FF66]/20 transition-colors">
+                    <track.icon className="w-6 h-6 text-[#95FF66]" />
+                  </div>
+                  <CardTitle className="text-xl">{track.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    {track.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex justify-between text-sm text-muted-foreground mb-4">
+                    <div className="flex items-center">
+                      <Users className="w-4 h-4 mr-1" />
+                      {track.students.toLocaleString()} students
+                    </div>
+                    <div className="flex items-center">
+                      <Book className="w-4 h-4 mr-1" />
+                      {track.modules} modules
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter className="pt-0">
+                  <Button className="w-full bg-black/20 hover:bg-[#95FF66]/20 hover:text-[#95FF66] border border-white/10 transition-all">
+                    Explore Track <ChevronRight className="ml-1 w-4 h-4" />
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Features Grid */}
+      <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Why Choose Code Battles?</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -178,6 +363,68 @@ const Index = () => {
               <h3 className="text-xl font-semibold mb-2">Global Rankings</h3>
               <p className="text-muted-foreground">Compete for the top spot on our worldwide leaderboard.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Upcoming Events Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Upcoming Events</h2>
+              <p className="text-muted-foreground">Join our live events and coding competitions</p>
+            </div>
+            <div className="mt-4 md:mt-0">
+              <Button 
+                variant="outline" 
+                className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+              >
+                View All Events <ArrowRight className="ml-2 w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {upcomingEvents.map((event, index) => (
+              <Card 
+                key={index}
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale"
+              >
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center">
+                      <Calendar className="w-6 h-6 text-[#95FF66]" />
+                    </div>
+                    <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
+                      {event.type}
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl mt-4">{event.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center text-muted-foreground">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      {event.date}
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Clock className="w-4 h-4 mr-2" />
+                      {event.time}
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Users className="w-4 h-4 mr-2" />
+                      {event.participants} participants expected
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
+                    Register Now
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
@@ -206,6 +453,194 @@ const Index = () => {
               <Rocket className="w-8 h-8 text-[#95FF66] mx-auto mb-4" />
               <h3 className="font-semibold mb-2">System Design</h3>
               <p className="text-sm text-muted-foreground">Build scalable systems</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Achievements Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Our Achievements</h2>
+          <div className="glass p-8 rounded-lg">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+              {achievements.map((achievement, index) => (
+                <div key={index} className="text-center">
+                  <div className="w-16 h-16 mx-auto bg-[#95FF66]/10 rounded-full flex items-center justify-center mb-4">
+                    <achievement.icon className="w-8 h-8 text-[#95FF66]" />
+                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">{achievement.count}</div>
+                  <div className="text-muted-foreground">{achievement.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4 text-[#95FF66]">What Our Users Say</h2>
+          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+            Hear from developers who have improved their skills with our platform
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="glass p-6 rounded-lg hover-scale">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#95FF66]/20 flex items-center justify-center text-[#95FF66] font-semibold mr-4">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">"{testimonial.content}"</p>
+                <div className="mt-4 flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-[#95FF66] fill-[#95FF66]" />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Challenges Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
+            <div>
+              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Recent Challenges</h2>
+              <p className="text-muted-foreground">Start practicing with our latest coding problems</p>
+            </div>
+            <div className="mt-4 md:mt-0">
+              <Tabs 
+                value={activeTab} 
+                onValueChange={setActiveTab}
+                className="w-full"
+              >
+                <TabsList className="bg-black/20 border border-white/10">
+                  <TabsTrigger 
+                    value="popular" 
+                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+                  >
+                    Popular
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="new" 
+                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+                  >
+                    Newest
+                  </TabsTrigger>
+                  <TabsTrigger 
+                    value="hard" 
+                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
+                  >
+                    Hard
+                  </TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale">
+              <CardHeader>
+                <div className="flex justify-between">
+                  <CardTitle className="text-xl">Two Sum Problem</CardTitle>
+                  <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
+                    Easy
+                  </span>
+                </div>
+                <CardDescription>
+                  Find two numbers in an array that add up to a target
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between text-sm text-muted-foreground mb-4">
+                  <div className="flex items-center">
+                    <Users className="w-4 h-4 mr-1" />
+                    1,245 submissions
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    89% success rate
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
+                  Solve Challenge
+                </Button>
+              </CardFooter>
+            </Card>
+            
+            <Card className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale">
+              <CardHeader>
+                <div className="flex justify-between">
+                  <CardTitle className="text-xl">Maximum Subarray</CardTitle>
+                  <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
+                    Medium
+                  </span>
+                </div>
+                <CardDescription>
+                  Find the contiguous subarray with the largest sum
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex justify-between text-sm text-muted-foreground mb-4">
+                  <div className="flex items-center">
+                    <Users className="w-4 h-4 mr-1" />
+                    983 submissions
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    75% success rate
+                  </div>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
+                  Solve Challenge
+                </Button>
+              </CardFooter>
+            </Card>
+          </div>
+          
+          <div className="mt-8 text-center">
+            <Button 
+              variant="outline" 
+              className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+            >
+              View All Challenges <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <div className="glass p-8 rounded-lg text-center max-w-3xl mx-auto">
+            <Mail className="w-12 h-12 text-[#95FF66] mx-auto mb-4" />
+            <h2 className="text-3xl font-bold mb-4 text-white">Stay Updated</h2>
+            <p className="text-muted-foreground mb-8">
+              Subscribe to our newsletter to get the latest updates on challenges, events, and coding tips
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <input 
+                type="email" 
+                placeholder="Enter your email" 
+                className="flex-1 px-4 py-3 rounded-md bg-black/50 border border-white/10 focus:outline-none focus:border-[#95FF66]/50 transition-colors"
+              />
+              <Button className="bg-[#95FF66] hover:bg-[#95FF66]/80 transition-colors text-black px-6 py-3">
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>
@@ -266,8 +701,41 @@ const Index = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Download App Section */}
       <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between">
+            <div className="max-w-xl mb-10 md:mb-0">
+              <h2 className="text-3xl font-bold mb-6 text-[#95FF66]">Practice Anytime, Anywhere</h2>
+              <p className="text-lg text-muted-foreground mb-8">
+                Download our mobile app to practice coding on the go. Challenge friends, solve problems, and track your progress from your device.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black transition-all flex items-center gap-2">
+                  <Download className="w-5 h-5" />
+                  Get it on Google Play
+                </Button>
+                <Button variant="outline" className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10 flex items-center gap-2">
+                  <Download className="w-5 h-5" />
+                  Download on App Store
+                </Button>
+              </div>
+            </div>
+            <div className="bg-white/5 w-72 h-96 rounded-3xl border border-white/10 p-4 relative">
+              <div className="absolute inset-0 bg-[#95FF66] blur-3xl opacity-10 rounded-full"></div>
+              <div className="w-full h-full rounded-2xl bg-black/50 flex items-center justify-center">
+                <div className="text-center">
+                  <Smartphone className="w-16 h-16 text-[#95FF66] mx-auto mb-4" />
+                  <p className="text-white text-sm">Mobile App Preview</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-6 text-[#95FF66]">Ready to Begin?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">

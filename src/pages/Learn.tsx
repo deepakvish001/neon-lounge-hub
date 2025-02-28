@@ -29,6 +29,7 @@ const Learn = () => {
       modules: 12,
       duration: "8 weeks",
       icon: Code2,
+      id: "algorithms-mastery"
     },
     {
       title: "Data Structures Deep Dive",
@@ -37,6 +38,7 @@ const Learn = () => {
       modules: 8,
       duration: "6 weeks",
       icon: BookOpen,
+      id: "data-structures-deep-dive"
     },
     {
       title: "Competitive Programming",
@@ -45,6 +47,7 @@ const Learn = () => {
       modules: 15,
       duration: "12 weeks",
       icon: Trophy,
+      id: "competitive-programming"
     },
     {
       title: "System Design",
@@ -53,6 +56,7 @@ const Learn = () => {
       modules: 10,
       duration: "10 weeks",
       icon: Server,
+      id: "system-design"
     },
     {
       title: "Frontend Development",
@@ -61,6 +65,7 @@ const Learn = () => {
       modules: 14,
       duration: "10 weeks",
       icon: Layout,
+      id: "frontend-development"
     },
     {
       title: "Backend Engineering",
@@ -69,6 +74,7 @@ const Learn = () => {
       modules: 12,
       duration: "12 weeks",
       icon: Server,
+      id: "backend-engineering"
     },
     {
       title: "Database Management",
@@ -77,6 +83,7 @@ const Learn = () => {
       modules: 8,
       duration: "8 weeks",
       icon: Database,
+      id: "database-management"
     },
     {
       title: "Cloud Architecture",
@@ -85,6 +92,7 @@ const Learn = () => {
       modules: 10,
       duration: "10 weeks",
       icon: Server,
+      id: "cloud-architecture"
     },
     {
       title: "Cybersecurity",
@@ -93,6 +101,7 @@ const Learn = () => {
       modules: 12,
       duration: "12 weeks",
       icon: Shield,
+      id: "cybersecurity"
     },
     {
       title: "DevOps Practices",
@@ -101,6 +110,7 @@ const Learn = () => {
       modules: 10,
       duration: "8 weeks",
       icon: Binary,
+      id: "devops-practices"
     },
     {
       title: "Performance Optimization",
@@ -109,6 +119,7 @@ const Learn = () => {
       modules: 8,
       duration: "6 weeks",
       icon: Flame,
+      id: "performance-optimization"
     },
     {
       title: "Machine Learning Basics",
@@ -117,6 +128,7 @@ const Learn = () => {
       modules: 15,
       duration: "14 weeks",
       icon: Brain,
+      id: "machine-learning-basics"
     },
     {
       title: "Operating Systems",
@@ -125,6 +137,7 @@ const Learn = () => {
       modules: 12,
       duration: "10 weeks",
       icon: Cpu,
+      id: "operating-systems"
     },
     {
       title: "Network Programming",
@@ -133,6 +146,7 @@ const Learn = () => {
       modules: 10,
       duration: "8 weeks",
       icon: Globe,
+      id: "network-programming"
     },
     {
       title: "Software Architecture",
@@ -141,6 +155,7 @@ const Learn = () => {
       modules: 12,
       duration: "10 weeks",
       icon: Layout,
+      id: "software-architecture"
     },
     {
       title: "Mobile Development",
@@ -149,6 +164,7 @@ const Learn = () => {
       modules: 14,
       duration: "12 weeks",
       icon: Layout,
+      id: "mobile-development"
     },
     {
       title: "API Development",
@@ -157,6 +173,7 @@ const Learn = () => {
       modules: 8,
       duration: "6 weeks",
       icon: Globe,
+      id: "api-development"
     },
     {
       title: "Testing & QA",
@@ -165,6 +182,7 @@ const Learn = () => {
       modules: 10,
       duration: "8 weeks",
       icon: Code2,
+      id: "testing-qa"
     },
     {
       title: "Version Control",
@@ -173,6 +191,7 @@ const Learn = () => {
       modules: 6,
       duration: "4 weeks",
       icon: Binary,
+      id: "version-control"
     },
     {
       title: "System Administration",
@@ -181,6 +200,7 @@ const Learn = () => {
       modules: 12,
       duration: "10 weeks",
       icon: Terminal,
+      id: "system-administration"
     },
     {
       title: "Data Engineering",
@@ -189,6 +209,7 @@ const Learn = () => {
       modules: 14,
       duration: "12 weeks",
       icon: Database,
+      id: "data-engineering"
     },
     {
       title: "Blockchain Development",
@@ -197,6 +218,7 @@ const Learn = () => {
       modules: 16,
       duration: "14 weeks",
       icon: Binary,
+      id: "blockchain-development"
     }
   ];
 
@@ -475,7 +497,7 @@ const Learn = () => {
                           variant="ghost" 
                           size="sm" 
                           className="text-[#95FF66] hover:bg-[#95FF66]/10 group-hover:translate-x-1 transition-transform"
-                          onClick={() => navigate(`/track/${track.title.toLowerCase().replace(/ /g, '-')}`)}
+                          onClick={() => navigate(`/track/${track.id}`)}
                         >
                           Continue <ChevronRight className="w-4 h-4 ml-1" />
                         </Button>

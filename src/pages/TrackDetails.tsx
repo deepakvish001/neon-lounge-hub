@@ -1,7 +1,7 @@
 
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award, Code2, FileText, HelpCircle, GraduationCap, Briefcase, Lightbulb, Zap, Search, FileCode, Share2, PenTool, Repeat, Puzzle, Network, BarChart, Lock, FileSearch, LineChart, Github, Play, Calculator, Link, Layers, Triangle, GitBranch, Filter, List, Workflow, GitCommit, Rocket, Box, CpuIcon, Settings, ShieldCheck, Cloud, Git, AlertTriangle, TrendingUp, SplitSquareVertical, Maximize, Boxes, Shuffle, RefreshCw, Radio, Activity, AlertOctagon, ClipboardCheck, ClipboardList, Eye, Bug, UserCheck, DollarSign, UploadCloud, Tag, GitMerge, Copy, CheckSquare, Save, Package, Tool, HardDrive, GitPullRequest, RotateCw, Smartphone, Upload, Bell, Camera, Map, Square, Plug, Target } from "lucide-react";
+import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award, Code2, FileText, HelpCircle, GraduationCap, Briefcase, Lightbulb, Zap, Search, FileCode, Share2, PenTool, Repeat, Puzzle, Network, BarChart, Lock, FileSearch, LineChart, Github, Play, Calculator, Link, Layers, Triangle, GitBranch, Filter, List, Workflow, GitCommit, Rocket, Box, CpuIcon, Settings, ShieldCheck, Cloud, Gift, AlertTriangle, TrendingUp, SplitSquareVertical, Maximize, Boxes, Shuffle, RefreshCw, Radio, Activity, AlertOctagon, ClipboardCheck, ClipboardList, Eye, Bug, UserCheck, DollarSign, UploadCloud, Tag, GitMerge, Copy, CheckSquare, Save, Package, Wrench, HardDrive, GitPullRequest, RotateCw, Smartphone, Upload, Bell, Camera, Map, Square, Plug, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -697,7 +697,7 @@ const TrackDetails = () => {
         title: "System Design Tools Collection",
         type: "ZIP",
         size: "45 MB",
-        icon: Tool,
+        icon: Wrench,
       },
       {
         title: "Deployment Strategy Patterns",

@@ -1,7 +1,7 @@
 
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
-import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, LineChart, BookOpen, Mail, Calendar, Download, ExternalLink } from "lucide-react";
+import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, LineChart, BookOpen, Mail, Calendar, Download, ExternalLink, Briefcase, Clock, Smartphone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,

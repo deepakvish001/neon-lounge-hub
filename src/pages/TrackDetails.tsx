@@ -1,7 +1,7 @@
 
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award, Code2 } from "lucide-react";
+import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award, Code2, FileText, HelpCircle, GraduationCap, Briefcase, Lightbulb, Zap, Search, FileCode, Share2, PenTool, Repeat, Puzzle, Network, BarChart, Lock, FileSearch, LineChart, Github, Play, Calculator, Link, Layers, Triangle, GitBranch, Filter, List, Workflow, GitCommit, Rocket, Box, CpuIcon, Settings, ShieldCheck, Cloud, Git, AlertTriangle, TrendingUp, SplitSquareVertical, Maximize, Boxes, Shuffle, RefreshCw, Radio, Activity, AlertOctagon, ClipboardCheck, ClipboardList, Eye, Bug, UserCheck, DollarSign, UploadCloud, Tag, GitMerge, Copy, CheckSquare, Save, Package, Tool, HardDrive, GitPullRequest, RotateCw, Smartphone, Upload, Bell, Camera, Map, Square, Plug, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -54,7 +54,7 @@ const TrackDetails = () => {
       icon: Server,
       progress: 20,
       duration: "30 hours",
-      modules: 10,
+      modules: 15,
     },
     "frontend-development": {
       title: "Frontend Development",
@@ -246,6 +246,128 @@ const TrackDetails = () => {
         completed: false,
         description: "Greedy algorithms, divide and conquer, and backtracking",
         icon: Brain,
+      }
+    ],
+    "system-design": [
+      {
+        title: "Introduction to System Design",
+        duration: "3 hours",
+        lessons: 6,
+        completed: true,
+        description: "Basic concepts and architectural principles",
+        icon: Server,
+      },
+      {
+        title: "Scalability Fundamentals",
+        duration: "3 hours",
+        lessons: 7,
+        completed: true,
+        description: "Horizontal vs. vertical scaling strategies",
+        icon: Maximize,
+      },
+      {
+        title: "Load Balancing",
+        duration: "3 hours",
+        lessons: 6,
+        completed: false,
+        description: "Types, algorithms, and implementation strategies",
+        icon: Shuffle,
+      },
+      {
+        title: "Caching Strategies",
+        duration: "3 hours",
+        lessons: 6,
+        completed: false,
+        description: "Cache levels, eviction policies, and CDNs",
+        icon: Database,
+      },
+      {
+        title: "Database Design",
+        duration: "4 hours",
+        lessons: 8,
+        completed: false,
+        description: "SQL vs NoSQL, sharding, and replication",
+        icon: Database,
+      },
+      {
+        title: "Distributed Systems",
+        duration: "4 hours",
+        lessons: 8,
+        completed: false,
+        description: "CAP theorem, consistency models, and fault tolerance",
+        icon: Network,
+      },
+      {
+        title: "Microservices Architecture",
+        duration: "3 hours",
+        lessons: 7,
+        completed: false,
+        description: "Service boundaries, communication, and deployment",
+        icon: Boxes,
+      },
+      {
+        title: "API Design",
+        duration: "3 hours",
+        lessons: 6,
+        completed: false,
+        description: "REST, GraphQL, and API gateway patterns",
+        icon: Globe,
+      },
+      {
+        title: "Message Queues",
+        duration: "3 hours",
+        lessons: 5,
+        completed: false,
+        description: "Asynchronous processing and event-driven architecture",
+        icon: MessageSquare,
+      },
+      {
+        title: "Rate Limiting and Throttling",
+        duration: "2 hours",
+        lessons: 4,
+        completed: false,
+        description: "Algorithms, implementation, and best practices",
+        icon: Shield,
+      },
+      {
+        title: "Data Partitioning",
+        duration: "3 hours",
+        lessons: 5,
+        completed: false,
+        description: "Horizontal and vertical partitioning strategies",
+        icon: SplitSquareVertical,
+      },
+      {
+        title: "System Monitoring",
+        duration: "2 hours",
+        lessons: 5,
+        completed: false,
+        description: "Metrics, logging, and alerting systems",
+        icon: BarChart,
+      },
+      {
+        title: "Security Design",
+        duration: "3 hours",
+        lessons: 6,
+        completed: false,
+        description: "Authentication, authorization, and encryption",
+        icon: Lock,
+      },
+      {
+        title: "Deployment Strategies",
+        duration: "2 hours",
+        lessons: 5,
+        completed: false,
+        description: "CI/CD, blue-green, and canary deployments",
+        icon: Rocket,
+      },
+      {
+        title: "Case Studies",
+        duration: "4 hours",
+        lessons: 8,
+        completed: false,
+        description: "Real-world system design examples and analysis",
+        icon: FileSearch,
       }
     ],
     "frontend-development": [
@@ -468,6 +590,128 @@ const TrackDetails = () => {
         icon: TestTube,
       }
     ],
+    "system-design": [
+      {
+        title: "System Design Interview Guide",
+        type: "PDF",
+        size: "5.2 MB",
+        icon: Book,
+      },
+      {
+        title: "Distributed Systems Principles",
+        type: "PDF",
+        size: "4.8 MB",
+        icon: Network,
+      },
+      {
+        title: "Architecture Diagrams Templates",
+        type: "ZIP",
+        size: "18 MB",
+        icon: Layout,
+      },
+      {
+        title: "Scalability Patterns",
+        type: "PDF",
+        size: "3.7 MB",
+        icon: Maximize,
+      },
+      {
+        title: "Database Design Handbook",
+        type: "PDF",
+        size: "6.3 MB",
+        icon: Database,
+      },
+      {
+        title: "Microservices Design Patterns",
+        type: "PDF",
+        size: "4.5 MB",
+        icon: Boxes,
+      },
+      {
+        title: "Load Balancing Strategies",
+        type: "PDF",
+        size: "2.9 MB",
+        icon: Shuffle,
+      },
+      {
+        title: "Caching Mechanisms Explained",
+        type: "PDF",
+        size: "3.6 MB",
+        icon: Zap,
+      },
+      {
+        title: "System Design Case Studies",
+        type: "Folder",
+        size: "32 MB",
+        icon: FileSearch,
+      },
+      {
+        title: "API Gateway Implementation",
+        type: "ZIP",
+        size: "15 MB",
+        icon: Globe,
+      },
+      {
+        title: "Message Queue Examples",
+        type: "ZIP",
+        size: "14 MB",
+        icon: MessageSquare,
+      },
+      {
+        title: "Database Sharding Tutorial",
+        type: "PDF",
+        size: "4.1 MB",
+        icon: SplitSquareVertical,
+      },
+      {
+        title: "Distributed Transaction Management",
+        type: "PDF",
+        size: "5.7 MB",
+        icon: GitMerge,
+      },
+      {
+        title: "CAP Theorem Visualization",
+        type: "HTML",
+        size: "2.3 MB",
+        icon: Triangle,
+      },
+      {
+        title: "Monitoring and Alerting Guide",
+        type: "PDF",
+        size: "3.8 MB",
+        icon: Activity,
+      },
+      {
+        title: "Consistent Hashing Explained",
+        type: "PDF",
+        size: "2.5 MB",
+        icon: GitBranch,
+      },
+      {
+        title: "High Availability Design",
+        type: "PDF",
+        size: "4.2 MB",
+        icon: Shield,
+      },
+      {
+        title: "System Design Tools Collection",
+        type: "ZIP",
+        size: "45 MB",
+        icon: Tool,
+      },
+      {
+        title: "Deployment Strategy Patterns",
+        type: "PDF",
+        size: "3.2 MB",
+        icon: Rocket,
+      },
+      {
+        title: "Real-World Architecture Examples",
+        type: "PDF",
+        size: "8.5 MB",
+        icon: FileSearch,
+      }
+    ],
     "frontend-development": [
       {
         title: "UI Component Library",
@@ -565,6 +809,88 @@ const TrackDetails = () => {
         points: 200,
         attempts: 28,
         successRate: "48%",
+      }
+    ],
+    "system-design": [
+      {
+        title: "Design a URL Shortening Service",
+        difficulty: "Medium",
+        solved: true,
+        points: 100,
+        attempts: 68,
+        successRate: "78%",
+      },
+      {
+        title: "Build a Distributed Message Queue",
+        difficulty: "Hard",
+        solved: false,
+        points: 200,
+        attempts: 42,
+        successRate: "56%",
+      },
+      {
+        title: "Design a Rate Limiter",
+        difficulty: "Medium",
+        solved: false,
+        points: 150,
+        attempts: 53,
+        successRate: "64%",
+      },
+      {
+        title: "Implement a Consistent Hashing Algorithm",
+        difficulty: "Hard",
+        solved: false,
+        points: 180,
+        attempts: 38,
+        successRate: "52%",
+      },
+      {
+        title: "Design a Web Crawler",
+        difficulty: "Hard",
+        solved: false,
+        points: 220,
+        attempts: 35,
+        successRate: "48%",
+      },
+      {
+        title: "Build a Notification Service",
+        difficulty: "Medium",
+        solved: false,
+        points: 160,
+        attempts: 49,
+        successRate: "62%",
+      },
+      {
+        title: "Design a Distributed File System",
+        difficulty: "Very Hard",
+        solved: false,
+        points: 250,
+        attempts: 28,
+        successRate: "38%",
+      },
+      {
+        title: "Create a Distributed Cache",
+        difficulty: "Hard",
+        solved: false,
+        points: 200,
+        attempts: 36,
+        successRate: "51%",
+      },
+      {
+        title: "Design a Video Streaming Service",
+        difficulty: "Hard",
+        solved: false,
+        points: 210,
+        attempts: 32,
+        successRate: "46%",
+      },
+      {
+        title: "Build a Load Balancer",
+        difficulty: "Medium",
+        solved: false,
+        points: 170,
+        attempts: 44,
+        successRate: "58%",
       }
     ],
     "frontend-development": [
@@ -670,6 +996,56 @@ const TrackDetails = () => {
         status: "Upcoming",
       }
     ],
+    "system-design": [
+      {
+        title: "Distributed Systems Design Hackathon",
+        startTime: "2024-04-15T14:00:00",
+        duration: "8 hours",
+        participants: 178,
+        difficulty: "Hard",
+        status: "Upcoming",
+      },
+      {
+        title: "Microservices Architecture Competition",
+        startTime: "2024-04-22T10:00:00",
+        duration: "6 hours",
+        participants: 142,
+        difficulty: "Medium",
+        status: "Upcoming",
+      },
+      {
+        title: "High-Scale System Design Challenge",
+        startTime: "2024-05-05T15:00:00",
+        duration: "5 hours",
+        participants: 163,
+        difficulty: "Hard",
+        status: "Upcoming",
+      },
+      {
+        title: "Cloud Architecture Shootout",
+        startTime: "2024-05-18T09:00:00",
+        duration: "7 hours",
+        participants: 124,
+        difficulty: "Medium",
+        status: "Upcoming",
+      },
+      {
+        title: "Database Design Competition",
+        startTime: "2024-06-02T13:00:00",
+        duration: "4 hours",
+        participants: 156,
+        difficulty: "Medium",
+        status: "Upcoming",
+      },
+      {
+        title: "System Design Case Study Battle",
+        startTime: "2024-06-15T16:00:00",
+        duration: "3 hours",
+        participants: 189,
+        difficulty: "Medium",
+        status: "Upcoming",
+      }
+    ],
     "frontend-development": [
       {
         title: "React Component Challenge",
@@ -751,6 +1127,78 @@ const TrackDetails = () => {
         title: "Advanced Data Structures",
         questions: 15,
         timeLimit: "25 mins",
+        completed: false,
+        score: null,
+      }
+    ],
+    "system-design": [
+      {
+        title: "Distributed Systems Concepts",
+        questions: 18,
+        timeLimit: "30 mins",
+        completed: true,
+        score: "82%",
+      },
+      {
+        title: "Database Scaling Techniques",
+        questions: 15,
+        timeLimit: "25 mins",
+        completed: true,
+        score: "75%",
+      },
+      {
+        title: "Microservices Architecture",
+        questions: 20,
+        timeLimit: "35 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "Load Balancing Strategies",
+        questions: 12,
+        timeLimit: "20 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "Caching Mechanisms",
+        questions: 15,
+        timeLimit: "25 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "Message Queue Systems",
+        questions: 14,
+        timeLimit: "20 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "API Gateway Patterns",
+        questions: 12,
+        timeLimit: "20 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "Data Partitioning Strategies",
+        questions: 15,
+        timeLimit: "25 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "System Monitoring & Observability",
+        questions: 16,
+        timeLimit: "25 mins",
+        completed: false,
+        score: null,
+      },
+      {
+        title: "High Availability Design",
+        questions: 18,
+        timeLimit: "30 mins",
         completed: false,
         score: null,
       }
@@ -852,6 +1300,64 @@ const TrackDetails = () => {
         comment: "Very comprehensive coverage of algorithms. The practice problems are particularly helpful.",
         date: "2024-03-14",
         avatar: "MG",
+      }
+    ],
+    "system-design": [
+      {
+        user: "Michael Chen",
+        rating: 5,
+        comment: "This course completely transformed my understanding of large-scale systems. The case studies are invaluable.",
+        date: "2024-03-10",
+        avatar: "MC",
+      },
+      {
+        user: "Sophia Williams",
+        rating: 5,
+        comment: "Excellent content on distributed systems. The practical examples made complex concepts much easier to grasp.",
+        date: "2024-03-05",
+        avatar: "SW",
+      },
+      {
+        user: "James Rodriguez",
+        rating: 4,
+        comment: "Great depth of material. The microservices section was particularly well-explained with real-world applications.",
+        date: "2024-02-28",
+        avatar: "JR",
+      },
+      {
+        user: "Emma Johnson",
+        rating: 5,
+        comment: "Helped me ace my system design interviews. The scalability patterns section was extremely valuable.",
+        date: "2024-02-22",
+        avatar: "EJ",
+      },
+      {
+        user: "David Kim",
+        rating: 4,
+        comment: "Very practical approach to system design. Would have liked more on security design patterns, but overall excellent.",
+        date: "2024-02-15",
+        avatar: "DK",
+      },
+      {
+        user: "Olivia Martinez",
+        rating: 5,
+        comment: "The course content is structured perfectly from basics to advanced concepts. Highly recommended for all backend engineers.",
+        date: "2024-02-08",
+        avatar: "OM",
+      },
+      {
+        user: "Noah Thompson",
+        rating: 4,
+        comment: "The hands-on exercises for designing distributed databases were extremely useful for my work projects.",
+        date: "2024-02-01",
+        avatar: "NT",
+      },
+      {
+        user: "Ava Wilson",
+        rating: 5,
+        comment: "Best system design course I've found online. The instructor breaks down complex topics into digestible modules.",
+        date: "2024-01-25",
+        avatar: "AW",
       }
     ],
     "frontend-development": [
@@ -1198,3 +1704,4 @@ const TrackDetails = () => {
 };
 
 export default TrackDetails;
+

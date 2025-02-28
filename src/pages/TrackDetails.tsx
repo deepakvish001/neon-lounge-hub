@@ -1,7 +1,7 @@
 
 import { useParams } from "react-router-dom";
 import { useState } from "react";
-import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award } from "lucide-react";
+import { Book, BookOpen, Clock, Star, ChevronRight, Video, Users, Binary, Brain, Database, Globe, Server, Shield, Cpu, Layout, Terminal, Flame, CheckCircle2, PlayCircle, Trophy, MessageSquare, TestTube, Award, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {

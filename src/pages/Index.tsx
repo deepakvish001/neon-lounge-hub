@@ -1,13 +1,11 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
-  Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, 
-  BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, 
-  ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, 
-  LineChart, BookOpen, Mail, Calendar, Download, ExternalLink, Briefcase, Clock, 
-  Smartphone, Heart, FileCode, TrendingUp, Settings, HelpCircle, Sparkles, Coffee,
-  Gift, BadgeCheck, Flame, Headphones, Video, Blocks, LockOpen, Robot
+  Code, Zap, Target, Crown, Trophy, Book, Users, Star, MessagesSquare, 
+  BrainCircuit, Rocket, ChevronRight, CheckCircle, Database, Globe, 
+  ArrowRight, LineChart, BookOpen, Calendar, Briefcase, Clock, 
+  FileCode, TrendingUp, Sparkles,
+  Blocks, LockOpen, Bot
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -230,7 +228,7 @@ const Index = () => {
     {
       title: "AI Code Review",
       description: "Get personalized feedback on your code from our AI assistant.",
-      icon: Robot,
+      icon: Bot, // Changed from Robot to Bot
     },
     {
       title: "Private Tournaments",
@@ -702,7 +700,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Learning Resources Section */}
+      {/* Learning Resources Section */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -760,168 +758,4 @@ const Index = () => {
                   <div className="w-16 h-16 mx-auto bg-[#95FF66]/10 rounded-full flex items-center justify-center mb-4">
                     <achievement.icon className="w-8 h-8 text-[#95FF66]" />
                   </div>
-                  <div className="text-3xl font-bold text-white mb-2">{achievement.count}</div>
-                  <div className="text-muted-foreground">{achievement.title}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-4 text-[#95FF66]">What Our Users Say</h2>
-          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-            Hear from developers who have improved their skills with our platform
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="glass p-6 rounded-lg hover-scale">
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 rounded-full bg-[#95FF66]/20 flex items-center justify-center text-[#95FF66] font-semibold mr-4">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">{testimonial.name}</h4>
-                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                  </div>
-                </div>
-                <p className="text-muted-foreground">"{testimonial.content}"</p>
-                <div className="mt-4 flex">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-4 h-4 text-[#95FF66] fill-[#95FF66]" />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Premium Features Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-block p-2 px-4 rounded-full bg-[#95FF66]/10 text-[#95FF66] font-medium text-sm mb-4">
-              <Sparkles className="w-4 h-4 inline-block mr-2" />
-              Premium Features
-            </div>
-            <h2 className="text-3xl font-bold mb-4">Unlock the Full Potential</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Elevate your coding journey with our premium features designed to accelerate your growth
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {premiumFeatures.map((feature, index) => (
-              <Card 
-                key={index} 
-                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all group hover-scale overflow-hidden relative"
-              >
-                <div className="absolute right-0 top-0 w-24 h-24 bg-[#95FF66]/10 rounded-bl-full"></div>
-                <CardHeader className="space-y-1">
-                  <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center mb-2 group-hover:bg-[#95FF66]/20 transition-colors">
-                    <feature.icon className="w-6 h-6 text-[#95FF66]" />
-                  </div>
-                  <CardTitle className="text-xl">{feature.title}</CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    {feature.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {!showPremiumFeatures && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent flex items-center justify-center pointer-events-none">
-                      <Button 
-                        onClick={() => setShowPremiumFeatures(true)}
-                        className="pointer-events-auto bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all"
-                      >
-                        Unlock Premium <LockOpen className="ml-2 w-4 h-4" />
-                      </Button>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          
-          <div className="mt-10 text-center">
-            <Button className="bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all px-8 py-6">
-              Upgrade to Premium <Sparkles className="ml-2 w-5 h-5" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Recent Challenges Section */}
-      <section className="py-20 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-            <div>
-              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Recent Challenges</h2>
-              <p className="text-muted-foreground">Start practicing with our latest coding problems</p>
-            </div>
-            <div className="mt-4 md:mt-0">
-              <Tabs 
-                value={activeTab} 
-                onValueChange={setActiveTab}
-                className="w-full"
-              >
-                <TabsList className="bg-black/20 border border-white/10">
-                  <TabsTrigger value="popular">Popular</TabsTrigger>
-                  <TabsTrigger value="newest">Newest</TabsTrigger>
-                  <TabsTrigger value="trending">Trending</TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-white/10 py-12 bg-[#080808]">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h3 className="font-semibold mb-4 text-lg">About</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Our Story</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Team</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4 text-lg">Resources</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Documentation</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Blog</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Support</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4 text-lg">Legal</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Privacy</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Terms</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Security</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4 text-lg">Connect</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">GitHub</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-white/10 pt-8 text-center text-muted-foreground">
-            © 2024 Code Battles. All rights reserved.
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default Index;
+                  <div className="text-3xl font-bold text-white mb-2">{achievement

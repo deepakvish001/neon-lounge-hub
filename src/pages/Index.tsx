@@ -1,7 +1,14 @@
-
-import { Header } from "@/components/Header";
+<lov-code>
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, LineChart, BookOpen, Mail, Calendar, Download, ExternalLink, Briefcase, Clock, Smartphone } from "lucide-react";
+import { 
+  Code, Zap, Target, Crown, Github, Trophy, Book, Users, Star, MessagesSquare, 
+  BrainCircuit, Rocket, ChevronRight, CheckCircle, Terminal, Database, Globe, 
+  ArrowRight, Share2, Shield, Cpu, Search, Award, Lightbulb, PlusCircle, 
+  LineChart, BookOpen, Mail, Calendar, Download, ExternalLink, Briefcase, Clock, 
+  Smartphone, Heart, FileCode, TrendingUp, Settings, HelpCircle, Sparkles, Coffee,
+  Gift, BadgeCheck, Flame, Headphones, Video, Blocks, LockOpen, Robot
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
   Dialog,
@@ -31,7 +38,8 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { useState } from "react";
+import { Footer } from "@/components/Footer";
+import { Badge } from "@/components/ui/badge";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -39,6 +47,7 @@ const Index = () => {
   const [topic, setTopic] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [activeTab, setActiveTab] = useState("popular");
+  const [showPremiumFeatures, setShowPremiumFeatures] = useState(false);
 
   const handleStartMatch = () => {
     setIsDialogOpen(true);
@@ -162,10 +171,87 @@ const Index = () => {
     }
   ];
 
+  // New workshop data
+  const workshops = [
+    {
+      title: "Advanced Algorithm Techniques",
+      instructor: "Dr. Jane Smith",
+      duration: "4 hours",
+      level: "Advanced",
+      date: "June 15, 2024",
+      participants: 120,
+      icon: BrainCircuit,
+    },
+    {
+      title: "System Design Fundamentals",
+      instructor: "Mark Johnson",
+      duration: "3 hours",
+      level: "Intermediate",
+      date: "June 20, 2024", 
+      participants: 95,
+      icon: Blocks,
+    },
+    {
+      title: "Competitive Coding Strategies",
+      instructor: "Alex Chen",
+      duration: "2 hours",
+      level: "All Levels",
+      date: "June 25, 2024",
+      participants: 150,
+      icon: Code,
+    }
+  ];
+
+  // Coding tips data
+  const codingTips = [
+    {
+      title: "Use descriptive variable names",
+      description: "Clear naming helps readability and maintainability of your code.",
+      icon: FileCode,
+    },
+    {
+      title: "Test edge cases",
+      description: "Always check boundary conditions to ensure robust solutions.",
+      icon: CheckCircle,
+    },
+    {
+      title: "Optimize early, but not prematurely",
+      description: "Focus on correctness first, then improve performance where needed.",
+      icon: TrendingUp,
+    },
+    {
+      title: "Learn keyboard shortcuts",
+      description: "Mastering your IDE shortcuts can significantly boost productivity.",
+      icon: Sparkles,
+    }
+  ];
+
+  // Premium features
+  const premiumFeatures = [
+    {
+      title: "AI Code Review",
+      description: "Get personalized feedback on your code from our AI assistant.",
+      icon: Robot,
+    },
+    {
+      title: "Private Tournaments",
+      description: "Create and host your own coding competitions with friends or colleagues.",
+      icon: Trophy, 
+    },
+    {
+      title: "Advanced Analytics",
+      description: "Deep insights into your coding performance and progress over time.",
+      icon: LineChart,
+    },
+    {
+      title: "Interview Preparation",
+      description: "Tailored practice for technical interviews at top companies.",
+      icon: Briefcase,
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white">
-      <Header />
-      
       {/* Hero Section */}
       <section className="relative pt-32 pb-16">
         <div className="container mx-auto px-4">
@@ -429,8 +515,72 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Learning Paths */}
+      {/* NEW: Live Workshops Section */}
       <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Live Workshops</h2>
+              <p className="text-muted-foreground">Enhance your skills with interactive sessions by industry experts</p>
+            </div>
+            <Button 
+              variant="outline" 
+              className="mt-4 md:mt-0 border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+            >
+              View All Workshops <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {workshops.map((workshop, index) => (
+              <Card 
+                key={index}
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale"
+              >
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center">
+                      <workshop.icon className="w-6 h-6 text-[#95FF66]" />
+                    </div>
+                    <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
+                      {workshop.level}
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl mt-4">{workshop.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center text-muted-foreground">
+                      <Users className="w-4 h-4 mr-2" />
+                      Instructor: {workshop.instructor}
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Clock className="w-4 h-4 mr-2" />
+                      Duration: {workshop.duration}
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      {workshop.date}
+                    </div>
+                    <div className="flex items-center text-muted-foreground">
+                      <Users className="w-4 h-4 mr-2" />
+                      {workshop.participants} registered
+                    </div>
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
+                    Register Now
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Learning Paths */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Learning Paths</h2>
           <div className="grid md:grid-cols-4 gap-6">
@@ -454,6 +604,32 @@ const Index = () => {
               <h3 className="font-semibold mb-2">System Design</h3>
               <p className="text-sm text-muted-foreground">Build scalable systems</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Developer Tips Section */}
+      <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Pro Coding Tips</h2>
+          <div className="grid md:grid-cols-4 gap-6">
+            {codingTips.map((tip, index) => (
+              <div key={index} className="glass p-6 rounded-lg hover-scale">
+                <div className="w-12 h-12 mx-auto bg-[#95FF66]/10 rounded-full flex items-center justify-center mb-4">
+                  <tip.icon className="w-6 h-6 text-[#95FF66]" />
+                </div>
+                <h3 className="text-lg font-semibold text-center mb-2">{tip.title}</h3>
+                <p className="text-sm text-center text-muted-foreground">{tip.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10 text-center">
+            <Button 
+              variant="outline" 
+              className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+            >
+              View All Tips <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
           </div>
         </div>
       </section>
@@ -510,8 +686,62 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Recent Challenges Section */}
+      {/* NEW: Premium Features Section */}
       <section className="py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <div className="inline-block p-2 px-4 rounded-full bg-[#95FF66]/10 text-[#95FF66] font-medium text-sm mb-4">
+              <Sparkles className="w-4 h-4 inline-block mr-2" />
+              Premium Features
+            </div>
+            <h2 className="text-3xl font-bold mb-4">Unlock the Full Potential</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Elevate your coding journey with our premium features designed to accelerate your growth
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {premiumFeatures.map((feature, index) => (
+              <Card 
+                key={index} 
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all group hover-scale overflow-hidden relative"
+              >
+                <div className="absolute right-0 top-0 w-24 h-24 bg-[#95FF66]/10 rounded-bl-full"></div>
+                <CardHeader className="space-y-1">
+                  <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center mb-2 group-hover:bg-[#95FF66]/20 transition-colors">
+                    <feature.icon className="w-6 h-6 text-[#95FF66]" />
+                  </div>
+                  <CardTitle className="text-xl">{feature.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground">
+                    {feature.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {!showPremiumFeatures && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent flex items-center justify-center pointer-events-none">
+                      <Button 
+                        onClick={() => setShowPremiumFeatures(true)}
+                        className="pointer-events-auto bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all"
+                      >
+                        Unlock Premium <LockOpen className="ml-2 w-4 h-4" />
+                      </Button>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          
+          <div className="mt-10 text-center">
+            <Button className="bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all px-8 py-6">
+              Upgrade to Premium <Sparkles className="ml-2 w-5 h-5" />
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Challenges Section */}
+      <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-8">
             <div>
@@ -527,276 +757,4 @@ const Index = () => {
                 <TabsList className="bg-black/20 border border-white/10">
                   <TabsTrigger 
                     value="popular" 
-                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
-                  >
-                    Popular
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="new" 
-                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
-                  >
-                    Newest
-                  </TabsTrigger>
-                  <TabsTrigger 
-                    value="hard" 
-                    className="data-[state=active]:bg-[#95FF66] data-[state=active]:text-black"
-                  >
-                    Hard
-                  </TabsTrigger>
-                </TabsList>
-              </Tabs>
-            </div>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale">
-              <CardHeader>
-                <div className="flex justify-between">
-                  <CardTitle className="text-xl">Two Sum Problem</CardTitle>
-                  <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
-                    Easy
-                  </span>
-                </div>
-                <CardDescription>
-                  Find two numbers in an array that add up to a target
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center">
-                    <Users className="w-4 h-4 mr-1" />
-                    1,245 submissions
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    89% success rate
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
-                  Solve Challenge
-                </Button>
-              </CardFooter>
-            </Card>
-            
-            <Card className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale">
-              <CardHeader>
-                <div className="flex justify-between">
-                  <CardTitle className="text-xl">Maximum Subarray</CardTitle>
-                  <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
-                    Medium
-                  </span>
-                </div>
-                <CardDescription>
-                  Find the contiguous subarray with the largest sum
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex justify-between text-sm text-muted-foreground mb-4">
-                  <div className="flex items-center">
-                    <Users className="w-4 h-4 mr-1" />
-                    983 submissions
-                  </div>
-                  <div className="flex items-center">
-                    <CheckCircle className="w-4 h-4 mr-1" />
-                    75% success rate
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
-                  Solve Challenge
-                </Button>
-              </CardFooter>
-            </Card>
-          </div>
-          
-          <div className="mt-8 text-center">
-            <Button 
-              variant="outline" 
-              className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
-            >
-              View All Challenges <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter Section */}
-      <section className="py-20 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4">
-          <div className="glass p-8 rounded-lg text-center max-w-3xl mx-auto">
-            <Mail className="w-12 h-12 text-[#95FF66] mx-auto mb-4" />
-            <h2 className="text-3xl font-bold mb-4 text-white">Stay Updated</h2>
-            <p className="text-muted-foreground mb-8">
-              Subscribe to our newsletter to get the latest updates on challenges, events, and coding tips
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                className="flex-1 px-4 py-3 rounded-md bg-black/50 border border-white/10 focus:outline-none focus:border-[#95FF66]/50 transition-colors"
-              />
-              <Button className="bg-[#95FF66] hover:bg-[#95FF66]/80 transition-colors text-black px-6 py-3">
-                Subscribe
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Community Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="glass p-8 rounded-lg">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-6 text-[#95FF66]">Join Our Community</h2>
-                <p className="text-lg text-muted-foreground mb-8">
-                  Connect with fellow developers, share solutions, and learn from the best in our thriving community.
-                </p>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Users className="w-5 h-5 text-[#95FF66]" />
-                    <span>10,000+ Active Members</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Star className="w-5 h-5 text-[#95FF66]" />
-                    <span>4.9/5 Average Rating</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MessagesSquare className="w-5 h-5 text-[#95FF66]" />
-                    <span>24/7 Community Support</span>
-                  </div>
-                </div>
-              </div>
-              <div className="relative">
-                <div className="absolute inset-0 bg-[#95FF66] blur-3xl opacity-10 rounded-full"></div>
-                <div className="glass p-6 rounded-lg relative">
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#95FF66]/20 flex items-center justify-center">
-                        <Users className="w-5 h-5 text-[#95FF66]" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">"Great platform for learning and competing!"</p>
-                        <p className="text-sm font-semibold mt-1">- Sarah K.</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 rounded-full bg-[#95FF66]/20 flex items-center justify-center">
-                        <Users className="w-5 h-5 text-[#95FF66]" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm text-muted-foreground">"The real-time battles are incredibly engaging!"</p>
-                        <p className="text-sm font-semibold mt-1">- Michael R.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Download App Section */}
-      <section className="py-20 bg-[#0A0A0A]">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="max-w-xl mb-10 md:mb-0">
-              <h2 className="text-3xl font-bold mb-6 text-[#95FF66]">Practice Anytime, Anywhere</h2>
-              <p className="text-lg text-muted-foreground mb-8">
-                Download our mobile app to practice coding on the go. Challenge friends, solve problems, and track your progress from your device.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-[#95FF66] hover:bg-[#95FF66]/80 text-black transition-all flex items-center gap-2">
-                  <Download className="w-5 h-5" />
-                  Get it on Google Play
-                </Button>
-                <Button variant="outline" className="border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10 flex items-center gap-2">
-                  <Download className="w-5 h-5" />
-                  Download on App Store
-                </Button>
-              </div>
-            </div>
-            <div className="bg-white/5 w-72 h-96 rounded-3xl border border-white/10 p-4 relative">
-              <div className="absolute inset-0 bg-[#95FF66] blur-3xl opacity-10 rounded-full"></div>
-              <div className="w-full h-full rounded-2xl bg-black/50 flex items-center justify-center">
-                <div className="text-center">
-                  <Smartphone className="w-16 h-16 text-[#95FF66] mx-auto mb-4" />
-                  <p className="text-white text-sm">Mobile App Preview</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6 text-[#95FF66]">Ready to Begin?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of developers who are improving their coding skills through competitive programming.
-          </p>
-          <Button 
-            onClick={handleStartMatch}
-            className="bg-[#95FF66] hover:bg-[#95FF66]/80 transition-colors text-black text-lg px-8 py-6"
-          >
-            Start Your First Battle
-          </Button>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-[#0C0C0C] border-t border-white/10">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-[#95FF66]">About</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Our Story</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Team</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-[#95FF66]">Resources</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Documentation</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Blog</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Support</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-[#95FF66]">Legal</h3>
-              <ul className="space-y-2">
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Privacy</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Terms</a></li>
-                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Security</a></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-lg font-semibold mb-4 text-[#95FF66]">Connect</h3>
-              <ul className="space-y-2">
-                <li>
-                  <a href="#" className="text-muted-foreground hover:text-[#95FF66] flex items-center gap-2">
-                    <Github className="w-4 h-4" />
-                    GitHub
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2024 Code Battles. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
-    </div>
-  );
-};
-
-export default Index;
+                    className="data-[state=active]:bg-[#95FF66] data-[state

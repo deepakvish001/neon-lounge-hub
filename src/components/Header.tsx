@@ -48,12 +48,19 @@ export const Header = () => {
     navigate("/auth");
   };
 
+  const navigateToHome = () => {
+    navigate('/');
+  };
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0C0C0C]/95 backdrop-blur-md border-b border-[#95FF66]/10">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
           {/* Logo and Brand */}
-          <div className="flex items-center gap-2">
+          <div 
+            className="flex items-center gap-2 cursor-pointer" 
+            onClick={navigateToHome}
+          >
             <Command className="w-8 h-8 text-[#95FF66] animate-spin-slow" />
             <span className="text-2xl font-bold bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent hover-scale transition-transform">
               NeonLounge

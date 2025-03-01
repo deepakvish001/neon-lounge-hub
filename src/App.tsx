@@ -14,6 +14,7 @@ import { Header } from "./components/Header";
 import Leaderboard from "./pages/Leaderboard";
 import Learn from "./pages/Learn";
 import TrackDetails from "./pages/TrackDetails";
+import ModuleContent from "./pages/ModuleContent";
 
 const queryClient = new QueryClient();
 
@@ -92,6 +93,14 @@ const App = () => {
                   element={
                     <PrivateRoute>
                       <TrackDetails />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/module/:moduleId"
+                  element={
+                    <PrivateRoute>
+                      <ModuleContent />
                     </PrivateRoute>
                   }
                 />

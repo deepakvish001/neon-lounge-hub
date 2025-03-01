@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -47,6 +48,44 @@
 
   .hover-scale {
     @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  /* Modern HTML & CSS Module Styles */
+  .prose {
+    @apply text-gray-800 leading-relaxed;
+  }
+  
+  .prose h3 {
+    @apply text-[#4CAF50] font-semibold mt-6 mb-3;
+  }
+  
+  .prose p {
+    @apply mb-4;
+  }
+  
+  .prose pre {
+    @apply text-sm overflow-x-auto;
+  }
+  
+  .prose code {
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+  }
+  
+  /* Code Syntax Highlighting */
+  .code-html {
+    @apply text-orange-500;
+  }
+  
+  .code-css {
+    @apply text-blue-500;
+  }
+  
+  .code-property {
+    @apply text-purple-500;
+  }
+  
+  .code-value {
+    @apply text-green-500;
   }
 }
 

@@ -18,7 +18,13 @@ import {
   UserCircle, 
   Star, 
   Award,
-  ChevronRight
+  ChevronRight,
+  Sparkles,
+  Trophy,
+  Bookmark,
+  BadgeCheck,
+  Share2,
+  PenSquare
 } from "lucide-react";
 
 const TrackDetails = () => {
@@ -41,12 +47,17 @@ const TrackDetails = () => {
 
   const [completedModules, setCompletedModules] = useState<string[]>([]);
   const [expandedModules, setExpandedModules] = useState<string[]>([]);
+  const [bookmarkedModules, setBookmarkedModules] = useState<string[]>([]);
+  const [notification, setNotification] = useState<string | null>(null);
 
   const handleCompleteModule = (moduleId: string) => {
     setCompletedModules((prev) => {
       if (prev.includes(moduleId)) {
         return prev.filter((id) => id !== moduleId);
       } else {
+        // Show notification
+        setNotification(`Module marked as complete!`);
+        setTimeout(() => setNotification(null), 3000);
         return [...prev, moduleId];
       }
     });
@@ -66,6 +77,24 @@ const TrackDetails = () => {
         ? prev.filter(id => id !== moduleId)
         : [...prev, moduleId]
     );
+  };
+
+  const toggleBookmarkModule = (moduleId: string, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setBookmarkedModules(prev => {
+      if (prev.includes(moduleId)) {
+        return prev.filter(id => id !== moduleId);
+      } else {
+        // Show notification
+        setNotification(`Module bookmarked!`);
+        setTimeout(() => setNotification(null), 3000);
+        return [...prev, moduleId];
+      }
+    });
+  };
+
+  const isModuleBookmarked = (moduleId: string) => {
+    return bookmarkedModules.includes(moduleId);
   };
 
   const getProgressPercentage = () => {
@@ -149,8 +178,38 @@ const TrackDetails = () => {
             </div>
           </div>
           
+          {/* Learning Path Overview */}
+          <div className="glass p-4 rounded-lg mb-8 overflow-hidden border border-white/10">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-medium text-white flex items-center">
+                <Trophy className="mr-2 h-5 w-5 text-[#95FF66]" />
+                Learning Path
+              </h2>
+              <Button variant="ghost" size="sm" className="text-sm">View Detailed Path</Button>
+            </div>
+            
+            <div className="relative">
+              <div className="absolute top-0 bottom-0 left-7 w-0.5 bg-gray-700"></div>
+              <div className="space-y-6">
+                {track.modules.map((module, index) => (
+                  <div key={module.id} className="flex items-start relative animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+                    <div className={`z-10 w-4 h-4 rounded-full ${
+                      isModuleCompleted(module.id) 
+                        ? "bg-[#95FF66]" 
+                        : index === completedModules.length ? "bg-white pulse-glow" : "bg-gray-700"
+                    } mt-1`}></div>
+                    <div className="ml-6">
+                      <h3 className="text-sm font-medium text-white">{module.title}</h3>
+                      <p className="text-xs text-gray-400 mt-1">2 hours • 6 topics</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
           {/* Top Learners Section */}
-          <div className="glass p-4 rounded-lg mb-8 overflow-hidden">
+          <div className="glass p-4 rounded-lg mb-8 overflow-hidden border border-white/10">
             <div className="flex justify-between items-center mb-3">
               <h2 className="text-lg font-medium text-white flex items-center">
                 <Award className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -161,12 +220,38 @@ const TrackDetails = () => {
             
             <div className="flex overflow-x-auto pb-2 gap-3 scrollbar-none">
               {[1, 2, 3, 4, 5].map((_, index) => (
-                <div key={index} className="flex-shrink-0 flex flex-col items-center w-20">
+                <div key={index} className="flex-shrink-0 flex flex-col items-center w-20 hover-scale">
                   <div className="w-12 h-12 bg-gray-700 rounded-full mb-2 relative">
                     <div className="absolute bottom-0 right-0 w-4 h-4 bg-[#95FF66] rounded-full border-2 border-background"></div>
                   </div>
                   <span className="text-xs text-white truncate w-full text-center">User {index + 1}</span>
                   <span className="text-[10px] text-gray-400">{90 - index * 5}% complete</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Achievements Section */}
+          <div className="glass p-4 rounded-lg mb-8 overflow-hidden border border-white/10">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-lg font-medium text-white flex items-center">
+                <BadgeCheck className="mr-2 h-5 w-5 text-[#95FF66]" />
+                Achievements
+              </h2>
+              <Button variant="ghost" size="sm" className="text-sm">View All</Button>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {['Fast Learner', 'Code Explorer', 'Problem Solver', 'Dedicated Student'].map((achievement, index) => (
+                <div key={index} className={`p-3 rounded-lg flex flex-col items-center ${
+                  index < completedModules.length ? 'bg-[#95FF66]/10 border border-[#95FF66]/20' : 'bg-white/5 border border-white/10 opacity-50'
+                } hover-scale`}>
+                  <div className={`w-10 h-10 flex items-center justify-center rounded-full mb-2 ${
+                    index < completedModules.length ? 'bg-[#95FF66]/20 text-[#95FF66]' : 'bg-white/10 text-white/30'
+                  }`}>
+                    <Sparkles className="h-5 w-5" />
+                  </div>
+                  <span className="text-xs text-center font-medium">{achievement}</span>
                 </div>
               ))}
             </div>
@@ -198,6 +283,17 @@ const TrackDetails = () => {
                       <h3 className="font-medium text-white">{module.title}</h3>
                       <p className="text-xs text-gray-400 mt-1">2 hours • 6 topics</p>
                     </div>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className={`mr-2 ${isModuleBookmarked(module.id) ? 'text-[#95FF66]' : 'text-gray-400'}`}
+                      onClick={(e) => toggleBookmarkModule(module.id, e)}
+                    >
+                      <Bookmark className="h-4 w-4" />
+                    </Button>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 pb-4 pt-0">
@@ -241,11 +337,35 @@ const TrackDetails = () => {
                       <span>Review Module</span>
                       <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" />
                     </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="text-white/70 hover:text-white"
+                    >
+                      <Share2 className="mr-2 h-4 w-4" />
+                      <span>Share</span>
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      className="text-white/70 hover:text-white"
+                    >
+                      <PenSquare className="mr-2 h-4 w-4" />
+                      <span>Take Notes</span>
+                    </Button>
                   </div>
                 </AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
+          
+          {/* Notification Toast */}
+          {notification && (
+            <div className="fixed bottom-4 right-4 bg-[#95FF66] text-black px-4 py-2 rounded-md shadow-lg animate-fade-in z-50">
+              <div className="flex items-center">
+                <CheckCircle className="h-4 w-4 mr-2" />
+                {notification}
+              </div>
+            </div>
+          )}
         </>
       )}
     </div>

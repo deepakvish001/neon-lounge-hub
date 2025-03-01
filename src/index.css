@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 @tailwind base;
@@ -95,6 +96,36 @@
   
   .scrollbar-none::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Frosted Card Effect */
+  .frost-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg shadow-lg;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Progress Ring */
+  .progress-ring circle {
+    transition: stroke-dashoffset 1s ease-in-out;
+  }
+
+  /* Responsive Grid */
+  .auto-grid {
+    @apply grid gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-success {
+    @apply bg-[#95FF66]/20 text-[#95FF66];
+  }
+
+  .badge-info {
+    @apply bg-blue-500/20 text-blue-300;
   }
 }
 
@@ -292,4 +323,243 @@
 
 .content-area h3 {
   @apply text-xl font-semibold text-[#4CAF50] mt-6 mb-3;
+}
+
+/* New Animation: Staggered Fade In */
+@keyframes stagger-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stagger-fade-in > * {
+  animation: stagger-fade-in 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.stagger-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
+
+/* New Animation: Typewriter Effect */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #95FF66;
+  animation: 
+    typewriter 2s steps(40) 1s forwards,
+    blink-caret 0.75s step-end infinite;
+}
+
+@keyframes blink-caret {
+  from, to { border-color: transparent; }
+  50% { border-color: #95FF66; }
+}
+
+/* New Animation: Flowing Gradient Background */
+@keyframes flow-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.flowing-gradient {
+  background: linear-gradient(-45deg, #95FF66, #4CAF50, #6366f1, #9b87f5);
+  background-size: 400% 400%;
+  animation: flow-gradient 15s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* New Animation: Focus Ring Pulse */
+@keyframes focus-ring-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(149, 255, 102, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(149, 255, 102, 0);
+  }
+}
+
+.focus-ring-pulse:focus {
+  animation: focus-ring-pulse 2s infinite;
+}
+
+/* New Animation: Neon Border Pulse */
+@keyframes neon-border-pulse {
+  0%, 100% {
+    border-color: rgba(149, 255, 102, 0.7);
+    box-shadow: 0 0 5px rgba(149, 255, 102, 0.7), 
+                inset 0 0 5px rgba(149, 255, 102, 0.7);
+  }
+  50% {
+    border-color: rgba(149, 255, 102, 0.3);
+    box-shadow: 0 0 20px rgba(149, 255, 102, 0.3), 
+                inset 0 0 20px rgba(149, 255, 102, 0.3);
+  }
+}
+
+.neon-border {
+  border: 1px solid rgba(149, 255, 102, 0.7);
+  box-shadow: 0 0 5px rgba(149, 255, 102, 0.7), 
+              inset 0 0 5px rgba(149, 255, 102, 0.7);
+}
+
+.neon-border-pulse {
+  @apply neon-border;
+  animation: neon-border-pulse 2s infinite;
+}
+
+/* Particle effect */
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(149, 255, 102, 0.5);
+  pointer-events: none;
+}
+
+@keyframes particle-animation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--x), var(--y));
+    opacity: 0;
+  }
+}
+
+.particle-animation {
+  animation: particle-animation 1s forwards;
+}
+
+/* Card hover effects */
+.card-hover {
+  @apply transition-all duration-300;
+}
+
+.card-hover:hover {
+  @apply transform -translate-y-1 shadow-lg;
+  box-shadow: 0 10px 25px -5px rgba(149, 255, 102, 0.1);
+}
+
+/* Progress bar animation */
+@keyframes progress-fill {
+  from { width: 0; }
+  to { width: var(--progress-width); }
+}
+
+.animate-progress {
+  animation: progress-fill 1s ease-out forwards;
+}
+
+/* Highlight shine effect */
+@keyframes shine {
+  from {
+    background-position: -100% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.highlight-shine {
+  background: linear-gradient(
+    to right, 
+    transparent 0%, 
+    rgba(149, 255, 102, 0.2) 50%, 
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 2s infinite linear;
+}
+
+/* Glass card styles */
+.glass-card {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-lg;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  @apply bg-white/10 border-white/20;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* Interactive button styles */
+.interactive-button {
+  @apply relative overflow-hidden transition-all duration-300;
+}
+
+.interactive-button::after {
+  content: '';
+  @apply absolute inset-0 bg-white opacity-0 transition-opacity duration-300;
+}
+
+.interactive-button:hover::after {
+  @apply opacity-10;
+}
+
+.interactive-button:active {
+  @apply transform scale-95;
+}
+
+/* Code block styling */
+.code-block {
+  @apply bg-black/30 rounded-lg p-4 border border-white/10;
+  font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+}
+
+/* Improved scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-gray-800/50 rounded-full;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full hover:bg-gray-500;
+}
+
+/* Animation for notification badge */
+@keyframes notification-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(149, 255, 102, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(149, 255, 102, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(149, 255, 102, 0);
+  }
+}
+
+.notification-badge {
+  animation: notification-pulse 2s infinite;
 }

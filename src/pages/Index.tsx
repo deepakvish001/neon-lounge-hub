@@ -1,4 +1,4 @@
-<lov-code>
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -38,7 +38,6 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs";
-import { Footer } from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 
 const Index = () => {
@@ -250,6 +249,28 @@ const Index = () => {
     }
   ];
 
+  // Battle arena data
+  const battleArenaData = [
+    {
+      title: "Daily Challenges",
+      description: "New coding problems every day to keep your skills sharp",
+      icon: Calendar,
+      participants: 2500,
+    },
+    {
+      title: "Team Battles",
+      description: "Collaborate with friends to solve complex problems",
+      icon: Users,
+      participants: 1800,
+    },
+    {
+      title: "Speed Coding",
+      description: "Race against time to solve problems quickly",
+      icon: Clock,
+      participants: 3200,
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white">
       {/* Hero Section */}
@@ -395,7 +416,7 @@ const Index = () => {
               <Card 
                 key={index} 
                 className="glass border-white/10 hover:border-[#95FF66]/50 transition-all group hover-scale"
-                onClick={() => navigate(`/track-details/${track.slug}`)}
+                onClick={() => navigate(`/track/${track.slug}`)}
               >
                 <CardHeader className="space-y-1">
                   <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center mb-2 group-hover:bg-[#95FF66]/20 transition-colors">
@@ -515,8 +536,55 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Live Workshops Section */}
+      {/* NEW: Battle Arena Section */}
       <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-[#95FF66] mb-2">Battle Arena</h2>
+              <p className="text-muted-foreground">Compete with developers worldwide in exciting coding battles</p>
+            </div>
+            <Button 
+              variant="outline" 
+              className="mt-4 md:mt-0 border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"
+            >
+              View All Battles <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            {battleArenaData.map((arena, index) => (
+              <Card 
+                key={index}
+                className="glass border-white/10 hover:border-[#95FF66]/50 transition-all hover-scale"
+              >
+                <CardHeader>
+                  <div className="flex justify-between items-start">
+                    <div className="p-2 w-12 h-12 rounded-lg bg-[#95FF66]/10 flex items-center justify-center">
+                      <arena.icon className="w-6 h-6 text-[#95FF66]" />
+                    </div>
+                    <span className="px-3 py-1 text-xs rounded-full bg-[#95FF66]/10 text-[#95FF66]">
+                      {arena.participants}+ users
+                    </span>
+                  </div>
+                  <CardTitle className="text-xl mt-4">{arena.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground">{arena.description}</p>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full bg-[#95FF66] hover:bg-[#95FF66]/90 text-black transition-all">
+                    Join Battle
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Live Workshops Section */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
             <div>
@@ -580,7 +648,7 @@ const Index = () => {
       </section>
 
       {/* Learning Paths */}
-      <section className="py-20">
+      <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Learning Paths</h2>
           <div className="grid md:grid-cols-4 gap-6">
@@ -608,8 +676,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Developer Tips Section */}
-      <section className="py-20 bg-[#0A0A0A]">
+      {/* Developer Tips Section */}
+      <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Pro Coding Tips</h2>
           <div className="grid md:grid-cols-4 gap-6">
@@ -630,6 +698,53 @@ const Index = () => {
             >
               View All Tips <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* NEW: Learning Resources Section */}
+      <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-4 text-[#95FF66]">Learning Resources</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Explore our comprehensive collection of resources to enhance your coding journey
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="glass p-6 rounded-lg hover-scale">
+              <BookOpen className="w-10 h-10 text-[#95FF66] mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Documentation</h3>
+              <p className="text-muted-foreground mb-4">Comprehensive guides and references for various programming topics.</p>
+              <Button variant="outline" className="w-full border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10">
+                View Docs
+              </Button>
+            </div>
+            <div className="glass p-6 rounded-lg hover-scale">
+              <Video className="w-10 h-10 text-[#95FF66] mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Video Tutorials</h3>
+              <p className="text-muted-foreground mb-4">Step-by-step video lessons from expert instructors.</p>
+              <Button variant="outline" className="w-full border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10">
+                Watch Now
+              </Button>
+            </div>
+            <div className="glass p-6 rounded-lg hover-scale">
+              <Blocks className="w-10 h-10 text-[#95FF66] mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Code Examples</h3>
+              <p className="text-muted-foreground mb-4">Real-world examples and sample projects to learn from.</p>
+              <Button variant="outline" className="w-full border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10">
+                Browse Examples
+              </Button>
+            </div>
+            <div className="glass p-6 rounded-lg hover-scale">
+              <MessagesSquare className="w-10 h-10 text-[#95FF66] mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Community Forum</h3>
+              <p className="text-muted-foreground mb-4">Connect with other developers to share knowledge and get help.</p>
+              <Button variant="outline" className="w-full border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10">
+                Join Discussion
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -686,7 +801,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Premium Features Section */}
+      {/* Premium Features Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -755,6 +870,58 @@ const Index = () => {
                 className="w-full"
               >
                 <TabsList className="bg-black/20 border border-white/10">
-                  <TabsTrigger 
-                    value="popular" 
-                    className="data-[state=active]:bg-[#95FF66] data-[state
+                  <TabsTrigger value="popular">Popular</TabsTrigger>
+                  <TabsTrigger value="newest">Newest</TabsTrigger>
+                  <TabsTrigger value="trending">Trending</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 py-12 bg-[#080808]">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h3 className="font-semibold mb-4 text-lg">About</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Our Story</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Team</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Careers</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4 text-lg">Resources</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Documentation</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Blog</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Support</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4 text-lg">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Privacy</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Terms</a></li>
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">Security</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-4 text-lg">Connect</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-muted-foreground hover:text-[#95FF66]">GitHub</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-white/10 pt-8 text-center text-muted-foreground">
+            © 2024 Code Battles. All rights reserved.
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Index;

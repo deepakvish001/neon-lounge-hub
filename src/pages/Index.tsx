@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
@@ -5,7 +6,7 @@ import {
   BrainCircuit, Rocket, ChevronRight, CheckCircle, Database, Globe, 
   ArrowRight, LineChart, BookOpen, Calendar, Briefcase, Clock, 
   FileCode, TrendingUp, Sparkles,
-  Blocks, LockOpen, Bot
+  Blocks, LockOpen, Bot, Video
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -228,7 +229,7 @@ const Index = () => {
     {
       title: "AI Code Review",
       description: "Get personalized feedback on your code from our AI assistant.",
-      icon: Bot, // Changed from Robot to Bot
+      icon: Bot,
     },
     {
       title: "Private Tournaments",
@@ -534,7 +535,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* NEW: Battle Arena Section */}
+      {/* Battle Arena Section */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
@@ -758,4 +759,48 @@ const Index = () => {
                   <div className="w-16 h-16 mx-auto bg-[#95FF66]/10 rounded-full flex items-center justify-center mb-4">
                     <achievement.icon className="w-8 h-8 text-[#95FF66]" />
                   </div>
-                  <div className="text-3xl font-bold text-white mb-2">{achievement
+                  <div className="text-3xl font-bold text-white mb-2">{achievement.count}</div>
+                  <div className="text-muted-foreground">{achievement.title}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-[#0A0A0A]">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-4 text-[#95FF66]">What Our Users Say</h2>
+          <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
+            Hear from developers who have improved their skills with our platform
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div key={index} className="glass p-6 rounded-lg hover-scale">
+                <div className="flex items-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-[#95FF66]/20 flex items-center justify-center text-[#95FF66] font-semibold mr-4">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">{testimonial.name}</h4>
+                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p className="text-muted-foreground">"{testimonial.content}"</p>
+                <div className="mt-4 flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-4 h-4 text-[#95FF66] fill-[#95FF66]" />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Index;

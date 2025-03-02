@@ -1,3 +1,4 @@
+
 // Define track and module interface types
 export interface Module {
   id: string;
@@ -10,6 +11,11 @@ export interface Module {
   tags?: string[];
   popularity?: number;
   lastUpdated?: string;
+  videoUrl?: string;
+  instructor?: {
+    name: string;
+    avatar: string;
+  };
 }
 
 export interface Track {
@@ -59,6 +65,11 @@ export const tracks: Track[] = [
         tags: ["HTML5", "CSS3", "Responsive Design", "Flexbox", "Grid"],
         popularity: 98,
         lastUpdated: "2023-06-15",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9ivBf_eKCPIAYXWzLlPAm6G",
+        instructor: {
+          name: "Sarah Johnson",
+          avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=150&h=150&q=80"
+        },
         content: `
 ## Modern HTML & CSS
 
@@ -284,6 +295,37 @@ Try creating a responsive card layout that uses flexbox for small screens and gr
 - [MDN Web Docs](https://developer.mozilla.org/)
 - [CSS-Tricks](https://css-tricks.com/)
 - [Smashing Magazine](https://www.smashingmagazine.com/)
+
+### Web Accessibility Basics
+
+Making your websites accessible to all users is not just good practice, it's essential:
+
+<pre>
+<code class="code-html">&lt;img src="logo.png" alt="Company Logo"&gt;
+&lt;button aria-label="Close dialog" aria-describedby="desc"&gt;×&lt;/button&gt;
+&lt;div id="desc" class="sr-only"&gt;Closes the current dialog window&lt;/div&gt;</code>
+</pre>
+
+### CSS Custom Properties for Theming
+
+Create theme-switchable websites with CSS variables:
+
+<pre>
+<code class="code-css">:root {
+  <span class="code-property">--bg-color</span>: <span class="code-value">#ffffff</span>;
+  <span class="code-property">--text-color</span>: <span class="code-value">#333333</span>;
+}
+
+.dark-theme {
+  <span class="code-property">--bg-color</span>: <span class="code-value">#121212</span>;
+  <span class="code-property">--text-color</span>: <span class="code-value">#f1f1f1</span>;
+}
+
+body {
+  <span class="code-property">background-color</span>: <span class="code-value">var(--bg-color)</span>;
+  <span class="code-property">color</span>: <span class="code-value">var(--text-color)</span>;
+}</code>
+</pre>
         `
       },
       {
@@ -296,6 +338,11 @@ Try creating a responsive card layout that uses flexbox for small screens and gr
         tags: ["JavaScript", "ES6", "DOM", "Events", "Functions"],
         popularity: 95,
         lastUpdated: "2023-07-20",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9haFPT7J25Q9GRB_ZkFrQAc",
+        instructor: {
+          name: "Michael Chen",
+          avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80"
+        }
       },
       {
         id: "react-basics",
@@ -307,6 +354,11 @@ Try creating a responsive card layout that uses flexbox for small screens and gr
         tags: ["React", "Components", "Props", "State", "Hooks"],
         popularity: 97,
         lastUpdated: "2023-08-12",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9gZD-Tvwfod2gaISzfRiP9d",
+        instructor: {
+          name: "Emma Rodriguez",
+          avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=150&h=150&q=80"
+        }
       },
       {
         id: "advanced-react",
@@ -318,6 +370,43 @@ Try creating a responsive card layout that uses flexbox for small screens and gr
         tags: ["React", "Context API", "Redux", "Performance", "Testing"],
         popularity: 92,
         lastUpdated: "2023-09-05",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9gjxLvV4VEkZ6H6H4yWuS58",
+        instructor: {
+          name: "David Park",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80"
+        }
+      },
+      {
+        id: "css-animations",
+        title: "CSS Animations & Effects",
+        description: "Create stunning animations and visual effects using pure CSS techniques.",
+        duration: "5 hours",
+        topics: 7,
+        level: "intermediate",
+        tags: ["CSS", "Animations", "Transitions", "3D", "Keyframes"],
+        popularity: 89,
+        lastUpdated: "2023-10-15",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5",
+        instructor: {
+          name: "Sarah Johnson",
+          avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=150&h=150&q=80"
+        }
+      },
+      {
+        id: "web-accessibility",
+        title: "Web Accessibility",
+        description: "Learn how to make your websites accessible to all users, including those with disabilities.",
+        duration: "4 hours",
+        topics: 6,
+        level: "intermediate",
+        tags: ["Accessibility", "ARIA", "Semantic HTML", "Screen Readers", "Keyboard Navigation"],
+        popularity: 85,
+        lastUpdated: "2023-11-08",
+        videoUrl: "https://www.youtube.com/embed/videoseries?list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g",
+        instructor: {
+          name: "Jessica Taylor",
+          avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80"
+        }
       }
     ]
   },

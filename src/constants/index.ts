@@ -1,10 +1,15 @@
-
 // Define track and module interface types
 export interface Module {
   id: string;
   title: string;
   description: string;
   content?: string;
+  duration?: string;
+  topics?: number;
+  level?: 'beginner' | 'intermediate' | 'advanced';
+  tags?: string[];
+  popularity?: number;
+  lastUpdated?: string;
 }
 
 export interface Track {
@@ -12,6 +17,15 @@ export interface Track {
   title: string;
   description: string;
   modules: Module[];
+  totalDuration?: string;
+  skillLevel?: string;
+  prerequisites?: string[];
+  learningOutcomes?: string[];
+  instructor?: {
+    name: string;
+    title: string;
+    avatar?: string;
+  };
 }
 
 // Mock data for tracks
@@ -20,11 +34,31 @@ export const tracks: Track[] = [
     id: "frontend-development",
     title: "Frontend Development",
     description: "Learn modern frontend development techniques and technologies.",
+    totalDuration: "32 hours",
+    skillLevel: "Beginner to Advanced",
+    prerequisites: ["Basic HTML knowledge", "Understanding of CSS syntax", "JavaScript fundamentals"],
+    learningOutcomes: [
+      "Build responsive websites using modern HTML5 and CSS3",
+      "Create interactive web applications with React",
+      "Implement state management solutions",
+      "Optimize frontend performance"
+    ],
+    instructor: {
+      name: "Sarah Johnson",
+      title: "Senior Frontend Engineer",
+      avatar: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=150&h=150&q=80"
+    },
     modules: [
       {
         id: "modern-html-css",
         title: "Modern HTML & CSS",
         description: "Learn the latest HTML5 and CSS3 features to build modern, responsive websites.",
+        duration: "8 hours",
+        topics: 12,
+        level: "beginner",
+        tags: ["HTML5", "CSS3", "Responsive Design", "Flexbox", "Grid"],
+        popularity: 98,
+        lastUpdated: "2023-06-15",
         content: `
 ## Modern HTML & CSS
 
@@ -160,6 +194,87 @@ Recent CSS additions include:
 - **CSS Logical Properties**
 - **Container Queries**
 
+### Advanced CSS Animation Techniques
+
+Animations can significantly enhance user experience:
+
+<pre>
+<code class="code-css">/* Fade-in animation */
+@keyframes fadeIn {
+  <span class="code-property">from</span> { <span class="code-property">opacity</span>: <span class="code-value">0</span>; }
+  <span class="code-property">to</span> { <span class="code-property">opacity</span>: <span class="code-value">1</span>; }
+}
+
+.fade-in {
+  <span class="code-property">animation</span>: <span class="code-value">fadeIn 0.5s ease-in-out</span>;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+  <span class="code-property">from</span> { 
+    <span class="code-property">transform</span>: <span class="code-value">translateY(20px)</span>; 
+    <span class="code-property">opacity</span>: <span class="code-value">0</span>;
+  }
+  <span class="code-property">to</span> { 
+    <span class="code-property">transform</span>: <span class="code-value">translateY(0)</span>; 
+    <span class="code-property">opacity</span>: <span class="code-value">1</span>;
+  }
+}
+
+.slide-in {
+  <span class="code-property">animation</span>: <span class="code-value">slideIn 0.5s ease-out</span>;
+}</code>
+</pre>
+
+### CSS Transform and Transition Properties
+
+Create smooth transitions between element states:
+
+<pre>
+<code class="code-css">.card {
+  <span class="code-property">transition</span>: <span class="code-value">transform 0.3s ease, box-shadow 0.3s ease</span>;
+}
+
+.card:hover {
+  <span class="code-property">transform</span>: <span class="code-value">translateY(-5px)</span>;
+  <span class="code-property">box-shadow</span>: <span class="code-value">0 10px 20px rgba(0,0,0,0.1)</span>;
+}</code>
+</pre>
+
+### CSS Backdrop Filter
+
+Create frosted glass effects with backdrop-filter:
+
+<pre>
+<code class="code-css">.glass-panel {
+  <span class="code-property">background</span>: <span class="code-value">rgba(255, 255, 255, 0.1)</span>;
+  <span class="code-property">backdrop-filter</span>: <span class="code-value">blur(10px)</span>;
+  <span class="code-property">border-radius</span>: <span class="code-value">10px</span>;
+  <span class="code-property">border</span>: <span class="code-value">1px solid rgba(255, 255, 255, 0.2)</span>;
+}</code>
+</pre>
+
+### CSS Grid Areas
+
+Name grid areas for more intuitive layouts:
+
+<pre>
+<code class="code-css">.dashboard {
+  <span class="code-property">display</span>: <span class="code-value">grid</span>;
+  <span class="code-property">grid-template-areas</span>: <span class="code-value">
+    "header header header"
+    "sidebar main main"
+    "sidebar footer footer"</span>;
+  <span class="code-property">grid-template-rows</span>: <span class="code-value">auto 1fr auto</span>;
+  <span class="code-property">grid-template-columns</span>: <span class="code-value">250px 1fr 1fr</span>;
+}
+
+.header { <span class="code-property">grid-area</span>: <span class="code-value">header</span>; }
+.sidebar { <span class="code-property">grid-area</span>: <span class="code-value">sidebar</span>; }
+.main { <span class="code-property">grid-area</span>: <span class="code-value">main</span>; }
+.footer { <span class="code-property">grid-area</span>: <span class="code-value">footer</span>; }</code>
+</pre>
+
 ### Practice Exercise
 
 Try creating a responsive card layout that uses flexbox for small screens and grid for larger screens.
@@ -175,16 +290,34 @@ Try creating a responsive card layout that uses flexbox for small screens and gr
         id: "javascript-fundamentals",
         title: "JavaScript Fundamentals",
         description: "Master the core concepts of JavaScript including variables, functions, and DOM manipulation.",
+        duration: "10 hours",
+        topics: 15,
+        level: "beginner",
+        tags: ["JavaScript", "ES6", "DOM", "Events", "Functions"],
+        popularity: 95,
+        lastUpdated: "2023-07-20",
       },
       {
         id: "react-basics",
         title: "React Basics",
         description: "Get started with React, learning components, props, state, and hooks.",
+        duration: "6 hours",
+        topics: 8,
+        level: "intermediate",
+        tags: ["React", "Components", "Props", "State", "Hooks"],
+        popularity: 97,
+        lastUpdated: "2023-08-12",
       },
       {
         id: "advanced-react",
         title: "Advanced React",
         description: "Dive deeper into React with context, performance optimization, and advanced hooks.",
+        duration: "8 hours",
+        topics: 10,
+        level: "advanced",
+        tags: ["React", "Context API", "Redux", "Performance", "Testing"],
+        popularity: 92,
+        lastUpdated: "2023-09-05",
       }
     ]
   },

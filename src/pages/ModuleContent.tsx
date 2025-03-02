@@ -1,13 +1,15 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { tracks } from "@/constants";
 import { 
   ArrowLeft, BookOpen, Code, ExternalLink, BookmarkPlus, CheckCircle, Copy, 
   ThumbsUp, Star, Coffee, Clock, Search, Download, Share2, Award, 
   Lightbulb, FileText, MessageSquare, Users, Play, ChevronRight, ChevronLeft,
   Moon, Sun, Code2, Terminal, Paperclip, PenTool, ScreenShare, Monitor, Sparkles,
-  Zap, Keyboard, Layers
+  Zap, Keyboard, Layers, RotateCcw, Maximize2
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";

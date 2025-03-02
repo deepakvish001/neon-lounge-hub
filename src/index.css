@@ -861,24 +861,27 @@
 
 /* Interactive Card Flip */
 .card-flip-container {
-  @apply perspective-1000 w-full h-full;
+  perspective: 1000px;
+  @apply w-full h-full;
 }
 
 .card-flip {
-  @apply relative w-full h-full transition-transform duration-500 transform-style-3d;
+  @apply relative w-full h-full transition-transform duration-500;
+  transform-style: preserve-3d;
 }
 
 .card-flip-front,
 .card-flip-back {
-  @apply absolute w-full h-full backface-hidden;
+  @apply absolute w-full h-full;
+  backface-visibility: hidden;
 }
 
 .card-flip-back {
-  @apply transform-rotate-y-180;
+  transform: rotateY(180deg);
 }
 
 .card-flip-container:hover .card-flip {
-  @apply transform-rotate-y-180;
+  transform: rotateY(180deg);
 }
 
 /* Loading Bar Animation */

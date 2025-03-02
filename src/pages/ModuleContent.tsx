@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,11 +5,16 @@ import { tracks } from "@/constants";
 import { 
   ArrowLeft, BookOpen, Code, ExternalLink, BookmarkPlus, CheckCircle, Copy, 
   ThumbsUp, Star, Coffee, Clock, Search, Download, Share2, Award, 
-  Lightbulb, FileText, MessageSquare, Users, Play, ChevronRight, ChevronLeft
+  Lightbulb, FileText, MessageSquare, Users, Play, ChevronRight, ChevronLeft,
+  Moon, Sun, Code2, Terminal, Paperclip, PenTool, ScreenShare, Monitor, Sparkles,
+  Zap, Keyboard, Layers
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ModuleContent = () => {
   const { moduleId } = useParams();
@@ -452,6 +456,180 @@ const ModuleContent = () => {
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
 
+  // New state variables for additional features
+  const [theme, setTheme] = useState("dark");
+  const [playgroundCode, setPlaygroundCode] = useState(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background-color: #95FF66;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      flex: 1;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Webpage</h1>
+    <p>Built with modern HTML & CSS</p>
+  </header>
+  <div class="container">
+    <div class="card">
+      <h2>Section 1</h2>
+      <p>This is content for section 1.</p>
+    </div>
+    <div class="card">
+      <h2>Section 2</h2>
+      <p>This is content for section 2.</p>
+    </div>
+  </div>
+</body>
+</html>`);
+  const [playgroundResult, setPlaygroundResult] = useState("");
+  const [playgroundView, setPlaygroundView] = useState("split");
+  const [codeFont, setCodeFont] = useState("monospace");
+  const [codeFontSize, setCodeFontSize] = useState(14);
+  const [keyboardShortcutsVisible, setKeyboardShortcutsVisible] = useState(false);
+  const [activePracticeChallenge, setActivePracticeChallenge] = useState(null);
+  const [showAiHelper, setShowAiHelper] = useState(false);
+  const [aiHelperPrompt, setAiHelperPrompt] = useState("");
+  const [aiHelperResponse, setAiHelperResponse] = useState("");
+  const [showCodeReference, setShowCodeReference] = useState(false);
+  const [downloadFormat, setDownloadFormat] = useState("pdf");
+  const [animationSpeed, setAnimationSpeed] = useState(1);
+  
+  // Practice challenges data
+  const practiceChallengeSets = [
+    {
+      id: "flex-layout",
+      title: "Flexbox Layout Challenge",
+      description: "Create a responsive navbar using flexbox",
+      difficulty: "Intermediate",
+      initialCode: `<div class="navbar">
+  <!-- Add your navbar items here using flexbox -->
+</div>
+
+<style>
+  .navbar {
+    /* Your flexbox styles here */
+  }
+</style>`,
+      expectedOutput: {
+        properties: ["display: flex", "justify-content", "align-items"],
+        structure: ["navbar", "nav-item"]
+      },
+      hints: [
+        "Start with display: flex on the container",
+        "Use justify-content to space items",
+        "Consider how the navbar should behave on small screens"
+      ]
+    },
+    {
+      id: "grid-gallery",
+      title: "CSS Grid Gallery",
+      description: "Create an image gallery with CSS Grid",
+      difficulty: "Advanced",
+      initialCode: `<div class="gallery">
+  <div class="gallery-item">Item 1</div>
+  <div class="gallery-item">Item 2</div>
+  <div class="gallery-item">Item 3</div>
+  <div class="gallery-item">Item 4</div>
+  <div class="gallery-item">Item 5</div>
+  <div class="gallery-item">Item 6</div>
+</div>
+
+<style>
+  .gallery {
+    /* Your grid styles here */
+  }
+  
+  .gallery-item {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+  }
+</style>`,
+      expectedOutput: {
+        properties: ["display: grid", "grid-template-columns", "gap"],
+        structure: ["gallery", "gallery-item"]
+      },
+      hints: [
+        "Use display: grid on the container",
+        "Try repeat() and auto-fit/auto-fill for responsive columns",
+        "Add gap property for spacing between items"
+      ]
+    }
+  ];
+  
+  // Keyboard shortcuts
+  const keyboardShortcuts = [
+    { key: "Ctrl + B", description: "Toggle bookmark" },
+    { key: "Ctrl + D", description: "Toggle dark/light mode" },
+    { key: "Ctrl + ↑/↓", description: "Navigate between sections" },
+    { key: "Ctrl + S", description: "Save notes" },
+    { key: "Ctrl + F", description: "Focus search" },
+    { key: "Ctrl + P", description: "Open code playground" },
+    { key: "Ctrl + E", description: "Toggle exercise view" },
+    { key: "Ctrl + Q", description: "Open quiz" },
+    { key: "Esc", description: "Close modals" }
+  ];
+  
+  // Reference guides and cheat sheets
+  const referenceGuides = [
+    {
+      title: "HTML5 Tags Cheat Sheet",
+      description: "Quick reference for all HTML5 semantic tags",
+      format: "PDF",
+      size: "245 KB"
+    },
+    {
+      title: "CSS Flexbox Guide",
+      description: "Complete visual guide to Flexbox properties",
+      format: "PDF",
+      size: "320 KB"
+    },
+    {
+      title: "CSS Grid Interactive Reference",
+      description: "Interactive grid properties with examples",
+      format: "Interactive",
+      size: "Online"
+    },
+    {
+      title: "Responsive Design Breakpoints",
+      description: "Common breakpoints and device sizes",
+      format: "PNG",
+      size: "180 KB"
+    },
+    {
+      title: "CSS Animation Cookbook",
+      description: "Ready-to-use animation snippets",
+      format: "PDF",
+      size: "410 KB"
+    }
+  ];
+
   useEffect(() => {
     // Simulate loading
     setIsLoading(true);
@@ -472,17 +650,167 @@ const ModuleContent = () => {
     setShowOverview(false);
     setFeedback(null);
     setActiveTab("content");
+    
+    // Update the playground result whenever code changes
+    try {
+      setPlaygroundResult(playgroundCode);
+    } catch (e) {
+      console.error("Error in code preview:", e);
+    }
+    
+    // Add keyboard shortcut listeners
+    const handleKeyDown = (e) => {
+      if (e.ctrlKey) {
+        switch (e.key) {
+          case 'b':
+            e.preventDefault();
+            setBookmarked(!bookmarked);
+            break;
+          case 'd':
+            e.preventDefault();
+            setTheme(theme === 'dark' ? 'light' : 'dark');
+            break;
+          case 'p':
+            e.preventDefault();
+            setActiveTab("playground");
+            break;
+          case 'f':
+            e.preventDefault();
+            document.querySelector('input[type="text"]')?.focus();
+            break;
+          default:
+            break;
+        }
+      } else if (e.key === 'Escape') {
+        setKeyboardShortcutsVisible(false);
+        setShowCodeReference(false);
+      }
+    };
 
     return () => {
       clearTimeout(timer);
       clearInterval(progressTimer);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [moduleId]);
+  }, [moduleId, bookmarked, theme, playgroundCode]);
 
-  if (!module) {
-    return <div>Module not found</div>;
-  }
+  // Handle code playground execution
+  const runPlaygroundCode = () => {
+    try {
+      setPlaygroundResult(playgroundCode);
+      toast({
+        title: "Code updated!",
+        description: "Your code has been executed and preview updated.",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Code error!",
+        description: error.message,
+        variant: "destructive",
+      });
+    }
+  };
+  
+  // Handle code playground reset
+  const resetPlaygroundCode = () => {
+    setPlaygroundCode(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    header {
+      background-color: #95FF66;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      flex: 1;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Webpage</h1>
+    <p>Built with modern HTML & CSS</p>
+  </header>
+  <div class="container">
+    <div class="card">
+      <h2>Section 1</h2>
+      <p>This is content for section 1.</p>
+    </div>
+    <div class="card">
+      <h2>Section 2</h2>
+      <p>This is content for section 2.</p>
+    </div>
+  </div>
+</body>
+</html>`);
+    toast({
+      title: "Code reset!",
+      description: "The playground code has been reset to the default example.",
+      variant: "default",
+    });
+  };
 
+  // Download content as a specific format
+  const handleDownloadContent = (format) => {
+    switch (format) {
+      case 'pdf':
+        toast({
+          title: "PDF downloading...",
+          description: "Your content is being prepared as a PDF document.",
+          variant: "default",
+        });
+        break;
+      case 'md':
+        toast({
+          title: "Markdown downloading...",
+          description: "Your content is being prepared as a Markdown file.",
+          variant: "default",
+        });
+        break;
+      case 'html':
+        toast({
+          title: "HTML downloading...",
+          description: "Your content is being prepared as an HTML file.",
+          variant: "default",
+        });
+        break;
+      default:
+        break;
+    }
+  };
+
+  // Generate AI helper response (simulated)
+  const generateAiResponse = () => {
+    if (!aiHelperPrompt.trim()) return;
+    
+    setAiHelperResponse("Based on your question, I'd recommend using CSS Grid for this layout. Grid is ideal for 2D layouts and would work well for your described design. Start with `display: grid` on the container and then use `grid-template-columns` to define your column structure. For responsive behavior, consider using `minmax()` and `auto-fit`.");
+    
+    toast({
+      title: "AI response generated",
+      description: "The AI assistant has provided a response to your question.",
+      variant: "default",
+    });
+  };
+  
   const handleCopyCode = () => {
     // Simulate code copying
     setCopied(true);
@@ -520,677 +848,4 @@ const ModuleContent = () => {
     setLiked(!liked);
     toast({
       title: liked ? "Feedback removed" : "Thanks for your feedback!",
-      description: liked 
-        ? "Your feedback has been removed." 
-        : "We're glad you found this content helpful.",
-      variant: "default",
-    });
-  };
-
-  const handleDownload = () => {
-    toast({
-      title: "Content downloading...",
-      description: "The module content will be available offline soon.",
-      variant: "default",
-    });
-  };
-
-  const handleShare = () => {
-    // Simulate sharing functionality
-    navigator.clipboard.writeText(window.location.href);
-    toast({
-      title: "Link copied to clipboard!",
-      description: "You can now share this module with others.",
-      variant: "default",
-    });
-  };
-
-  const submitDiscussion = () => {
-    if (discussionInput.trim()) {
-      const newDiscussion = {
-        id: discussions.length + 1,
-        user: "You",
-        avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=50&h=50&q=80",
-        content: discussionInput,
-        likes: 0,
-        time: "Just now",
-        replies: []
-      };
-      setDiscussions([newDiscussion, ...discussions]);
-      setDiscussionInput("");
-      toast({
-        title: "Comment posted!",
-        description: "Your comment has been added to the discussion.",
-        variant: "default",
-      });
-    }
-  };
-
-  const submitQuizAnswer = () => {
-    setShowQuizResult(true);
-    if (selectedAnswer === quizData[currentQuiz].correctAnswer) {
-      toast({
-        title: "Correct answer!",
-        description: "Well done! You selected the right answer.",
-        variant: "default",
-      });
-    } else {
-      toast({
-        title: "Incorrect answer",
-        description: "Try again or check the explanation for more information.",
-        variant: "default",
-      });
-    }
-  };
-
-  const nextQuiz = () => {
-    if (currentQuiz < quizData.length - 1) {
-      setCurrentQuiz(currentQuiz + 1);
-      setSelectedAnswer(null);
-      setShowQuizResult(false);
-    } else {
-      setQuizCompleted(true);
-      toast({
-        title: "Quiz completed!",
-        description: "Great job completing the quiz!",
-        variant: "default",
-      });
-    }
-  };
-
-  const filteredSections = searchQuery 
-    ? sections.filter(section => 
-        section.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-        (htmlCssContent[section.id]?.content && 
-         htmlCssContent[section.id].content.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
-    : sections;
-
-  return (
-    <div className={`container mx-auto py-6 animate-fade-in ${viewMode === "focus" ? "max-w-2xl" : ""}`}>
-      {/* Header with navigation and module info */}
-      <div className="flex flex-col mb-8">
-        <Button 
-          variant="ghost" 
-          onClick={() => navigate(-1)}
-          className="flex items-center w-fit mb-4 hover:bg-white/5 transition-colors"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Track
-        </Button>
-        
-        <div className="glass p-6 rounded-lg backdrop-blur-md border border-white/10">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center">
-                <h1 className="text-3xl font-bold text-white mb-2 flowing-gradient">{module.title}</h1>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={`ml-2 transition-colors ${bookmarked ? 'text-[#95FF66]' : 'text-gray-400'}`}
-                  onClick={handleBookmark}
-                >
-                  <BookmarkPlus className={`h-5 w-5 ${bookmarked ? 'fill-[#95FF66]' : ''}`} />
-                </Button>
-              </div>
-              <p className="text-gray-400 mb-4">{module.description}</p>
-              
-              <div className="flex flex-wrap gap-3 mb-4">
-                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full">
-                  <Clock className="h-3 w-3 mr-1" />
-                  <span>2 hours</span>
-                </div>
-                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full">
-                  <BookOpen className="h-3 w-3 mr-1" />
-                  <span>{sections.length} Topics</span>
-                </div>
-                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full">
-                  <Code className="h-3 w-3 mr-1" />
-                  <span>{exercises.length} Exercises</span>
-                </div>
-                <div className="flex items-center text-xs text-[#95FF66] bg-[#95FF66]/10 px-3 py-1 rounded-full">
-                  <Star className="h-3 w-3 mr-1 fill-[#95FF66]" />
-                  <span>Beginner Friendly</span>
-                </div>
-                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full">
-                  <Users className="h-3 w-3 mr-1" />
-                  <span>2,145 Learners</span>
-                </div>
-                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full">
-                  <MessageSquare className="h-3 w-3 mr-1" />
-                  <span>{discussions.length} Discussions</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className="shrink-0">
-              <div className="flex items-center gap-3">
-                <div className="course-completion-ring">
-                  <svg className="w-16 h-16" viewBox="0 0 36 36">
-                    <circle cx="18" cy="18" r="16" fill="none" 
-                      className="stroke-gray-700" 
-                      strokeWidth="2" />
-                    <circle cx="18" cy="18" r="16" fill="none" 
-                      className="stroke-[#95FF66]" 
-                      strokeWidth="2" 
-                      strokeDasharray="100" 
-                      strokeDashoffset={100 - Math.round(progress)} />
-                    <text x="18" y="18" textAnchor="middle" dy=".3em" 
-                      className="fill-[#95FF66] font-bold text-xs">
-                      {Math.round(progress)}%
-                    </text>
-                  </svg>
-                </div>
-                <div className="text-sm">
-                  <div className="text-white">Your Progress</div>
-                  <div className="text-gray-400">{completedSections.length}/{sections.length} topics</div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="w-full bg-gray-700 h-2 rounded-full overflow-hidden mt-4">
-            <div
-              className="bg-gradient-to-r from-[#4CAF50] to-[#95FF66] h-full transition-all duration-1000 ease-out"
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-
-          {/* Quick action buttons */}
-          <div className="flex mt-6 gap-2 flex-wrap">
-            <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10" onClick={handleDownload}>
-              <Download className="h-4 w-4 mr-1" />
-              Download
-            </Button>
-            <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10" onClick={handleShare}>
-              <Share2 className="h-4 w-4 mr-1" />
-              Share
-            </Button>
-            <Button 
-              variant={liked ? "default" : "outline"} 
-              size="sm" 
-              className={liked ? "bg-[#95FF66] text-black hover:bg-[#95FF66]/90" : "border-[#95FF66] text-[#95FF66] hover:bg-[#95FF66]/10"}
-              onClick={handleLike}
-            >
-              <ThumbsUp className="h-4 w-4 mr-1" />
-              {liked ? "Liked" : "Like"}
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="bg-white/5 border-white/10 hover:bg-white/10 ml-auto"
-              onClick={() => setViewMode(viewMode === "normal" ? "focus" : "normal")}
-            >
-              {viewMode === "normal" ? "Focus Mode" : "Normal Mode"}
-            </Button>
-          </div>
-        </div>
-
-        {/* Module navigation */}
-        <div className="flex justify-between mt-4">
-          {prevModule ? (
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-gray-400 hover:text-white"
-              onClick={() => navigate(`/module/${prevModule.id}`)}
-            >
-              <ChevronLeft className="h-4 w-4 mr-1" />
-              {prevModule.title}
-            </Button>
-          ) : <div></div>}
-          
-          {nextModule && (
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-gray-400 hover:text-white"
-              onClick={() => navigate(`/module/${nextModule.id}`)}
-            >
-              {nextModule.title}
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          )}
-        </div>
-      </div>
-      
-      {isLoading ? (
-        <div className="space-y-4">
-          <div className="h-8 w-48 bg-gray-700 rounded animate-pulse"></div>
-          <div className="h-4 w-full max-w-md bg-gray-700 rounded animate-pulse"></div>
-          <div className="h-64 bg-gray-800/50 rounded-lg animate-pulse mt-6"></div>
-        </div>
-      ) : (
-        <div className="flex flex-col md:flex-row gap-6">
-          {/* Left sidebar with topics */}
-          <div className={`md:w-1/4 glass rounded-lg p-4 h-fit backdrop-blur-md border border-white/10 ${viewMode === "focus" ? "hidden" : ""}`}>
-            <div className="mb-4">
-              <Input
-                type="text"
-                placeholder="Search topics..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
-              />
-            </div>
-            
-            <div className="space-y-1">
-              <Button 
-                variant="ghost" 
-                size="sm"
-                className={`w-full justify-start ${showOverview ? 'bg-white/10' : ''}`}
-                onClick={() => setShowOverview(!showOverview)}
-              >
-                <FileText className="h-4 w-4 mr-2" />
-                Module Overview
-              </Button>
-              
-              <div className="pt-2 pb-1">
-                <div className="text-xs uppercase text-gray-500 font-semibold px-3 py-1">Topics</div>
-              </div>
-              
-              {filteredSections.map((section) => (
-                <Button
-                  key={section.id}
-                  variant="ghost"
-                  size="sm"
-                  className={`w-full justify-start ${activeSection === section.id ? 'bg-white/10' : ''}`}
-                  onClick={() => setActiveSection(section.id)}
-                >
-                  {section.title}
-                  {completedSections.includes(section.id) && (
-                    <CheckCircle className="h-3 w-3 ml-auto text-[#95FF66]" />
-                  )}
-                </Button>
-              ))}
-            </div>
-          </div>
-          
-          {/* Main content area */}
-          <div className="md:flex-1">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="glass rounded-lg overflow-hidden backdrop-blur-md border border-white/10">
-              <TabsList className="w-full rounded-none bg-transparent border-b border-white/10 p-0">
-                <TabsTrigger 
-                  value="content" 
-                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Content
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="exercises" 
-                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
-                >
-                  <Code className="h-4 w-4 mr-2" />
-                  Exercises
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="quiz" 
-                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
-                >
-                  <Award className="h-4 w-4 mr-2" />
-                  Quiz
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="resources" 
-                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Resources
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="discuss" 
-                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
-                >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  Discuss
-                </TabsTrigger>
-              </TabsList>
-              
-              <TabsContent value="content" className="p-6 focus:outline-none">
-                {showOverview ? (
-                  <div className="space-y-4 animate-fade-in">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-2xl font-bold">Module Overview</h2>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="bg-white/5 border-white/10 hover:bg-white/10"
-                        onClick={() => setShowOverview(false)}
-                      >
-                        Start Learning
-                      </Button>
-                    </div>
-                    
-                    <p className="text-gray-400">
-                      This module will teach you the fundamentals of modern HTML5 and CSS3. You'll learn how to structure your web pages semantically, create responsive layouts, and add style and interactivity using the latest CSS techniques.
-                    </p>
-                    
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-2">Topics Covered</h3>
-                      <ul className="space-y-2">
-                        {sections.map((section) => (
-                          <li key={section.id} className="flex items-center">
-                            <div className={`w-4 h-4 rounded-full mr-3 ${completedSections.includes(section.id) ? 'bg-[#95FF66]' : 'bg-gray-700'}`}></div>
-                            <span>{section.title}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    
-                    <div className="mt-6">
-                      <h3 className="text-lg font-semibold mb-2">What You'll Build</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
-                        <div className="glass p-3 rounded-lg">
-                          <h4 className="font-medium text-[#95FF66]">Responsive Layouts</h4>
-                          <p className="text-sm text-gray-400">Create fluid designs that work on all devices</p>
-                        </div>
-                        <div className="glass p-3 rounded-lg">
-                          <h4 className="font-medium text-[#95FF66]">Modern Navigation</h4>
-                          <p className="text-sm text-gray-400">Build accessible navigation components</p>
-                        </div>
-                        <div className="glass p-3 rounded-lg">
-                          <h4 className="font-medium text-[#95FF66]">CSS Animations</h4>
-                          <p className="text-sm text-gray-400">Add engaging animations to your pages</p>
-                        </div>
-                        <div className="glass p-3 rounded-lg">
-                          <h4 className="font-medium text-[#95FF66]">Custom Properties</h4>
-                          <p className="text-sm text-gray-400">Create maintainable stylesheets with CSS variables</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-8">
-                    <div className="flex justify-between items-center">
-                      <h2 className="text-2xl font-bold">{htmlCssContent[activeSection]?.title || sections.find(s => s.id === activeSection)?.title}</h2>
-                      <div className="flex gap-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-gray-400 hover:text-white"
-                          onClick={handleCopyCode}
-                        >
-                          <Copy className={`h-4 w-4 ${copied ? 'text-[#95FF66]' : ''}`} />
-                        </Button>
-                        
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-gray-400 hover:text-white"
-                          onClick={() => handleSectionComplete(activeSection)}
-                        >
-                          <CheckCircle className={`h-4 w-4 ${completedSections.includes(activeSection) ? 'text-[#95FF66] fill-[#95FF66]' : ''}`} />
-                        </Button>
-                      </div>
-                    </div>
-                    
-                    <div 
-                      className="content-area"
-                      ref={contentRef}
-                      dangerouslySetInnerHTML={{
-                        __html: htmlCssContent[activeSection]?.content || 
-                              additionalContent[activeSection]?.content || 
-                              '<div class="text-center py-8"><p>Content is being developed. Check back soon!</p></div>'
-                      }}
-                    />
-                    
-                    <div className="flex justify-between mt-8">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-white/5 border-white/10 hover:bg-white/10"
-                        onClick={() => {
-                          const currentIndex = sections.findIndex(s => s.id === activeSection);
-                          if (currentIndex > 0) {
-                            setActiveSection(sections[currentIndex - 1].id);
-                          }
-                        }}
-                        disabled={sections.findIndex(s => s.id === activeSection) === 0}
-                      >
-                        <ChevronLeft className="h-4 w-4 mr-1" />
-                        Previous
-                      </Button>
-                      
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="bg-white/5 border-white/10 hover:bg-white/10"
-                        onClick={() => {
-                          const currentIndex = sections.findIndex(s => s.id === activeSection);
-                          if (currentIndex < sections.length - 1) {
-                            setActiveSection(sections[currentIndex + 1].id);
-                            if (!completedSections.includes(activeSection)) {
-                              handleSectionComplete(activeSection);
-                            }
-                          }
-                        }}
-                        disabled={sections.findIndex(s => s.id === activeSection) === sections.length - 1}
-                      >
-                        Next
-                        <ChevronRight className="h-4 w-4 ml-1" />
-                      </Button>
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
-              
-              <TabsContent value="exercises" className="p-6 focus:outline-none">
-                <h2 className="text-2xl font-bold mb-6">Practice Exercises</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {exercises.map((exercise, index) => (
-                    <div key={index} className="glass p-5 rounded-lg hover:bg-white/10 transition-colors">
-                      <h3 className="font-bold text-lg mb-2">{exercise.title}</h3>
-                      <p className="text-gray-400 mb-4">{exercise.description}</p>
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <span className="badge badge-success">{exercise.difficulty}</span>
-                          <span className="text-xs text-gray-500 flex items-center">
-                            <Clock className="h-3 w-3 mr-1" />
-                            {exercise.estimatedTime}
-                          </span>
-                        </div>
-                        <Button size="sm" className="bg-[#4CAF50] hover:bg-[#3d9140] text-white">
-                          Start Exercise
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="quiz" className="p-6 focus:outline-none">
-                <h2 className="text-2xl font-bold mb-6">Test Your Knowledge</h2>
-                
-                {quizCompleted ? (
-                  <div className="glass p-8 rounded-lg text-center">
-                    <h3 className="text-xl font-bold text-[#95FF66] mb-4">Quiz Completed!</h3>
-                    <p className="mb-6">Great job! You've completed the quiz for this module.</p>
-                    <Button
-                      onClick={() => {
-                        setQuizCompleted(false);
-                        setCurrentQuiz(0);
-                        setSelectedAnswer(null);
-                        setShowQuizResult(false);
-                      }}
-                      className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
-                    >
-                      Retake Quiz
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="glass p-6 rounded-lg">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="font-semibold">Question {currentQuiz + 1} of {quizData.length}</h3>
-                      <span className="text-xs bg-white/10 rounded-full px-3 py-1">
-                        {Math.round((currentQuiz / quizData.length) * 100)}% Complete
-                      </span>
-                    </div>
-                    
-                    <h4 className="text-lg font-medium mb-4">{quizData[currentQuiz].question}</h4>
-                    
-                    <div className="space-y-3 mb-6">
-                      {quizData[currentQuiz].options.map((option, idx) => (
-                        <div
-                          key={idx}
-                          className={`
-                            p-3 border rounded-lg cursor-pointer transition-colors
-                            ${selectedAnswer === option 
-                              ? (showQuizResult 
-                                ? (option === quizData[currentQuiz].correctAnswer 
-                                  ? 'border-green-500 bg-green-500/10' 
-                                  : 'border-red-500 bg-red-500/10')
-                                : 'border-[#95FF66] bg-[#95FF66]/5') 
-                              : 'border-white/10 hover:border-white/30'}
-                          `}
-                          onClick={() => !showQuizResult && setSelectedAnswer(option)}
-                        >
-                          {option}
-                          {showQuizResult && option === quizData[currentQuiz].correctAnswer && (
-                            <CheckCircle className="h-4 w-4 float-right text-green-500" />
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                    
-                    {showQuizResult && (
-                      <div className={`p-4 rounded-lg mb-6 ${selectedAnswer === quizData[currentQuiz].correctAnswer ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
-                        <h5 className="font-medium mb-2">Explanation:</h5>
-                        <p>{quizData[currentQuiz].explanation}</p>
-                      </div>
-                    )}
-                    
-                    <div className="flex justify-between">
-                      {!showQuizResult ? (
-                        <Button
-                          onClick={submitQuizAnswer}
-                          disabled={!selectedAnswer}
-                          className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
-                        >
-                          Submit Answer
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={nextQuiz}
-                          className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
-                        >
-                          {currentQuiz < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </TabsContent>
-              
-              <TabsContent value="resources" className="p-6 focus:outline-none">
-                <h2 className="text-2xl font-bold mb-6">Additional Resources</h2>
-                <div className="space-y-4">
-                  {resources.map((resource, index) => (
-                    <a 
-                      href={resource.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      key={index}
-                      className="flex items-start p-4 glass rounded-lg hover:bg-white/10 transition-colors"
-                    >
-                      <div className="bg-white/10 p-2 rounded mr-4">
-                        <ExternalLink className="h-5 w-5 text-[#95FF66]" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium">{resource.title}</h3>
-                        <p className="text-sm text-gray-400">{resource.type}</p>
-                      </div>
-                      <div className="ml-auto">
-                        <span className="text-xs bg-white/10 px-2 py-1 rounded-full">
-                          External Link
-                        </span>
-                      </div>
-                    </a>
-                  ))}
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="discuss" className="p-6 focus:outline-none">
-                <h2 className="text-2xl font-bold mb-6">Community Discussion</h2>
-                
-                <div className="glass p-4 rounded-lg mb-6">
-                  <h3 className="font-medium mb-2">Add to the conversation</h3>
-                  <textarea
-                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white placeholder:text-gray-500 min-h-24 focus:outline-none focus:ring-1 focus:ring-[#95FF66]"
-                    placeholder="Share your thoughts, questions, or insights..."
-                    value={discussionInput}
-                    onChange={(e) => setDiscussionInput(e.target.value)}
-                  ></textarea>
-                  <div className="flex justify-end mt-3">
-                    <Button 
-                      onClick={submitDiscussion} 
-                      disabled={!discussionInput.trim()}
-                      className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
-                    >
-                      Post Comment
-                    </Button>
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  {discussions.map((discussion) => (
-                    <div key={discussion.id} className="glass rounded-lg p-4">
-                      <div className="flex items-start mb-4">
-                        <img 
-                          src={discussion.avatar} 
-                          alt={discussion.user} 
-                          className="w-10 h-10 rounded-full mr-3" 
-                        />
-                        <div className="flex-1">
-                          <div className="flex justify-between items-center">
-                            <h4 className="font-medium">{discussion.user}</h4>
-                            <span className="text-xs text-gray-500">{discussion.time}</span>
-                          </div>
-                          <p className="mt-2 text-gray-300">{discussion.content}</p>
-                          
-                          <div className="flex items-center mt-3 space-x-4">
-                            <button className="text-xs text-gray-500 flex items-center hover:text-white">
-                              <ThumbsUp className="h-3 w-3 mr-1" />
-                              {discussion.likes} {discussion.likes === 1 ? 'Like' : 'Likes'}
-                            </button>
-                            <button className="text-xs text-gray-500 flex items-center hover:text-white">
-                              <MessageSquare className="h-3 w-3 mr-1" />
-                              Reply
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {discussion.replies && discussion.replies.length > 0 && (
-                        <div className="ml-12 space-y-4 mt-2 pt-2 border-t border-white/10">
-                          {discussion.replies.map((reply) => (
-                            <div key={reply.id} className="flex items-start">
-                              <img 
-                                src={reply.avatar} 
-                                alt={reply.user} 
-                                className="w-8 h-8 rounded-full mr-3" 
-                              />
-                              <div>
-                                <div className="flex items-center">
-                                  <h5 className="font-medium text-sm">{reply.user}</h5>
-                                  <span className="text-xs text-gray-500 ml-2">{reply.time}</span>
-                                </div>
-                                <p className="mt-1 text-sm text-gray-300">{reply.content}</p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default ModuleContent;
+      description:

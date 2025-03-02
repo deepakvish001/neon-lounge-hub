@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -33,7 +32,7 @@ const ModuleContent = () => {
   const [showOverview, setShowOverview] = useState(false);
   const [feedback, setFeedback] = useState(null);
   const [liked, setLiked] = useState(false);
-  const [viewMode, setViewMode] = useState("normal"); // normal, focus, or presentation
+  const [viewMode, setViewMode] = useState("normal");
   const [fontSize, setFontSize] = useState("medium");
   const [showDiscussion, setShowDiscussion] = useState(false);
   const [discussionInput, setDiscussionInput] = useState("");
@@ -661,7 +660,8 @@ const ModuleContent = () => {
             break;
           case 'f':
             e.preventDefault();
-            document.querySelector('input[type="text"]')?.focus();
+            const searchInput = document.querySelector('input[type="text"]') as HTMLInputElement | null;
+            searchInput?.focus();
             break;
           default:
             break;
@@ -835,10 +835,8 @@ const ModuleContent = () => {
     });
   };
 
-  // Let's add a return statement to render the component
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* This is a minimal implementation to make the component valid - actual UI would be restored here */}
       <h1 className="text-2xl font-bold mb-4">Module Content</h1>
       <p>This component is under development. Check back soon for the complete content!</p>
     </div>

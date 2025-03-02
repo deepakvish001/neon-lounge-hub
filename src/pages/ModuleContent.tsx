@@ -56,12 +56,10 @@ const ModuleContent = () => {
     }
   ]);
 
-  // Find the module across all tracks
   const module = tracks.flatMap(track => track.modules).find(m => m.id === moduleId);
   const moduleIndex = module ? tracks.find(track => track.modules.includes(module))?.modules.indexOf(module) : -1;
   const track = tracks.find(track => track.modules.includes(module));
   
-  // Get next and previous modules
   const nextModule = moduleIndex !== -1 && moduleIndex < (track?.modules.length || 0) - 1 
     ? track?.modules[moduleIndex + 1] 
     : null;
@@ -70,7 +68,6 @@ const ModuleContent = () => {
     ? track?.modules[moduleIndex - 1] 
     : null;
   
-  // Generate HTML & CSS content for the Modern HTML & CSS module
   const htmlCssContent = moduleId === "modern-html-css" ? {
     introduction: {
       title: "Introduction to Modern HTML & CSS",
@@ -246,7 +243,6 @@ const ModuleContent = () => {
     { id: "bestPractices", title: "Best Practices" }
   ] : [];
 
-  // Generate exercise content
   const exercises = moduleId === "modern-html-css" ? [
     {
       title: "Build a Semantic Structure",
@@ -274,7 +270,6 @@ const ModuleContent = () => {
     }
   ] : [];
 
-  // Resources
   const resources = moduleId === "modern-html-css" ? [
     {
       title: "MDN Web Docs - HTML",
@@ -303,7 +298,6 @@ const ModuleContent = () => {
     }
   ] : [];
 
-  // New content for added sections
   const additionalContent = {
     accessibility: {
       title: "Web Accessibility",
@@ -429,7 +423,6 @@ const ModuleContent = () => {
     }
   };
 
-  // Interactive quiz data
   const quizData = [
     {
       question: "Which CSS property is used to define a flexible container?",
@@ -456,7 +449,6 @@ const ModuleContent = () => {
   const [showQuizResult, setShowQuizResult] = useState(false);
   const [quizCompleted, setQuizCompleted] = useState(false);
 
-  // New state variables for additional features
   const [theme, setTheme] = useState("dark");
   const [playgroundCode, setPlaygroundCode] = useState(`<!DOCTYPE html>
 <html lang="en">
@@ -519,7 +511,6 @@ const ModuleContent = () => {
   const [downloadFormat, setDownloadFormat] = useState("pdf");
   const [animationSpeed, setAnimationSpeed] = useState(1);
   
-  // Practice challenges data
   const practiceChallengeSets = [
     {
       id: "flex-layout",
@@ -583,7 +574,6 @@ const ModuleContent = () => {
     }
   ];
   
-  // Keyboard shortcuts
   const keyboardShortcuts = [
     { key: "Ctrl + B", description: "Toggle bookmark" },
     { key: "Ctrl + D", description: "Toggle dark/light mode" },
@@ -596,7 +586,6 @@ const ModuleContent = () => {
     { key: "Esc", description: "Close modals" }
   ];
   
-  // Reference guides and cheat sheets
   const referenceGuides = [
     {
       title: "HTML5 Tags Cheat Sheet",
@@ -631,13 +620,11 @@ const ModuleContent = () => {
   ];
 
   useEffect(() => {
-    // Simulate loading
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 500);
 
-    // Simulate progress tracking
     const progressTimer = setInterval(() => {
       setProgress(prev => {
         const newProgress = prev + (Math.random() * 5);
@@ -645,20 +632,17 @@ const ModuleContent = () => {
       });
     }, 3000);
 
-    // Reset states when module changes
     setActiveSection("introduction");
     setShowOverview(false);
     setFeedback(null);
     setActiveTab("content");
     
-    // Update the playground result whenever code changes
     try {
       setPlaygroundResult(playgroundCode);
     } catch (e) {
       console.error("Error in code preview:", e);
     }
     
-    // Add keyboard shortcut listeners
     const handleKeyDown = (e) => {
       if (e.ctrlKey) {
         switch (e.key) {
@@ -696,7 +680,6 @@ const ModuleContent = () => {
     };
   }, [moduleId, bookmarked, theme, playgroundCode]);
 
-  // Handle code playground execution
   const runPlaygroundCode = () => {
     try {
       setPlaygroundResult(playgroundCode);
@@ -714,7 +697,6 @@ const ModuleContent = () => {
     }
   };
   
-  // Handle code playground reset
   const resetPlaygroundCode = () => {
     setPlaygroundCode(`<!DOCTYPE html>
 <html lang="en">
@@ -771,7 +753,6 @@ const ModuleContent = () => {
     });
   };
 
-  // Download content as a specific format
   const handleDownloadContent = (format) => {
     switch (format) {
       case 'pdf':
@@ -800,7 +781,6 @@ const ModuleContent = () => {
     }
   };
 
-  // Generate AI helper response (simulated)
   const generateAiResponse = () => {
     if (!aiHelperPrompt.trim()) return;
     
@@ -814,7 +794,6 @@ const ModuleContent = () => {
   };
   
   const handleCopyCode = () => {
-    // Simulate code copying
     setCopied(true);
     toast({
       title: "Code copied to clipboard!",
@@ -849,4 +828,11 @@ const ModuleContent = () => {
   const handleLike = () => {
     setLiked(!liked);
     toast({
-      title: liked ? "Feedback removed"
+      title: liked ? "Feedback removed" : "Thanks for your feedback!",
+      description: liked ? "Your feedback has been removed." : "We appreciate your feedback!",
+      variant: "default",
+    });
+  };
+};
+
+export default ModuleContent;

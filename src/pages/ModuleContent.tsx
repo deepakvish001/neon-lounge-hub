@@ -9,7 +9,7 @@ import {
   ThumbsUp, Star, Coffee, Clock, Search, Download, Share2, Award, 
   Lightbulb, FileText, MessageSquare, Users, Play, ChevronRight, ChevronLeft,
   Moon, Sun, Code2, Terminal, Paperclip, PenTool, ScreenShare, Monitor, Sparkles,
-  Zap, Keyboard, Layers, RotateCcw, Maximize2
+  Zap, Keyboard, Layers, RotateCcw, Maximize2, Settings
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";

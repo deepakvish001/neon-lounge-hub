@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -773,4 +774,423 @@ const ModuleContent = () => {
               />
             </div>
             
-            <div className="
+            <div className="space-y-1">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className={`w-full justify-start ${showOverview ? 'bg-white/10' : ''}`}
+                onClick={() => setShowOverview(!showOverview)}
+              >
+                <FileText className="h-4 w-4 mr-2" />
+                Module Overview
+              </Button>
+              
+              <div className="pt-2 pb-1">
+                <div className="text-xs uppercase text-gray-500 font-semibold px-3 py-1">Topics</div>
+              </div>
+              
+              {filteredSections.map((section) => (
+                <Button
+                  key={section.id}
+                  variant="ghost"
+                  size="sm"
+                  className={`w-full justify-start ${activeSection === section.id ? 'bg-white/10' : ''}`}
+                  onClick={() => setActiveSection(section.id)}
+                >
+                  {section.title}
+                  {completedSections.includes(section.id) && (
+                    <CheckCircle className="h-3 w-3 ml-auto text-[#95FF66]" />
+                  )}
+                </Button>
+              ))}
+            </div>
+          </div>
+          
+          {/* Main content area */}
+          <div className="md:flex-1">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="glass rounded-lg overflow-hidden backdrop-blur-md border border-white/10">
+              <TabsList className="w-full rounded-none bg-transparent border-b border-white/10 p-0">
+                <TabsTrigger 
+                  value="content" 
+                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
+                >
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Content
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="exercises" 
+                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
+                >
+                  <Code className="h-4 w-4 mr-2" />
+                  Exercises
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="quiz" 
+                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
+                >
+                  <Award className="h-4 w-4 mr-2" />
+                  Quiz
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="resources" 
+                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Resources
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="discuss" 
+                  className="rounded-none data-[state=active]:bg-white/5 data-[state=active]:shadow-none py-3 flex-1"
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  Discuss
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="content" className="p-6 focus:outline-none">
+                {showOverview ? (
+                  <div className="space-y-4 animate-fade-in">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-2xl font-bold">Module Overview</h2>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="bg-white/5 border-white/10 hover:bg-white/10"
+                        onClick={() => setShowOverview(false)}
+                      >
+                        Start Learning
+                      </Button>
+                    </div>
+                    
+                    <p className="text-gray-400">
+                      This module will teach you the fundamentals of modern HTML5 and CSS3. You'll learn how to structure your web pages semantically, create responsive layouts, and add style and interactivity using the latest CSS techniques.
+                    </p>
+                    
+                    <div className="mt-6">
+                      <h3 className="text-lg font-semibold mb-2">Topics Covered</h3>
+                      <ul className="space-y-2">
+                        {sections.map((section) => (
+                          <li key={section.id} className="flex items-center">
+                            <div className={`w-4 h-4 rounded-full mr-3 ${completedSections.includes(section.id) ? 'bg-[#95FF66]' : 'bg-gray-700'}`}></div>
+                            <span>{section.title}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div className="mt-6">
+                      <h3 className="text-lg font-semibold mb-2">What You'll Build</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                        <div className="glass p-3 rounded-lg">
+                          <h4 className="font-medium text-[#95FF66]">Responsive Layouts</h4>
+                          <p className="text-sm text-gray-400">Create fluid designs that work on all devices</p>
+                        </div>
+                        <div className="glass p-3 rounded-lg">
+                          <h4 className="font-medium text-[#95FF66]">Modern Navigation</h4>
+                          <p className="text-sm text-gray-400">Build accessible navigation components</p>
+                        </div>
+                        <div className="glass p-3 rounded-lg">
+                          <h4 className="font-medium text-[#95FF66]">CSS Animations</h4>
+                          <p className="text-sm text-gray-400">Add engaging animations to your pages</p>
+                        </div>
+                        <div className="glass p-3 rounded-lg">
+                          <h4 className="font-medium text-[#95FF66]">Custom Properties</h4>
+                          <p className="text-sm text-gray-400">Create maintainable stylesheets with CSS variables</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-8">
+                    <div className="flex justify-between items-center">
+                      <h2 className="text-2xl font-bold">{htmlCssContent[activeSection]?.title || sections.find(s => s.id === activeSection)?.title}</h2>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-gray-400 hover:text-white"
+                          onClick={handleCopyCode}
+                        >
+                          <Copy className={`h-4 w-4 ${copied ? 'text-[#95FF66]' : ''}`} />
+                        </Button>
+                        
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="text-gray-400 hover:text-white"
+                          onClick={() => handleSectionComplete(activeSection)}
+                        >
+                          <CheckCircle className={`h-4 w-4 ${completedSections.includes(activeSection) ? 'text-[#95FF66] fill-[#95FF66]' : ''}`} />
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div 
+                      className="content-area"
+                      ref={contentRef}
+                      dangerouslySetInnerHTML={{
+                        __html: htmlCssContent[activeSection]?.content || 
+                              additionalContent[activeSection]?.content || 
+                              '<div class="text-center py-8"><p>Content is being developed. Check back soon!</p></div>'
+                      }}
+                    />
+                    
+                    <div className="flex justify-between mt-8">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-white/5 border-white/10 hover:bg-white/10"
+                        onClick={() => {
+                          const currentIndex = sections.findIndex(s => s.id === activeSection);
+                          if (currentIndex > 0) {
+                            setActiveSection(sections[currentIndex - 1].id);
+                          }
+                        }}
+                        disabled={sections.findIndex(s => s.id === activeSection) === 0}
+                      >
+                        <ChevronLeft className="h-4 w-4 mr-1" />
+                        Previous
+                      </Button>
+                      
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="bg-white/5 border-white/10 hover:bg-white/10"
+                        onClick={() => {
+                          const currentIndex = sections.findIndex(s => s.id === activeSection);
+                          if (currentIndex < sections.length - 1) {
+                            setActiveSection(sections[currentIndex + 1].id);
+                            if (!completedSections.includes(activeSection)) {
+                              handleSectionComplete(activeSection);
+                            }
+                          }
+                        }}
+                        disabled={sections.findIndex(s => s.id === activeSection) === sections.length - 1}
+                      >
+                        Next
+                        <ChevronRight className="h-4 w-4 ml-1" />
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+              
+              <TabsContent value="exercises" className="p-6 focus:outline-none">
+                <h2 className="text-2xl font-bold mb-6">Practice Exercises</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {exercises.map((exercise, index) => (
+                    <div key={index} className="glass p-5 rounded-lg hover:bg-white/10 transition-colors">
+                      <h3 className="font-bold text-lg mb-2">{exercise.title}</h3>
+                      <p className="text-gray-400 mb-4">{exercise.description}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="badge badge-success">{exercise.difficulty}</span>
+                          <span className="text-xs text-gray-500 flex items-center">
+                            <Clock className="h-3 w-3 mr-1" />
+                            {exercise.estimatedTime}
+                          </span>
+                        </div>
+                        <Button size="sm" className="bg-[#4CAF50] hover:bg-[#3d9140] text-white">
+                          Start Exercise
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="quiz" className="p-6 focus:outline-none">
+                <h2 className="text-2xl font-bold mb-6">Test Your Knowledge</h2>
+                
+                {quizCompleted ? (
+                  <div className="glass p-8 rounded-lg text-center">
+                    <h3 className="text-xl font-bold text-[#95FF66] mb-4">Quiz Completed!</h3>
+                    <p className="mb-6">Great job! You've completed the quiz for this module.</p>
+                    <Button
+                      onClick={() => {
+                        setQuizCompleted(false);
+                        setCurrentQuiz(0);
+                        setSelectedAnswer(null);
+                        setShowQuizResult(false);
+                      }}
+                      className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
+                    >
+                      Retake Quiz
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="glass p-6 rounded-lg">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="font-semibold">Question {currentQuiz + 1} of {quizData.length}</h3>
+                      <span className="text-xs bg-white/10 rounded-full px-3 py-1">
+                        {Math.round((currentQuiz / quizData.length) * 100)}% Complete
+                      </span>
+                    </div>
+                    
+                    <h4 className="text-lg font-medium mb-4">{quizData[currentQuiz].question}</h4>
+                    
+                    <div className="space-y-3 mb-6">
+                      {quizData[currentQuiz].options.map((option, idx) => (
+                        <div
+                          key={idx}
+                          className={`
+                            p-3 border rounded-lg cursor-pointer transition-colors
+                            ${selectedAnswer === option 
+                              ? (showQuizResult 
+                                ? (option === quizData[currentQuiz].correctAnswer 
+                                  ? 'border-green-500 bg-green-500/10' 
+                                  : 'border-red-500 bg-red-500/10')
+                                : 'border-[#95FF66] bg-[#95FF66]/5') 
+                              : 'border-white/10 hover:border-white/30'}
+                          `}
+                          onClick={() => !showQuizResult && setSelectedAnswer(option)}
+                        >
+                          {option}
+                          {showQuizResult && option === quizData[currentQuiz].correctAnswer && (
+                            <CheckCircle className="h-4 w-4 float-right text-green-500" />
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    
+                    {showQuizResult && (
+                      <div className={`p-4 rounded-lg mb-6 ${selectedAnswer === quizData[currentQuiz].correctAnswer ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
+                        <h5 className="font-medium mb-2">Explanation:</h5>
+                        <p>{quizData[currentQuiz].explanation}</p>
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-between">
+                      {!showQuizResult ? (
+                        <Button
+                          onClick={submitQuizAnswer}
+                          disabled={!selectedAnswer}
+                          className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
+                        >
+                          Submit Answer
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={nextQuiz}
+                          className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
+                        >
+                          {currentQuiz < quizData.length - 1 ? 'Next Question' : 'Finish Quiz'}
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </TabsContent>
+              
+              <TabsContent value="resources" className="p-6 focus:outline-none">
+                <h2 className="text-2xl font-bold mb-6">Additional Resources</h2>
+                <div className="space-y-4">
+                  {resources.map((resource, index) => (
+                    <a 
+                      href={resource.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      key={index}
+                      className="flex items-start p-4 glass rounded-lg hover:bg-white/10 transition-colors"
+                    >
+                      <div className="bg-white/10 p-2 rounded mr-4">
+                        <ExternalLink className="h-5 w-5 text-[#95FF66]" />
+                      </div>
+                      <div>
+                        <h3 className="font-medium">{resource.title}</h3>
+                        <p className="text-sm text-gray-400">{resource.type}</p>
+                      </div>
+                      <div className="ml-auto">
+                        <span className="text-xs bg-white/10 px-2 py-1 rounded-full">
+                          External Link
+                        </span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="discuss" className="p-6 focus:outline-none">
+                <h2 className="text-2xl font-bold mb-6">Community Discussion</h2>
+                
+                <div className="glass p-4 rounded-lg mb-6">
+                  <h3 className="font-medium mb-2">Add to the conversation</h3>
+                  <textarea
+                    className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-white placeholder:text-gray-500 min-h-24 focus:outline-none focus:ring-1 focus:ring-[#95FF66]"
+                    placeholder="Share your thoughts, questions, or insights..."
+                    value={discussionInput}
+                    onChange={(e) => setDiscussionInput(e.target.value)}
+                  ></textarea>
+                  <div className="flex justify-end mt-3">
+                    <Button 
+                      onClick={submitDiscussion} 
+                      disabled={!discussionInput.trim()}
+                      className="bg-[#4CAF50] hover:bg-[#3d9140] text-white"
+                    >
+                      Post Comment
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="space-y-6">
+                  {discussions.map((discussion) => (
+                    <div key={discussion.id} className="glass rounded-lg p-4">
+                      <div className="flex items-start mb-4">
+                        <img 
+                          src={discussion.avatar} 
+                          alt={discussion.user} 
+                          className="w-10 h-10 rounded-full mr-3" 
+                        />
+                        <div className="flex-1">
+                          <div className="flex justify-between items-center">
+                            <h4 className="font-medium">{discussion.user}</h4>
+                            <span className="text-xs text-gray-500">{discussion.time}</span>
+                          </div>
+                          <p className="mt-2 text-gray-300">{discussion.content}</p>
+                          
+                          <div className="flex items-center mt-3 space-x-4">
+                            <button className="text-xs text-gray-500 flex items-center hover:text-white">
+                              <ThumbsUp className="h-3 w-3 mr-1" />
+                              {discussion.likes} {discussion.likes === 1 ? 'Like' : 'Likes'}
+                            </button>
+                            <button className="text-xs text-gray-500 flex items-center hover:text-white">
+                              <MessageSquare className="h-3 w-3 mr-1" />
+                              Reply
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {discussion.replies && discussion.replies.length > 0 && (
+                        <div className="ml-12 space-y-4 mt-2 pt-2 border-t border-white/10">
+                          {discussion.replies.map((reply) => (
+                            <div key={reply.id} className="flex items-start">
+                              <img 
+                                src={reply.avatar} 
+                                alt={reply.user} 
+                                className="w-8 h-8 rounded-full mr-3" 
+                              />
+                              <div>
+                                <div className="flex items-center">
+                                  <h5 className="font-medium text-sm">{reply.user}</h5>
+                                  <span className="text-xs text-gray-500 ml-2">{reply.time}</span>
+                                </div>
+                                <p className="mt-1 text-sm text-gray-300">{reply.content}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ModuleContent;

@@ -687,6 +687,8 @@ const ModuleContent = () => {
       }
     };
 
+    window.addEventListener('keydown', handleKeyDown);
+
     return () => {
       clearTimeout(timer);
       clearInterval(progressTimer);
@@ -847,5 +849,4 @@ const ModuleContent = () => {
   const handleLike = () => {
     setLiked(!liked);
     toast({
-      title: liked ? "Feedback removed" : "Thanks for your feedback!",
-      description:
+      title: liked ? "Feedback removed"

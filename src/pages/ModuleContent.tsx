@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -751,4 +752,871 @@ const ModuleContent = () => {
                   <Code className="h-3 w-3 mr-1" />
                   <span>{exercises.length} Exercises</span>
                 </div>
-                <div className="flex items-center text-xs text-[#9
+                <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full hover:bg-white/10 transition-colors">
+                  <Users className="h-3 w-3 mr-1" />
+                  <span>Beginner Friendly</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Progress circle */}
+            <div className="relative h-20 w-20 shrink-0">
+              <svg className="h-20 w-20 transform -rotate-90" viewBox="0 0 100 100">
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="45" 
+                  className="stroke-white/5 fill-none" 
+                  strokeWidth="8" 
+                />
+                <circle 
+                  cx="50" 
+                  cy="50" 
+                  r="45" 
+                  className="stroke-[#95FF66] fill-none" 
+                  strokeWidth="8"
+                  strokeDasharray={`${progress * 2.83} 283`} 
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-md font-bold text-white">{Math.round(progress)}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Main content area with sidebar and content */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Left sidebar with sections */}
+        <div className="md:col-span-1">
+          <div className="sticky top-6">
+            <div className="glass rounded-lg border border-white/10 overflow-hidden mb-4">
+              <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
+                <h3 className="font-medium">Module Contents</h3>
+                <div className="relative">
+                  <Search className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <Input
+                    placeholder="Search..."
+                    className="pl-8 bg-white/5 border-white/10 h-8 text-sm"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+              </div>
+              <ScrollArea className="h-[400px]">
+                <div className="p-2">
+                  {filteredSections.map((section) => (
+                    <button
+                      key={section.id}
+                      className={`w-full text-left rounded-md px-3 py-2 mb-1 text-sm flex items-center justify-between transition-colors ${
+                        activeSection === section.id
+                          ? "bg-[#95FF66]/20 text-[#95FF66]"
+                          : "text-gray-300 hover:bg-white/5"
+                      }`}
+                      onClick={() => setActiveSection(section.id)}
+                    >
+                      <span className="truncate">{section.title}</span>
+                      {completedSections.includes(section.id) && (
+                        <CheckCircle className="h-4 w-4 text-[#95FF66] shrink-0" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </ScrollArea>
+            </div>
+            
+            {/* Study timer */}
+            <div className="glass rounded-lg border border-white/10 overflow-hidden mb-4">
+              <div className="p-4 bg-white/5 border-b border-white/10">
+                <h3 className="font-medium flex items-center">
+                  <Clock className="h-4 w-4 mr-2" />
+                  Study Timer
+                </h3>
+              </div>
+              <div className="p-4">
+                <div className="text-center mb-4">
+                  <span className="text-3xl font-bold">
+                    {String(studyTimer.minutes).padStart(2, '0')}:{String(studyTimer.seconds).padStart(2, '0')}
+                  </span>
+                </div>
+                <div className="flex justify-center space-x-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={toggleTimer}
+                    className="flex items-center"
+                  >
+                    {studyTimer.isActive ? (
+                      <>
+                        <PauseCircle className="h-4 w-4 mr-1" /> Pause
+                      </>
+                    ) : (
+                      <>
+                        <PlayCircle className="h-4 w-4 mr-1" /> Start
+                      </>
+                    )}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={resetTimer}
+                    className="flex items-center"
+                  >
+                    <RotateCcw className="h-4 w-4 mr-1" /> Reset
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Quick notes */}
+            <div className="glass rounded-lg border border-white/10 overflow-hidden">
+              <div className="p-4 bg-white/5 border-b border-white/10">
+                <h3 className="font-medium flex items-center">
+                  <PenTool className="h-4 w-4 mr-2" />
+                  Quick Notes
+                </h3>
+              </div>
+              <div className="p-4">
+                <div className="mb-3">
+                  <Input
+                    placeholder="Add a note..."
+                    className="bg-white/5 border-white/10"
+                    value={noteInput}
+                    onChange={(e) => setNoteInput(e.target.value)}
+                  />
+                </div>
+                <Button 
+                  onClick={addNote} 
+                  size="sm" 
+                  className="w-full bg-white/10 hover:bg-white/20 text-white mb-3"
+                >
+                  <PenTool className="h-4 w-4 mr-1" /> Save Note
+                </Button>
+                
+                <ScrollArea className="h-[200px]">
+                  <div className="space-y-3">
+                    {notes.map(note => (
+                      <div key={note.id} className="p-3 bg-white/5 rounded-md text-sm">
+                        <p className="text-gray-200">{note.content}</p>
+                        <div className="flex justify-between mt-2 text-xs text-gray-400">
+                          <span>{note.section}</span>
+                          <span>{note.timestamp}</span>
+                        </div>
+                      </div>
+                    ))}
+                    {notes.length === 0 && (
+                      <div className="text-center text-gray-400 py-8">
+                        <FileText className="h-12 w-12 mx-auto mb-2 opacity-20" />
+                        <p>No notes yet</p>
+                      </div>
+                    )}
+                  </div>
+                </ScrollArea>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Main content area */}
+        <div className="md:col-span-3">
+          <Tabs 
+            defaultValue="content" 
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="glass rounded-lg border border-white/10 overflow-hidden"
+          >
+            <div className="p-1 bg-white/5 border-b border-white/10">
+              <TabsList className="grid grid-cols-4 bg-transparent">
+                <TabsTrigger 
+                  value="content"
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                >
+                  <BookOpen className="h-4 w-4 mr-2" />
+                  Content
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="exercises"
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                >
+                  <Code className="h-4 w-4 mr-2" />
+                  Exercises
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="playground"
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                >
+                  <TerminalSquare className="h-4 w-4 mr-2" />
+                  Playground
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="resources"
+                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  Resources
+                </TabsTrigger>
+              </TabsList>
+            </div>
+            
+            {/* Content tab */}
+            <TabsContent value="content" className="m-0">
+              <div ref={contentRef} className="p-6">
+                {isLoading ? (
+                  <div className="flex justify-center py-12">
+                    <Loader className="h-8 w-8 animate-spin text-[#95FF66]" />
+                  </div>
+                ) : (
+                  <>
+                    <h2 className="text-2xl font-bold mb-6">
+                      {htmlCssContent[activeSection]?.title || additionalContent[activeSection]?.title || "Content Coming Soon"}
+                    </h2>
+                    
+                    {(htmlCssContent[activeSection]?.content || additionalContent[activeSection]?.content) ? (
+                      <div 
+                        className="prose prose-invert max-w-none"
+                        dangerouslySetInnerHTML={{ 
+                          __html: htmlCssContent[activeSection]?.content || additionalContent[activeSection]?.content 
+                        }} 
+                      />
+                    ) : (
+                      <div className="text-center py-12">
+                        <FileText className="h-16 w-16 mx-auto mb-4 text-gray-400" />
+                        <h3 className="text-xl font-medium mb-2">Content is being developed</h3>
+                        <p className="text-gray-400 mb-4">
+                          This section will be available soon. Please check back later.
+                        </p>
+                        <Button variant="outline">
+                          <BookmarkPlus className="h-4 w-4 mr-2" />
+                          Get notified when available
+                        </Button>
+                      </div>
+                    )}
+                    
+                    {/* Navigation buttons */}
+                    <div className="flex justify-between mt-12 pt-6 border-t border-white/10">
+                      {/* Previous section */}
+                      {sections.findIndex(s => s.id === activeSection) > 0 && (
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            const currentIndex = sections.findIndex(s => s.id === activeSection);
+                            if (currentIndex > 0) {
+                              setActiveSection(sections[currentIndex - 1].id);
+                            }
+                          }}
+                          className="flex items-center"
+                        >
+                          <ChevronLeft className="h-4 w-4 mr-1" />
+                          Previous
+                        </Button>
+                      )}
+                      
+                      {/* Mark as completed */}
+                      <Button
+                        onClick={() => {
+                          if (!completedSections.includes(activeSection)) {
+                            setCompletedSections(prev => [...prev, activeSection]);
+                            toast({
+                              title: "Section completed!",
+                              description: "Great job! Keep up the good work.",
+                              variant: "default",
+                            });
+                          }
+                        }}
+                        className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
+                      >
+                        <CheckCircle className="h-4 w-4 mr-2" />
+                        {completedSections.includes(activeSection) ? "Completed" : "Mark as Complete"}
+                      </Button>
+                      
+                      {/* Next section */}
+                      {sections.findIndex(s => s.id === activeSection) < sections.length - 1 && (
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            const currentIndex = sections.findIndex(s => s.id === activeSection);
+                            if (currentIndex < sections.length - 1) {
+                              setActiveSection(sections[currentIndex + 1].id);
+                            }
+                          }}
+                          className="flex items-center"
+                        >
+                          Next
+                          <ChevronRight className="h-4 w-4 ml-1" />
+                        </Button>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+            </TabsContent>
+            
+            {/* Exercises tab */}
+            <TabsContent value="exercises" className="m-0">
+              <div className="p-6">
+                <h2 className="text-2xl font-bold mb-6">Practical Exercises</h2>
+                
+                {exercises.length > 0 ? (
+                  <div className="space-y-4">
+                    {exercises.map((exercise, index) => (
+                      <div 
+                        key={index}
+                        className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
+                      >
+                        <h3 className="text-lg font-medium mb-2">{exercise.title}</h3>
+                        <p className="text-gray-400 mb-3">{exercise.description}</p>
+                        <div className="flex flex-wrap justify-between">
+                          <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full mb-2">
+                            <Award className="h-3 w-3 mr-1" />
+                            <span>{exercise.difficulty}</span>
+                          </div>
+                          <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full mb-2">
+                            <Clock className="h-3 w-3 mr-1" />
+                            <span>{exercise.estimatedTime}</span>
+                          </div>
+                          <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white">
+                            <Code className="h-4 w-4 mr-1" /> Start Exercise
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <Code className="h-16 w-16 mx-auto mb-4 text-gray-400" />
+                    <h3 className="text-xl font-medium mb-2">Exercises coming soon</h3>
+                    <p className="text-gray-400">
+                      We're preparing hands-on exercises for this module.
+                    </p>
+                  </div>
+                )}
+                
+                {/* Interactive quiz */}
+                <div className="mt-8">
+                  <h2 className="text-2xl font-bold mb-6">Knowledge Check</h2>
+                  
+                  {quizCompleted ? (
+                    <div className="text-center py-8 bg-white/5 rounded-lg border border-white/10">
+                      <CheckCircle className="h-16 w-16 mx-auto mb-4 text-[#95FF66]" />
+                      <h3 className="text-xl font-medium mb-2">Quiz Completed!</h3>
+                      <p className="text-gray-400 mb-4">
+                        You've successfully completed the quiz.
+                      </p>
+                      <Button onClick={() => {
+                        setQuizCompleted(false);
+                        setCurrentQuiz(0);
+                        setSelectedAnswer(null);
+                        setShowQuizResult(false);
+                      }}>
+                        <RotateCcw className="h-4 w-4 mr-2" />
+                        Retake Quiz
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="glass p-6 rounded-lg border border-white/10">
+                      <h3 className="text-lg font-medium mb-4">Question {currentQuiz + 1} of {quizData.length}</h3>
+                      <p className="mb-4">{quizData[currentQuiz].question}</p>
+                      
+                      <div className="space-y-2 mb-6">
+                        {quizData[currentQuiz].options.map((option, index) => (
+                          <button
+                            key={index}
+                            className={`w-full text-left p-3 rounded-md transition-colors ${
+                              selectedAnswer === option
+                                ? showQuizResult
+                                  ? option === quizData[currentQuiz].correctAnswer
+                                    ? "bg-green-500/20 border border-green-500/50"
+                                    : "bg-red-500/20 border border-red-500/50"
+                                  : "bg-[#95FF66]/20 border border-[#95FF66]/50"
+                                : "bg-white/5 border border-white/10 hover:bg-white/10"
+                            }`}
+                            onClick={() => !showQuizResult && setSelectedAnswer(option)}
+                            disabled={showQuizResult}
+                          >
+                            {option}
+                          </button>
+                        ))}
+                      </div>
+                      
+                      {showQuizResult && (
+                        <div className={`p-4 rounded-md mb-6 ${
+                          selectedAnswer === quizData[currentQuiz].correctAnswer
+                            ? "bg-green-500/20 border border-green-500/50"
+                            : "bg-red-500/20 border border-red-500/50"
+                        }`}>
+                          <p className="font-medium mb-1">
+                            {selectedAnswer === quizData[currentQuiz].correctAnswer
+                              ? "Correct!"
+                              : "Incorrect"}
+                          </p>
+                          <p className="text-sm">{quizData[currentQuiz].explanation}</p>
+                        </div>
+                      )}
+                      
+                      <div className="flex justify-between">
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            if (currentQuiz > 0) {
+                              setCurrentQuiz(currentQuiz - 1);
+                              setSelectedAnswer(null);
+                              setShowQuizResult(false);
+                            }
+                          }}
+                          disabled={currentQuiz === 0}
+                        >
+                          <ChevronLeft className="h-4 w-4 mr-1" />
+                          Previous
+                        </Button>
+                        
+                        {!showQuizResult ? (
+                          <Button
+                            onClick={() => selectedAnswer && setShowQuizResult(true)}
+                            disabled={!selectedAnswer}
+                            className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
+                          >
+                            Check Answer
+                          </Button>
+                        ) : (
+                          <Button
+                            onClick={() => {
+                              if (currentQuiz < quizData.length - 1) {
+                                setCurrentQuiz(currentQuiz + 1);
+                                setSelectedAnswer(null);
+                                setShowQuizResult(false);
+                              } else {
+                                setQuizCompleted(true);
+                              }
+                            }}
+                            className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
+                          >
+                            {currentQuiz < quizData.length - 1 ? (
+                              <>
+                                Next Question
+                                <ChevronRight className="h-4 w-4 ml-1" />
+                              </>
+                            ) : (
+                              <>
+                                Complete Quiz
+                                <CheckCircle className="h-4 w-4 ml-1" />
+                              </>
+                            )}
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Code playground tab */}
+            <TabsContent value="playground" className="m-0">
+              <div className="p-6">
+                <h2 className="text-2xl font-bold mb-6">Interactive Code Playground</h2>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Code editor */}
+                  <div className="glass rounded-lg border border-white/10 overflow-hidden">
+                    <div className="p-2 bg-white/5 border-b border-white/10">
+                      <TabsList className="bg-transparent">
+                        <TabsTrigger 
+                          value="html"
+                          onClick={() => setActiveCodeTab("html")}
+                          className={`data-[state=active]:bg-white/10 data-[state=active]:text-white ${
+                            activeCodeTab === "html" ? "bg-white/10 text-white" : ""
+                          }`}
+                        >
+                          HTML
+                        </TabsTrigger>
+                        <TabsTrigger 
+                          value="css"
+                          onClick={() => setActiveCodeTab("css")}
+                          className={`data-[state=active]:bg-white/10 data-[state=active]:text-white ${
+                            activeCodeTab === "css" ? "bg-white/10 text-white" : ""
+                          }`}
+                        >
+                          CSS
+                        </TabsTrigger>
+                      </TabsList>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="absolute right-4 top-2"
+                        onClick={handleCopyCode}
+                      >
+                        {copied ? <CheckCircle className="h-4 w-4 text-[#95FF66]" /> : <Copy className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                    
+                    <div className="p-4 bg-black/30 h-[300px] font-mono text-sm">
+                      <textarea
+                        className="w-full h-full bg-transparent resize-none focus:outline-none text-green-400"
+                        value={activeCodeTab === "html" ? codePlayground.html : codePlayground.css}
+                        onChange={(e) => handleCodeChange(activeCodeTab, e.target.value)}
+                        spellCheck={false}
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Preview */}
+                  <div className="glass rounded-lg border border-white/10 overflow-hidden">
+                    <div className="p-2 bg-white/5 border-b border-white/10 flex justify-between items-center">
+                      <h3 className="text-sm font-medium">Preview</h3>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() => setShowPreview(!showPreview)}
+                      >
+                        {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                    
+                    {showPreview ? (
+                      <div className="p-4 bg-white h-[300px] overflow-auto">
+                        <iframe
+                          title="Code preview"
+                          className="w-full h-full border-0"
+                          srcDoc={renderCodePreview()}
+                        />
+                      </div>
+                    ) : (
+                      <div className="p-4 bg-white/5 h-[300px] flex items-center justify-center">
+                        <div className="text-center">
+                          <Eye className="h-8 w-8 mb-2 mx-auto text-gray-400" />
+                          <p>Preview hidden</p>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="mt-2"
+                            onClick={() => setShowPreview(true)}
+                          >
+                            Show Preview
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="mt-8">
+                  <h3 className="text-xl font-bold mb-3">Code Samples</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button
+                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
+                      onClick={() => {
+                        setCodePlayground({
+                          html: '<div class="flex-container">\n  <div class="flex-item">Item 1</div>\n  <div class="flex-item">Item 2</div>\n  <div class="flex-item">Item 3</div>\n</div>',
+                          css: '.flex-container {\n  display: flex;\n  justify-content: space-between;\n  background-color: #f0f0f0;\n  padding: 20px;\n}\n\n.flex-item {\n  background-color: #95FF66;\n  padding: 20px;\n  border-radius: 4px;\n  color: #222;\n  font-weight: bold;\n}'
+                        });
+                        setActiveCodeTab("html");
+                      }}
+                    >
+                      <h4 className="font-medium mb-1">Flexbox Example</h4>
+                      <p className="text-sm text-gray-400">A simple flexbox layout with three items</p>
+                    </button>
+                    
+                    <button
+                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
+                      onClick={() => {
+                        setCodePlayground({
+                          html: '<div class="grid-container">\n  <div class="grid-item">1</div>\n  <div class="grid-item">2</div>\n  <div class="grid-item">3</div>\n  <div class="grid-item">4</div>\n  <div class="grid-item">5</div>\n  <div class="grid-item">6</div>\n</div>',
+                          css: '.grid-container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  background-color: #f0f0f0;\n  padding: 20px;\n}\n\n.grid-item {\n  background-color: #95FF66;\n  padding: 20px;\n  border-radius: 4px;\n  text-align: center;\n  color: #222;\n  font-weight: bold;\n}'
+                        });
+                        setActiveCodeTab("html");
+                      }}
+                    >
+                      <h4 className="font-medium mb-1">Grid Example</h4>
+                      <p className="text-sm text-gray-400">A 3-column grid layout with 6 items</p>
+                    </button>
+                    
+                    <button
+                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
+                      onClick={() => {
+                        setCodePlayground({
+                          html: '<button class="animated-button">Hover Me</button>',
+                          css: '.animated-button {\n  background-color: #95FF66;\n  color: #222;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 4px;\n  font-weight: bold;\n  cursor: pointer;\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n\n.animated-button:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 5px 15px rgba(149, 255, 102, 0.4);\n}'
+                        });
+                        setActiveCodeTab("html");
+                      }}
+                    >
+                      <h4 className="font-medium mb-1">CSS Animation</h4>
+                      <p className="text-sm text-gray-400">Button with hover animation effect</p>
+                    </button>
+                    
+                    <button
+                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
+                      onClick={() => {
+                        setCodePlayground({
+                          html: '<div class="card">\n  <h2 class="card-title">Card Title</h2>\n  <p class="card-content">This is a responsive card component that uses CSS variables.</p>\n  <button class="card-button">Learn More</button>\n</div>',
+                          css: ':root {\n  --primary-color: #95FF66;\n  --text-color: #222;\n  --bg-color: white;\n  --radius: 8px;\n}\n\n.card {\n  background-color: var(--bg-color);\n  border-radius: var(--radius);\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n}\n\n.card-title {\n  color: var(--text-color);\n  margin-top: 0;\n}\n\n.card-content {\n  color: #666;\n}\n\n.card-button {\n  background-color: var(--primary-color);\n  color: var(--text-color);\n  border: none;\n  padding: 8px 16px;\n  border-radius: calc(var(--radius) / 2);\n  cursor: pointer;\n}'
+                        });
+                        setActiveCodeTab("html");
+                      }}
+                    >
+                      <h4 className="font-medium mb-1">CSS Variables</h4>
+                      <p className="text-sm text-gray-400">Card component using CSS custom properties</p>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            
+            {/* Resources tab */}
+            <TabsContent value="resources" className="m-0">
+              <div className="p-6">
+                <h2 className="text-2xl font-bold mb-6">Additional Resources</h2>
+                
+                <div className="space-y-6">
+                  {/* Documentation links */}
+                  <div>
+                    <h3 className="text-xl font-medium mb-3 flex items-center">
+                      <ExternalLink className="h-5 w-5 mr-2" />
+                      External Resources
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {resources.map((resource, index) => (
+                        <a
+                          key={index}
+                          href={resource.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="glass p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-colors group"
+                        >
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h4 className="font-medium mb-1 group-hover:text-[#95FF66] transition-colors">{resource.title}</h4>
+                              <p className="text-sm text-gray-400">{resource.type}</p>
+                            </div>
+                            <div className="bg-white/5 rounded-full p-2 group-hover:bg-[#95FF66]/20 transition-colors">
+                              <ExternalLink className="h-4 w-4 group-hover:text-[#95FF66] transition-colors" />
+                            </div>
+                          </div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Flashcards */}
+                  <div>
+                    <h3 className="text-xl font-medium mb-3 flex items-center">
+                      <BookOpen className="h-5 w-5 mr-2" />
+                      Study Flashcards
+                    </h3>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {[
+                        {id: 1, front: "What does CSS stand for?", back: "Cascading Style Sheets"},
+                        {id: 2, front: "What are the main components of the Box Model?", back: "Content, Padding, Border, and Margin"},
+                        {id: 3, front: "What is the purpose of semantic HTML?", back: "To give meaning to web content, making it more accessible and SEO-friendly"},
+                        {id: 4, front: "What's the difference between inline and block elements?", back: "Block elements start on a new line and take up the full width, while inline elements only take up as much width as necessary"}
+                      ].map(card => (
+                        <div 
+                          key={card.id}
+                          className={`glass rounded-lg border border-white/10 h-[150px] transition-all duration-500 cursor-pointer ${
+                            isFlipped[card.id] ? "bg-[#95FF66]/10" : "bg-transparent"
+                          }`}
+                          onClick={() => toggleFlip(card.id)}
+                        >
+                          <div className="p-4 flex items-center justify-center h-full">
+                            <div className="text-center">
+                              {isFlipped[card.id] ? (
+                                <p>{card.back}</p>
+                              ) : (
+                                <p className="font-medium">{card.front}</p>
+                              )}
+                              <p className="text-xs text-gray-400 absolute bottom-2 left-0 right-0">
+                                Click to {isFlipped[card.id] ? "flip back" : "reveal answer"}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* AI Assistant */}
+                  <div>
+                    <h3 className="text-xl font-medium mb-3 flex items-center">
+                      <Bot className="h-5 w-5 mr-2" />
+                      AI Learning Assistant
+                    </h3>
+                    
+                    <Button 
+                      onClick={() => setShowAiAssistant(!showAiAssistant)}
+                      variant="outline"
+                      className="mb-4"
+                    >
+                      {showAiAssistant ? "Hide Assistant" : "Show Assistant"}
+                    </Button>
+                    
+                    {showAiAssistant && (
+                      <div className="glass rounded-lg border border-white/10 overflow-hidden">
+                        <div className="p-4 bg-white/5 border-b border-white/10">
+                          <h4 className="font-medium">Ask a question about HTML/CSS</h4>
+                        </div>
+                        
+                        <div className="p-4">
+                          <div className="flex gap-2 mb-4">
+                            <Input
+                              value={aiAssistantMessage}
+                              onChange={(e) => setAiAssistantMessage(e.target.value)}
+                              placeholder="e.g., What's the difference between flex and grid?"
+                              className="bg-white/5 border-white/10"
+                            />
+                            <Button onClick={submitAiQuestion}>
+                              <Send className="h-4 w-4" />
+                            </Button>
+                          </div>
+                          
+                          <div className="space-y-4 max-h-[300px] overflow-y-auto">
+                            {aiResponses.map((response, index) => (
+                              <div key={index} className="rounded-lg">
+                                <div className="bg-white/5 p-3 rounded-t-lg">
+                                  <p className="font-medium text-white">{response.question}</p>
+                                </div>
+                                <div className="bg-white/10 p-3 rounded-b-lg">
+                                  <p className="text-gray-200">{response.answer}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+          
+          {/* Discussion section */}
+          <div className="glass rounded-lg border border-white/10 overflow-hidden mt-6">
+            <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
+              <h3 className="font-medium flex items-center">
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Discussion
+              </h3>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => setShowDiscussion(!showDiscussion)}
+              >
+                {showDiscussion ? "Hide" : "Show"}
+              </Button>
+            </div>
+            
+            {showDiscussion && (
+              <div className="p-4">
+                <div className="mb-4">
+                  <textarea
+                    placeholder="Share your thoughts or ask a question..."
+                    className="w-full p-3 rounded-md bg-white/5 border border-white/10 focus:outline-none focus:border-[#95FF66]/50 resize-none h-[100px]"
+                    value={discussionInput}
+                    onChange={(e) => setDiscussionInput(e.target.value)}
+                  />
+                  <div className="flex justify-end mt-2">
+                    <Button size="sm">
+                      <MessageSquare className="h-4 w-4 mr-1" />
+                      Post Comment
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  {discussions.map(discussion => (
+                    <div key={discussion.id} className="p-4 rounded-md bg-white/5">
+                      <div className="flex items-start gap-3">
+                        <img 
+                          src={discussion.avatar} 
+                          alt={discussion.user} 
+                          className="h-8 w-8 rounded-full"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-medium">{discussion.user}</h4>
+                            <span className="text-xs text-gray-400">{discussion.time}</span>
+                          </div>
+                          <p className="mt-1 text-gray-200">{discussion.content}</p>
+                          <div className="flex items-center mt-2 gap-4">
+                            <button className="text-xs text-gray-400 flex items-center">
+                              <ThumbsUp className="h-3 w-3 mr-1" />
+                              Like ({discussion.likes})
+                            </button>
+                            <button className="text-xs text-gray-400 flex items-center">
+                              <MessageSquare className="h-3 w-3 mr-1" />
+                              Reply
+                            </button>
+                          </div>
+                          
+                          {/* Replies */}
+                          {discussion.replies && discussion.replies.length > 0 && (
+                            <div className="mt-3 pl-4 border-l border-white/10 space-y-3">
+                              {discussion.replies.map(reply => (
+                                <div key={reply.id} className="pt-3">
+                                  <div className="flex items-start gap-2">
+                                    <img 
+                                      src={reply.avatar} 
+                                      alt={reply.user} 
+                                      className="h-6 w-6 rounded-full"
+                                    />
+                                    <div>
+                                      <div className="flex items-center gap-2">
+                                        <h5 className="font-medium text-sm">{reply.user}</h5>
+                                        <span className="text-xs text-gray-400">{reply.time}</span>
+                                      </div>
+                                      <p className="mt-1 text-sm text-gray-200">{reply.content}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          {/* Module navigation */}
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+            {prevModule && (
+              <button 
+                onClick={() => navigate(`/modules/${prevModule.id}`)}
+                className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left flex items-center"
+              >
+                <ChevronLeft className="h-5 w-5 mr-3" />
+                <div>
+                  <p className="text-sm text-gray-400 mb-1">Previous Module</p>
+                  <h4 className="font-medium">{prevModule.title}</h4>
+                </div>
+              </button>
+            )}
+            
+            {nextModule && (
+              <button 
+                onClick={() => navigate(`/modules/${nextModule.id}`)}
+                className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left flex items-center justify-between"
+              >
+                <div className="text-right">
+                  <p className="text-sm text-gray-400 mb-1">Next Module</p>
+                  <h4 className="font-medium">{nextModule.title}</h4>
+                </div>
+                <ChevronRight className="h-5 w-5 ml-3" />
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ModuleContent;

@@ -20,6 +20,11 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Progress } from "@/components/ui/progress";
 
 const ModuleContent = () => {
   const { moduleId } = useParams();
@@ -753,866 +758,1108 @@ const ModuleContent = () => {
                   <span>{exercises.length} Exercises</span>
                 </div>
                 <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full hover:bg-white/10 transition-colors">
-                  <Users className="h-3 w-3 mr-1" />
-                  <span>Beginner Friendly</span>
+                  <MessageSquare className="h-3 w-3 mr-1" />
+                  <span>{discussions.length} Discussions</span>
                 </div>
               </div>
             </div>
             
-            {/* Progress circle */}
-            <div className="relative h-20 w-20 shrink-0">
-              <svg className="h-20 w-20 transform -rotate-90" viewBox="0 0 100 100">
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="45" 
-                  className="stroke-white/5 fill-none" 
-                  strokeWidth="8" 
-                />
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="45" 
-                  className="stroke-[#95FF66] fill-none" 
-                  strokeWidth="8"
-                  strokeDasharray={`${progress * 2.83} 283`} 
-                  strokeLinecap="round"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-md font-bold text-white">{Math.round(progress)}%</span>
+            <div className="frost-card p-4 flex flex-col items-center relative">
+              <div className="absolute -top-3 right-3">
+                <span className="badge badge-success text-xs">In Progress</span>
               </div>
+              <div className="mb-2 relative w-16 h-16">
+                <svg className="progress-ring" width="64" height="64">
+                  <circle 
+                    className="text-gray-700"
+                    stroke="currentColor" 
+                    strokeWidth="4"
+                    fill="transparent" 
+                    r="26" 
+                    cx="32" 
+                    cy="32" 
+                  />
+                  <circle 
+                    className="text-[#95FF66]"
+                    stroke="currentColor" 
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    fill="transparent" 
+                    r="26" 
+                    cx="32" 
+                    cy="32" 
+                    style={{
+                      strokeDasharray: `${2 * Math.PI * 26}`,
+                      strokeDashoffset: `${2 * Math.PI * 26 * (1 - progress / 100)}`,
+                    }}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-sm font-medium">{Math.round(progress)}%</span>
+                </div>
+              </div>
+              <div className="mt-1 text-sm text-gray-400">Module Progress</div>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="mt-3 w-full border-dashed border-white/20 text-white/70 hover:text-white hover:bg-white/5"
+                onClick={() => setShowProgressDetails(!showProgressDetails)}
+              >
+                {showProgressDetails ? "Hide Details" : "View Details"}
+              </Button>
             </div>
           </div>
+          
+          {showProgressDetails && (
+            <div className="mt-4 pt-4 border-t border-white/10 animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="frost-card p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Completed Sections</span>
+                    <span className="text-xs text-white/70">{completedSections.length}/{sections.length}</span>
+                  </div>
+                  <Progress value={(completedSections.length / sections.length) * 100} className="h-1.5" />
+                </div>
+                <div className="frost-card p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Exercises</span>
+                    <span className="text-xs text-white/70">0/{exercises.length}</span>
+                  </div>
+                  <Progress value={0} className="h-1.5" />
+                </div>
+                <div className="frost-card p-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium">Quiz Score</span>
+                    <span className="text-xs text-white/70">-</span>
+                  </div>
+                  <Progress value={0} className="h-1.5" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       
-      {/* Main content area with sidebar and content */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {/* Left sidebar with sections */}
-        <div className="md:col-span-1">
-          <div className="sticky top-6">
-            <div className="glass rounded-lg border border-white/10 overflow-hidden mb-4">
-              <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
-                <h3 className="font-medium">Module Contents</h3>
-                <div className="relative">
-                  <Search className="h-4 w-4 absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                  <Input
-                    placeholder="Search..."
-                    className="pl-8 bg-white/5 border-white/10 h-8 text-sm"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
+      {/* Main content and sidebar */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Sidebar for sections navigation */}
+        {viewMode !== "focus" && (
+          <div className="lg:w-64 flex-shrink-0 order-2 lg:order-1">
+            <div className="frost-card p-4 rounded-lg sticky top-4">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-medium">Module Content</h3>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-8 w-8 rounded-full hover:bg-white/5"
+                  onClick={() => setShowOverview(!showOverview)}
+                >
+                  {showOverview ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
+                </Button>
               </div>
-              <ScrollArea className="h-[400px]">
-                <div className="p-2">
-                  {filteredSections.map((section) => (
-                    <button
+              
+              <div className="relative mb-4">
+                <Search className="w-4 h-4 absolute left-3 top-2.5 text-gray-400" />
+                <Input
+                  placeholder="Search topics..."
+                  className="pl-9 bg-white/5 border-white/10 focus-visible:ring-[#95FF66]/20"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyUp={(e) => {
+                    if (e.key === "Escape") setSearchQuery("");
+                    if (e.key === "Enter" && filteredSections.length) {
+                      setSearchInProgress(true);
+                      setTimeout(() => {
+                        setActiveSection(filteredSections[0].id);
+                        setSearchQuery("");
+                        setSearchInProgress(false);
+                      }, 400);
+                    }
+                  }}
+                />
+                {searchInProgress && (
+                  <Loader className="w-4 h-4 absolute right-3 top-2.5 text-white/70 animate-spin" />
+                )}
+              </div>
+              
+              <ScrollArea className="h-[calc(100vh-220px)]">
+                <ul className={searchQuery ? "opacity-70" : ""}>
+                  {filteredSections.map((section, index) => (
+                    <li 
                       key={section.id}
-                      className={`w-full text-left rounded-md px-3 py-2 mb-1 text-sm flex items-center justify-between transition-colors ${
-                        activeSection === section.id
-                          ? "bg-[#95FF66]/20 text-[#95FF66]"
-                          : "text-gray-300 hover:bg-white/5"
-                      }`}
+                      className={`
+                        relative py-2 pl-7 pr-2 rounded-md mb-1 transition-colors cursor-pointer
+                        ${activeSection === section.id ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white'}
+                      `}
                       onClick={() => setActiveSection(section.id)}
                     >
-                      <span className="truncate">{section.title}</span>
-                      {completedSections.includes(section.id) && (
-                        <CheckCircle className="h-4 w-4 text-[#95FF66] shrink-0" />
+                      <span className="absolute left-1.5 top-2.5 w-3 flex justify-center">
+                        {completedSections.includes(section.id) ? (
+                          <CheckCircle className="w-3 h-3 text-[#95FF66]" />
+                        ) : (
+                          <span className="w-2 h-2 rounded-full bg-white/30 block mt-[2px]" />
+                        )}
+                      </span>
+                      <span className="block text-sm">
+                        {section.title}
+                      </span>
+                      
+                      {activeSection === section.id && showOverview && (
+                        <div className="mt-2 pl-2 text-xs space-y-1 text-white/70 border-l border-white/10">
+                          <p>- Introduction</p>
+                          <p>- Key Concepts</p>
+                          <p>- Code Examples</p>
+                          <p>- Best Practices</p>
+                        </div>
                       )}
-                    </button>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </ScrollArea>
             </div>
-            
-            {/* Study timer */}
-            <div className="glass rounded-lg border border-white/10 overflow-hidden mb-4">
-              <div className="p-4 bg-white/5 border-b border-white/10">
-                <h3 className="font-medium flex items-center">
-                  <Clock className="h-4 w-4 mr-2" />
-                  Study Timer
-                </h3>
-              </div>
-              <div className="p-4">
-                <div className="text-center mb-4">
-                  <span className="text-3xl font-bold">
-                    {String(studyTimer.minutes).padStart(2, '0')}:{String(studyTimer.seconds).padStart(2, '0')}
-                  </span>
-                </div>
-                <div className="flex justify-center space-x-2">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={toggleTimer}
-                    className="flex items-center"
-                  >
-                    {studyTimer.isActive ? (
-                      <>
-                        <PauseCircle className="h-4 w-4 mr-1" /> Pause
-                      </>
-                    ) : (
-                      <>
-                        <PlayCircle className="h-4 w-4 mr-1" /> Start
-                      </>
-                    )}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={resetTimer}
-                    className="flex items-center"
-                  >
-                    <RotateCcw className="h-4 w-4 mr-1" /> Reset
-                  </Button>
-                </div>
-              </div>
-            </div>
-            
-            {/* Quick notes */}
-            <div className="glass rounded-lg border border-white/10 overflow-hidden">
-              <div className="p-4 bg-white/5 border-b border-white/10">
-                <h3 className="font-medium flex items-center">
-                  <PenTool className="h-4 w-4 mr-2" />
-                  Quick Notes
-                </h3>
-              </div>
-              <div className="p-4">
-                <div className="mb-3">
-                  <Input
-                    placeholder="Add a note..."
-                    className="bg-white/5 border-white/10"
-                    value={noteInput}
-                    onChange={(e) => setNoteInput(e.target.value)}
-                  />
-                </div>
-                <Button 
-                  onClick={addNote} 
-                  size="sm" 
-                  className="w-full bg-white/10 hover:bg-white/20 text-white mb-3"
-                >
-                  <PenTool className="h-4 w-4 mr-1" /> Save Note
-                </Button>
-                
-                <ScrollArea className="h-[200px]">
-                  <div className="space-y-3">
-                    {notes.map(note => (
-                      <div key={note.id} className="p-3 bg-white/5 rounded-md text-sm">
-                        <p className="text-gray-200">{note.content}</p>
-                        <div className="flex justify-between mt-2 text-xs text-gray-400">
-                          <span>{note.section}</span>
-                          <span>{note.timestamp}</span>
-                        </div>
-                      </div>
-                    ))}
-                    {notes.length === 0 && (
-                      <div className="text-center text-gray-400 py-8">
-                        <FileText className="h-12 w-12 mx-auto mb-2 opacity-20" />
-                        <p>No notes yet</p>
-                      </div>
-                    )}
-                  </div>
-                </ScrollArea>
-              </div>
-            </div>
           </div>
-        </div>
+        )}
         
         {/* Main content area */}
-        <div className="md:col-span-3">
-          <Tabs 
-            defaultValue="content" 
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="glass rounded-lg border border-white/10 overflow-hidden"
-          >
-            <div className="p-1 bg-white/5 border-b border-white/10">
-              <TabsList className="grid grid-cols-4 bg-transparent">
-                <TabsTrigger 
-                  value="content"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
-                >
-                  <BookOpen className="h-4 w-4 mr-2" />
-                  Content
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="exercises"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
-                >
-                  <Code className="h-4 w-4 mr-2" />
-                  Exercises
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="playground"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
-                >
-                  <TerminalSquare className="h-4 w-4 mr-2" />
-                  Playground
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="resources"
-                  className="data-[state=active]:bg-white/10 data-[state=active]:text-white"
-                >
-                  <ExternalLink className="h-4 w-4 mr-2" />
-                  Resources
-                </TabsTrigger>
-              </TabsList>
-            </div>
+        <div className="flex-1 order-1 lg:order-2">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid grid-cols-4 mb-6">
+              <TabsTrigger value="content" className="data-[state=active]:bg-white/10">
+                <BookOpen className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Content</span>
+              </TabsTrigger>
+              <TabsTrigger value="exercises" className="data-[state=active]:bg-white/10">
+                <Code className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Exercises</span>
+              </TabsTrigger>
+              <TabsTrigger value="quiz" className="data-[state=active]:bg-white/10">
+                <HelpCircle className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Quiz</span>
+              </TabsTrigger>
+              <TabsTrigger value="resources" className="data-[state=active]:bg-white/10">
+                <FileText className="w-4 h-4 mr-2" />
+                <span className="hidden sm:inline">Resources</span>
+              </TabsTrigger>
+            </TabsList>
             
-            {/* Content tab */}
-            <TabsContent value="content" className="m-0">
-              <div ref={contentRef} className="p-6">
-                {isLoading ? (
-                  <div className="flex justify-center py-12">
-                    <Loader className="h-8 w-8 animate-spin text-[#95FF66]" />
-                  </div>
-                ) : (
-                  <>
-                    <h2 className="text-2xl font-bold mb-6">
-                      {htmlCssContent[activeSection]?.title || additionalContent[activeSection]?.title || "Content Coming Soon"}
+            <TabsContent value="content" className="space-y-6 animate-fade-in">
+              <div className="frost-card p-6 rounded-lg relative">
+                {/* Enhanced toolbar */}
+                <div className="absolute right-4 top-4 flex gap-2">
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                          onClick={() => setPreferredContentStyle(
+                            preferredContentStyle === "visual" ? "code" : 
+                            preferredContentStyle === "code" ? "text" : "visual"
+                          )}
+                        >
+                          {preferredContentStyle === "visual" ? (
+                            <Palette className="h-4 w-4" />
+                          ) : preferredContentStyle === "code" ? (
+                            <TerminalSquare className="h-4 w-4" />
+                          ) : (
+                            <FileText className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Toggle content style: {preferredContentStyle}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                  
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                          onClick={() => {
+                            const el = document.getElementById("content-section");
+                            if (el) {
+                              if (document.fullscreenElement) {
+                                document.exitFullscreen();
+                              } else {
+                                el.requestFullscreen();
+                              }
+                            }
+                          }}
+                        >
+                          <Maximize className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Fullscreen</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                
+                <div id="content-section">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-2xl font-bold flowing-gradient">
+                      {htmlCssContent[activeSection]?.title || 
+                       additionalContent[activeSection]?.title || 
+                       "Introduction"}
                     </h2>
                     
-                    {(htmlCssContent[activeSection]?.content || additionalContent[activeSection]?.content) ? (
-                      <div 
-                        className="prose prose-invert max-w-none"
-                        dangerouslySetInnerHTML={{ 
-                          __html: htmlCssContent[activeSection]?.content || additionalContent[activeSection]?.content 
-                        }} 
-                      />
+                    <div>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className={`h-8 w-8 rounded-full ${copied ? 'text-[#95FF66]' : 'text-gray-400'} hover:text-white hover:bg-white/10`}
+                              onClick={handleCopyCode}
+                            >
+                              <Copy className="h-4 w-4" />
+                            </Button>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Copy code</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
+                  </div>
+                  
+                  <div className="prose content-area">
+                    {htmlCssContent[activeSection] ? (
+                      <div dangerouslySetInnerHTML={{ 
+                        __html: htmlCssContent[activeSection].content 
+                      }} />
+                    ) : additionalContent[activeSection] ? (
+                      <div dangerouslySetInnerHTML={{ 
+                        __html: additionalContent[activeSection].content 
+                      }} />
                     ) : (
-                      <div className="text-center py-12">
-                        <FileText className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                        <h3 className="text-xl font-medium mb-2">Content is being developed</h3>
-                        <p className="text-gray-400 mb-4">
-                          This section will be available soon. Please check back later.
+                      <div className="py-10 text-center">
+                        <div className="inline-block rounded-full p-3 bg-white/5 mb-4">
+                          <Sparkles className="h-8 w-8 text-[#95FF66]" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">Content is being developed</h3>
+                        <p className="text-white/70 max-w-md mx-auto">
+                          This section is currently under development. Check back soon for updates!
                         </p>
-                        <Button variant="outline">
-                          <BookmarkPlus className="h-4 w-4 mr-2" />
-                          Get notified when available
-                        </Button>
                       </div>
                     )}
-                    
-                    {/* Navigation buttons */}
-                    <div className="flex justify-between mt-12 pt-6 border-t border-white/10">
-                      {/* Previous section */}
-                      {sections.findIndex(s => s.id === activeSection) > 0 && (
+                  </div>
+                  
+                  {/* Interactive code playground - only show for certain sections */}
+                  {['cssLayout', 'cssVariables', 'animations'].includes(activeSection) && (
+                    <div className="mt-8 pt-8 border-t border-white/10 animate-fade-in">
+                      <div className="flex justify-between items-center mb-4">
+                        <h3 className="text-lg font-semibold">Interactive Playground</h3>
                         <Button
                           variant="outline"
+                          size="sm"
+                          className="text-xs h-8 border-white/10 hover:bg-white/5"
+                          onClick={() => setShowPreview(!showPreview)}
+                        >
+                          {showPreview ? (
+                            <>
+                              <EyeOff className="h-3 w-3 mr-1" />
+                              Hide Preview
+                            </>
+                          ) : (
+                            <>
+                              <Eye className="h-3 w-3 mr-1" />
+                              Show Preview
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                      
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div className="frost-card rounded-lg p-4">
+                          <div className="flex border-b border-white/10 mb-3">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className={`rounded-none border-b-2 ${
+                                activeCodeTab === 'html' 
+                                  ? 'border-[#95FF66] text-white' 
+                                  : 'border-transparent text-gray-400'
+                              }`}
+                              onClick={() => setActiveCodeTab('html')}
+                            >
+                              HTML
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className={`rounded-none border-b-2 ${
+                                activeCodeTab === 'css' 
+                                  ? 'border-[#95FF66] text-white' 
+                                  : 'border-transparent text-gray-400'
+                              }`}
+                              onClick={() => setActiveCodeTab('css')}
+                            >
+                              CSS
+                            </Button>
+                          </div>
+                          
+                          <Textarea
+                            value={codePlayground[activeCodeTab]}
+                            onChange={(e) => handleCodeChange(activeCodeTab, e.target.value)}
+                            className="bg-black/30 font-mono text-sm resize-none h-60 border-white/5 focus-visible:ring-[#95FF66]/20"
+                            spellCheck={false}
+                          />
+                        </div>
+                        
+                        {showPreview && (
+                          <div className="frost-card rounded-lg overflow-hidden h-[330px]">
+                            <div className="bg-gray-800 text-gray-300 text-xs p-2 font-mono">Preview</div>
+                            <iframe
+                              title="Code Preview"
+                              srcDoc={renderCodePreview()}
+                              className="w-full h-[calc(100%-30px)] bg-white border-0"
+                              sandbox="allow-scripts"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Interactive flashcards - only show for certain sections */}
+                  {['semanticHtml', 'cssVariables', 'responsiveDesign'].includes(activeSection) && (
+                    <div className="mt-8 pt-8 border-t border-white/10 animate-fade-in">
+                      <h3 className="text-lg font-semibold mb-4">Flashcards</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {/* Sample flashcards */}
+                        {[
+                          { id: 1, front: "What are CSS Variables?", back: "Also known as CSS Custom Properties, they are entities defined by developers that contain specific values to be reused throughout a document." },
+                          { id: 2, front: "How to define a CSS variable?", back: "--variable-name: value;" },
+                          { id: 3, front: "How to use a CSS variable?", back: "var(--variable-name, fallback-value)" }
+                        ].map(card => (
+                          <div 
+                            key={card.id}
+                            className={`card-flip-container h-40 cursor-pointer`}
+                            onClick={() => toggleFlip(card.id)}
+                          >
+                            <div className={`card-flip ${isFlipped[card.id] ? 'transform rotate-y-180' : ''}`}>
+                              <div className="card-flip-front frost-card p-4 flex items-center justify-center text-center">
+                                <h4 className="font-medium leading-tight">{card.front}</h4>
+                              </div>
+                              <div className="card-flip-back frost-card p-4 bg-white/10 flex items-center justify-center text-center">
+                                <p className="text-sm">{card.back}</p>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
+                  {/* Study timer */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in">
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-lg font-semibold flex items-center">
+                        <Clock className="w-4 h-4 mr-2 text-[#95FF66]" />
+                        Focus Timer
+                      </h3>
+                      
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs h-8 border-white/10 hover:bg-white/5"
+                          onClick={toggleTimer}
+                        >
+                          {studyTimer.isActive ? (
+                            <>
+                              <PauseCircle className="h-3 w-3 mr-1" />
+                              Pause
+                            </>
+                          ) : (
+                            <>
+                              <PlayCircle className="h-3 w-3 mr-1" />
+                              Start
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs h-8 border-white/10 hover:bg-white/5"
+                          onClick={resetTimer}
+                        >
+                          <RotateCcw className="h-3 w-3 mr-1" />
+                          Reset
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="frost-card p-6 mt-4 flex flex-col items-center neon-border-pulse">
+                      <div className="text-4xl font-mono mb-4">
+                        {String(studyTimer.minutes).padStart(2, '0')}:{String(studyTimer.seconds).padStart(2, '0')}
+                      </div>
+                      <p className="text-white/70 text-sm mb-4">Focus on studying without distractions</p>
+                      <div className="flex items-center gap-2 text-xs text-white/50">
+                        <div className="h-1.5 w-1.5 rounded-full bg-[#95FF66] animate-pulse"></div>
+                        {studyTimer.isActive ? "Timer running" : "Timer paused"}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Personal notes section */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-semibold flex items-center">
+                        <PenTool className="w-4 h-4 mr-2 text-[#95FF66]" />
+                        Personal Notes
+                      </h3>
+                    </div>
+                    
+                    <div className="frost-card p-4 mb-4">
+                      <Textarea
+                        placeholder="Add your notes for this section..."
+                        className="bg-black/20 resize-none h-24 border-white/5 focus-visible:ring-[#95FF66]/20 mb-3"
+                        value={noteInput}
+                        onChange={(e) => setNoteInput(e.target.value)}
+                      />
+                      <div className="flex justify-end">
+                        <Button
+                          className="bg-[#95FF66]/20 text-[#95FF66] hover:bg-[#95FF66]/30"
+                          onClick={addNote}
+                          disabled={!noteInput.trim()}
+                        >
+                          <Save className="w-4 h-4 mr-2" />
+                          Save Note
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    {notes.length > 0 && (
+                      <div className="space-y-3">
+                        {notes.filter(note => note.section === activeSection).map(note => (
+                          <div key={note.id} className="frost-card p-3 text-sm hover:bg-white/5 transition-colors">
+                            <div className="mb-1 text-white/60 text-xs flex justify-between">
+                              <span>
+                                {note.timestamp}
+                              </span>
+                              <Button variant="ghost" size="icon" className="h-5 w-5 text-white/40 hover:text-white/60 -mt-1 -mr-1">
+                                <X className="h-3 w-3" />
+                              </Button>
+                            </div>
+                            <p>{note.content}</p>
+                          </div>
+                        ))}
+                        
+                        {!notes.filter(note => note.section === activeSection).length && (
+                          <div className="text-center py-6 text-white/50 text-sm italic">
+                            No notes for this section yet
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* AI assistant for content section */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-semibold flex items-center">
+                        <Bot className="w-4 h-4 mr-2 text-[#95FF66]" />
+                        AI Learning Assistant
+                      </h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-xs h-8 border-white/10 hover:bg-white/5"
+                        onClick={() => setShowAiAssistant(!showAiAssistant)}
+                      >
+                        {showAiAssistant ? "Hide" : "Show"}
+                      </Button>
+                    </div>
+                    
+                    {showAiAssistant && (
+                      <div className="frost-card p-4">
+                        <div className="flex gap-3 mb-4">
+                          <Textarea
+                            placeholder="Ask anything about HTML & CSS..."
+                            className="bg-black/20 resize-none h-12 border-white/5 focus-visible:ring-[#95FF66]/20"
+                            value={aiAssistantMessage}
+                            onChange={(e) => setAiAssistantMessage(e.target.value)}
+                          />
+                          <Button
+                            className="bg-[#95FF66]/20 text-[#95FF66] hover:bg-[#95FF66]/30 px-3 shrink-0"
+                            onClick={submitAiQuestion}
+                            disabled={!aiAssistantMessage.trim()}
+                          >
+                            <Send className="w-4 h-4" />
+                          </Button>
+                        </div>
+                        
+                        <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar">
+                          {aiResponses.map((item, index) => (
+                            <div key={index} className="frost-card p-3 text-sm">
+                              <div className="font-medium mb-1 flex items-center text-[#95FF66]">
+                                <Brain className="w-3 h-3 mr-1" />
+                                Q: {item.question}
+                              </div>
+                              <div className="pl-4 border-l border-white/10 text-white/80 mt-2">
+                                {item.answer}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Content navigation */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {sections.indexOf(sections.find(s => s.id === activeSection)) > 0 && (
+                        <Button
+                          variant="outline"
+                          className="flex items-center justify-start border-white/10 hover:bg-white/5"
                           onClick={() => {
                             const currentIndex = sections.findIndex(s => s.id === activeSection);
                             if (currentIndex > 0) {
                               setActiveSection(sections[currentIndex - 1].id);
                             }
                           }}
-                          className="flex items-center"
                         >
-                          <ChevronLeft className="h-4 w-4 mr-1" />
-                          Previous
+                          <ChevronLeft className="w-4 h-4 mr-2" />
+                          <div className="text-left">
+                            <div className="text-xs text-white/50">Previous</div>
+                            <div className="font-medium">
+                              {sections[sections.findIndex(s => s.id === activeSection) - 1]?.title}
+                            </div>
+                          </div>
                         </Button>
                       )}
                       
-                      {/* Mark as completed */}
-                      <Button
-                        onClick={() => {
-                          if (!completedSections.includes(activeSection)) {
-                            setCompletedSections(prev => [...prev, activeSection]);
-                            toast({
-                              title: "Section completed!",
-                              description: "Great job! Keep up the good work.",
-                              variant: "default",
-                            });
-                          }
-                        }}
-                        className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
-                      >
-                        <CheckCircle className="h-4 w-4 mr-2" />
-                        {completedSections.includes(activeSection) ? "Completed" : "Mark as Complete"}
-                      </Button>
-                      
-                      {/* Next section */}
-                      {sections.findIndex(s => s.id === activeSection) < sections.length - 1 && (
+                      {sections.indexOf(sections.find(s => s.id === activeSection)) < sections.length - 1 && (
                         <Button
                           variant="outline"
+                          className={`flex items-center justify-end border-white/10 hover:bg-white/5 ${
+                            sections.indexOf(sections.find(s => s.id === activeSection)) === 0 ? 'md:col-start-2' : ''
+                          }`}
                           onClick={() => {
                             const currentIndex = sections.findIndex(s => s.id === activeSection);
                             if (currentIndex < sections.length - 1) {
                               setActiveSection(sections[currentIndex + 1].id);
                             }
                           }}
-                          className="flex items-center"
                         >
-                          Next
-                          <ChevronRight className="h-4 w-4 ml-1" />
+                          <div className="text-right">
+                            <div className="text-xs text-white/50">Next</div>
+                            <div className="font-medium">
+                              {sections[sections.findIndex(s => s.id === activeSection) + 1]?.title}
+                            </div>
+                          </div>
+                          <ChevronRight className="w-4 h-4 ml-2" />
                         </Button>
                       )}
                     </div>
-                  </>
-                )}
+                  </div>
+                  
+                  {/* Discussion section */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-lg font-semibold flex items-center">
+                        <MessageSquare className="w-4 h-4 mr-2 text-[#95FF66]" />
+                        Discussion
+                      </h3>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-xs h-8 border-white/10 hover:bg-white/5"
+                        onClick={() => setShowDiscussion(!showDiscussion)}
+                      >
+                        {showDiscussion ? "Hide" : "Show"}
+                      </Button>
+                    </div>
+                    
+                    {showDiscussion && (
+                      <>
+                        <div className="frost-card p-4 mb-4">
+                          <Textarea
+                            placeholder="Share your thoughts or questions about this section..."
+                            className="bg-black/20 resize-none h-24 border-white/5 focus-visible:ring-[#95FF66]/20 mb-3"
+                            value={discussionInput}
+                            onChange={(e) => setDiscussionInput(e.target.value)}
+                          />
+                          <div className="flex justify-end">
+                            <Button
+                              className="bg-[#95FF66]/20 text-[#95FF66] hover:bg-[#95FF66]/30"
+                              disabled={!discussionInput.trim()}
+                            >
+                              <Send className="w-4 h-4 mr-2" />
+                              Post Comment
+                            </Button>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-4">
+                          {discussions.map(discussion => (
+                            <div key={discussion.id} className="frost-card p-4">
+                              <div className="flex items-start gap-3">
+                                <div className="h-8 w-8 rounded-full overflow-hidden shrink-0">
+                                  <img 
+                                    src={discussion.avatar} 
+                                    alt={discussion.user}
+                                    className="h-full w-full object-cover"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <div className="flex justify-between items-start">
+                                    <div>
+                                      <div className="font-medium text-white">{discussion.user}</div>
+                                      <div className="text-xs text-white/50">{discussion.time}</div>
+                                    </div>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full hover:bg-white/5">
+                                      <ThumbsUp className={`h-4 w-4 ${liked ? 'text-[#95FF66] fill-[#95FF66]' : ''}`} />
+                                    </Button>
+                                  </div>
+                                  <div className="mt-2 text-sm">{discussion.content}</div>
+                                  
+                                  {discussion.replies && discussion.replies.length > 0 && (
+                                    <div className="mt-3 pl-4 border-l-2 border-white/10 space-y-3">
+                                      {discussion.replies.map(reply => (
+                                        <div key={reply.id} className="flex items-start gap-3">
+                                          <div className="h-6 w-6 rounded-full overflow-hidden shrink-0">
+                                            <img 
+                                              src={reply.avatar} 
+                                              alt={reply.user}
+                                              className="h-full w-full object-cover"
+                                            />
+                                          </div>
+                                          <div>
+                                            <div className="flex items-baseline">
+                                              <div className="font-medium text-sm text-white">{reply.user}</div>
+                                              <div className="text-xs text-white/50 ml-2">{reply.time}</div>
+                                            </div>
+                                            <div className="mt-1 text-sm">{reply.content}</div>
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  )}
+                                  
+                                  <div className="mt-3 flex gap-2">
+                                    <Button variant="ghost" size="sm" className="h-7 px-2 text-xs hover:bg-white/5">
+                                      Reply
+                                    </Button>
+                                    <Button variant="ghost" size="sm" className="h-7 px-2 text-xs hover:bg-white/5">
+                                      Share
+                                    </Button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  
+                  {/* Content feedback */}
+                  <div className="mt-8 pt-6 border-t border-white/10 animate-fade-in text-center">
+                    <h3 className="text-sm font-medium mb-3">Was this content helpful?</h3>
+                    <div className="flex justify-center gap-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={`border-white/10 hover:bg-white/5 ${feedback === 'yes' ? 'bg-white/10 text-[#95FF66]' : ''}`}
+                        onClick={() => setFeedback('yes')}
+                      >
+                        <ThumbsUp className="w-4 h-4 mr-2" />
+                        Yes
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={`border-white/10 hover:bg-white/5 ${feedback === 'no' ? 'bg-white/10 text-red-400' : ''}`}
+                        onClick={() => setFeedback('no')}
+                      >
+                        <ThumbsUp className="w-4 h-4 mr-2 transform rotate-180" />
+                        No
+                      </Button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </TabsContent>
             
-            {/* Exercises tab */}
-            <TabsContent value="exercises" className="m-0">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Practical Exercises</h2>
+            <TabsContent value="exercises" className="animate-fade-in">
+              <div className="frost-card p-6 rounded-lg">
+                <h2 className="text-2xl font-bold mb-6 flowing-gradient">Practice Exercises</h2>
                 
-                {exercises.length > 0 ? (
-                  <div className="space-y-4">
-                    {exercises.map((exercise, index) => (
-                      <div 
-                        key={index}
-                        className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors"
-                      >
-                        <h3 className="text-lg font-medium mb-2">{exercise.title}</h3>
-                        <p className="text-gray-400 mb-3">{exercise.description}</p>
-                        <div className="flex flex-wrap justify-between">
-                          <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full mb-2">
-                            <Award className="h-3 w-3 mr-1" />
-                            <span>{exercise.difficulty}</span>
-                          </div>
-                          <div className="flex items-center text-xs text-white/70 bg-white/5 px-3 py-1 rounded-full mb-2">
-                            <Clock className="h-3 w-3 mr-1" />
-                            <span>{exercise.estimatedTime}</span>
-                          </div>
-                          <Button size="sm" className="bg-white/10 hover:bg-white/20 text-white">
-                            <Code className="h-4 w-4 mr-1" /> Start Exercise
-                          </Button>
-                        </div>
+                <div className="space-y-4">
+                  {exercises.map((exercise, index) => (
+                    <div 
+                      key={index}
+                      className="border border-white/10 rounded-lg p-4 hover:bg-white/5 transition-colors hover-scale"
+                    >
+                      <div className="flex justify-between">
+                        <h3 className="font-semibold text-white">{exercise.title}</h3>
+                        <Badge variant="outline" className="bg-white/5 text-[#95FF66] border-[#95FF66]/20">
+                          {exercise.difficulty}
+                        </Badge>
                       </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Code className="h-16 w-16 mx-auto mb-4 text-gray-400" />
-                    <h3 className="text-xl font-medium mb-2">Exercises coming soon</h3>
-                    <p className="text-gray-400">
-                      We're preparing hands-on exercises for this module.
+                      <p className="text-white/70 mt-2 text-sm">{exercise.description}</p>
+                      <div className="flex items-center justify-between mt-4">
+                        <div className="text-xs text-white/50 flex items-center">
+                          <Clock className="h-3 w-3 mr-1" />
+                          {exercise.estimatedTime}
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs border-white/10 hover:bg-white/5"
+                        >
+                          Start Exercise
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                
+                {exercises.length === 0 && (
+                  <div className="py-10 text-center">
+                    <div className="inline-block rounded-full p-3 bg-white/5 mb-4">
+                      <Sparkles className="h-8 w-8 text-[#95FF66]" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Exercises are being developed</h3>
+                    <p className="text-white/70 max-w-md mx-auto">
+                      Hands-on exercises for this module are coming soon. Check back later!
                     </p>
                   </div>
                 )}
-                
-                {/* Interactive quiz */}
-                <div className="mt-8">
-                  <h2 className="text-2xl font-bold mb-6">Knowledge Check</h2>
-                  
-                  {quizCompleted ? (
-                    <div className="text-center py-8 bg-white/5 rounded-lg border border-white/10">
-                      <CheckCircle className="h-16 w-16 mx-auto mb-4 text-[#95FF66]" />
-                      <h3 className="text-xl font-medium mb-2">Quiz Completed!</h3>
-                      <p className="text-gray-400 mb-4">
-                        You've successfully completed the quiz.
-                      </p>
-                      <Button onClick={() => {
-                        setQuizCompleted(false);
-                        setCurrentQuiz(0);
-                        setSelectedAnswer(null);
-                        setShowQuizResult(false);
-                      }}>
-                        <RotateCcw className="h-4 w-4 mr-2" />
-                        Retake Quiz
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="glass p-6 rounded-lg border border-white/10">
-                      <h3 className="text-lg font-medium mb-4">Question {currentQuiz + 1} of {quizData.length}</h3>
-                      <p className="mb-4">{quizData[currentQuiz].question}</p>
-                      
-                      <div className="space-y-2 mb-6">
-                        {quizData[currentQuiz].options.map((option, index) => (
-                          <button
-                            key={index}
-                            className={`w-full text-left p-3 rounded-md transition-colors ${
-                              selectedAnswer === option
-                                ? showQuizResult
-                                  ? option === quizData[currentQuiz].correctAnswer
-                                    ? "bg-green-500/20 border border-green-500/50"
-                                    : "bg-red-500/20 border border-red-500/50"
-                                  : "bg-[#95FF66]/20 border border-[#95FF66]/50"
-                                : "bg-white/5 border border-white/10 hover:bg-white/10"
-                            }`}
-                            onClick={() => !showQuizResult && setSelectedAnswer(option)}
-                            disabled={showQuizResult}
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                      
-                      {showQuizResult && (
-                        <div className={`p-4 rounded-md mb-6 ${
-                          selectedAnswer === quizData[currentQuiz].correctAnswer
-                            ? "bg-green-500/20 border border-green-500/50"
-                            : "bg-red-500/20 border border-red-500/50"
-                        }`}>
-                          <p className="font-medium mb-1">
-                            {selectedAnswer === quizData[currentQuiz].correctAnswer
-                              ? "Correct!"
-                              : "Incorrect"}
-                          </p>
-                          <p className="text-sm">{quizData[currentQuiz].explanation}</p>
-                        </div>
-                      )}
-                      
-                      <div className="flex justify-between">
-                        <Button
-                          variant="outline"
-                          onClick={() => {
-                            if (currentQuiz > 0) {
-                              setCurrentQuiz(currentQuiz - 1);
-                              setSelectedAnswer(null);
-                              setShowQuizResult(false);
-                            }
-                          }}
-                          disabled={currentQuiz === 0}
-                        >
-                          <ChevronLeft className="h-4 w-4 mr-1" />
-                          Previous
-                        </Button>
-                        
-                        {!showQuizResult ? (
-                          <Button
-                            onClick={() => selectedAnswer && setShowQuizResult(true)}
-                            disabled={!selectedAnswer}
-                            className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
-                          >
-                            Check Answer
-                          </Button>
-                        ) : (
-                          <Button
-                            onClick={() => {
-                              if (currentQuiz < quizData.length - 1) {
-                                setCurrentQuiz(currentQuiz + 1);
-                                setSelectedAnswer(null);
-                                setShowQuizResult(false);
-                              } else {
-                                setQuizCompleted(true);
-                              }
-                            }}
-                            className="bg-[#95FF66] text-black hover:bg-[#95FF66]/90"
-                          >
-                            {currentQuiz < quizData.length - 1 ? (
-                              <>
-                                Next Question
-                                <ChevronRight className="h-4 w-4 ml-1" />
-                              </>
-                            ) : (
-                              <>
-                                Complete Quiz
-                                <CheckCircle className="h-4 w-4 ml-1" />
-                              </>
-                            )}
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
               </div>
             </TabsContent>
             
-            {/* Code playground tab */}
-            <TabsContent value="playground" className="m-0">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Interactive Code Playground</h2>
+            <TabsContent value="quiz" className="animate-fade-in">
+              <div className="frost-card p-6 rounded-lg">
+                <h2 className="text-2xl font-bold mb-6 flowing-gradient">Knowledge Check</h2>
                 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Code editor */}
-                  <div className="glass rounded-lg border border-white/10 overflow-hidden">
-                    <div className="p-2 bg-white/5 border-b border-white/10">
-                      <TabsList className="bg-transparent">
-                        <TabsTrigger 
-                          value="html"
-                          onClick={() => setActiveCodeTab("html")}
-                          className={`data-[state=active]:bg-white/10 data-[state=active]:text-white ${
-                            activeCodeTab === "html" ? "bg-white/10 text-white" : ""
-                          }`}
-                        >
-                          HTML
-                        </TabsTrigger>
-                        <TabsTrigger 
-                          value="css"
-                          onClick={() => setActiveCodeTab("css")}
-                          className={`data-[state=active]:bg-white/10 data-[state=active]:text-white ${
-                            activeCodeTab === "css" ? "bg-white/10 text-white" : ""
-                          }`}
-                        >
-                          CSS
-                        </TabsTrigger>
-                      </TabsList>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="absolute right-4 top-2"
-                        onClick={handleCopyCode}
-                      >
-                        {copied ? <CheckCircle className="h-4 w-4 text-[#95FF66]" /> : <Copy className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                    
-                    <div className="p-4 bg-black/30 h-[300px] font-mono text-sm">
-                      <textarea
-                        className="w-full h-full bg-transparent resize-none focus:outline-none text-green-400"
-                        value={activeCodeTab === "html" ? codePlayground.html : codePlayground.css}
-                        onChange={(e) => handleCodeChange(activeCodeTab, e.target.value)}
-                        spellCheck={false}
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Preview */}
-                  <div className="glass rounded-lg border border-white/10 overflow-hidden">
-                    <div className="p-2 bg-white/5 border-b border-white/10 flex justify-between items-center">
-                      <h3 className="text-sm font-medium">Preview</h3>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8"
-                        onClick={() => setShowPreview(!showPreview)}
-                      >
-                        {showPreview ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                      </Button>
-                    </div>
-                    
-                    {showPreview ? (
-                      <div className="p-4 bg-white h-[300px] overflow-auto">
-                        <iframe
-                          title="Code preview"
-                          className="w-full h-full border-0"
-                          srcDoc={renderCodePreview()}
-                        />
-                      </div>
-                    ) : (
-                      <div className="p-4 bg-white/5 h-[300px] flex items-center justify-center">
-                        <div className="text-center">
-                          <Eye className="h-8 w-8 mb-2 mx-auto text-gray-400" />
-                          <p>Preview hidden</p>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="mt-2"
-                            onClick={() => setShowPreview(true)}
-                          >
-                            Show Preview
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="mt-8">
-                  <h3 className="text-xl font-bold mb-3">Code Samples</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button
-                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
-                      onClick={() => {
-                        setCodePlayground({
-                          html: '<div class="flex-container">\n  <div class="flex-item">Item 1</div>\n  <div class="flex-item">Item 2</div>\n  <div class="flex-item">Item 3</div>\n</div>',
-                          css: '.flex-container {\n  display: flex;\n  justify-content: space-between;\n  background-color: #f0f0f0;\n  padding: 20px;\n}\n\n.flex-item {\n  background-color: #95FF66;\n  padding: 20px;\n  border-radius: 4px;\n  color: #222;\n  font-weight: bold;\n}'
-                        });
-                        setActiveCodeTab("html");
-                      }}
-                    >
-                      <h4 className="font-medium mb-1">Flexbox Example</h4>
-                      <p className="text-sm text-gray-400">A simple flexbox layout with three items</p>
-                    </button>
-                    
-                    <button
-                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
-                      onClick={() => {
-                        setCodePlayground({
-                          html: '<div class="grid-container">\n  <div class="grid-item">1</div>\n  <div class="grid-item">2</div>\n  <div class="grid-item">3</div>\n  <div class="grid-item">4</div>\n  <div class="grid-item">5</div>\n  <div class="grid-item">6</div>\n</div>',
-                          css: '.grid-container {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n  background-color: #f0f0f0;\n  padding: 20px;\n}\n\n.grid-item {\n  background-color: #95FF66;\n  padding: 20px;\n  border-radius: 4px;\n  text-align: center;\n  color: #222;\n  font-weight: bold;\n}'
-                        });
-                        setActiveCodeTab("html");
-                      }}
-                    >
-                      <h4 className="font-medium mb-1">Grid Example</h4>
-                      <p className="text-sm text-gray-400">A 3-column grid layout with 6 items</p>
-                    </button>
-                    
-                    <button
-                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
-                      onClick={() => {
-                        setCodePlayground({
-                          html: '<button class="animated-button">Hover Me</button>',
-                          css: '.animated-button {\n  background-color: #95FF66;\n  color: #222;\n  border: none;\n  padding: 12px 24px;\n  border-radius: 4px;\n  font-weight: bold;\n  cursor: pointer;\n  transition: transform 0.3s, box-shadow 0.3s;\n}\n\n.animated-button:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 5px 15px rgba(149, 255, 102, 0.4);\n}'
-                        });
-                        setActiveCodeTab("html");
-                      }}
-                    >
-                      <h4 className="font-medium mb-1">CSS Animation</h4>
-                      <p className="text-sm text-gray-400">Button with hover animation effect</p>
-                    </button>
-                    
-                    <button
-                      className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left"
-                      onClick={() => {
-                        setCodePlayground({
-                          html: '<div class="card">\n  <h2 class="card-title">Card Title</h2>\n  <p class="card-content">This is a responsive card component that uses CSS variables.</p>\n  <button class="card-button">Learn More</button>\n</div>',
-                          css: ':root {\n  --primary-color: #95FF66;\n  --text-color: #222;\n  --bg-color: white;\n  --radius: 8px;\n}\n\n.card {\n  background-color: var(--bg-color);\n  border-radius: var(--radius);\n  padding: 20px;\n  box-shadow: 0 4px 8px rgba(0,0,0,0.1);\n}\n\n.card-title {\n  color: var(--text-color);\n  margin-top: 0;\n}\n\n.card-content {\n  color: #666;\n}\n\n.card-button {\n  background-color: var(--primary-color);\n  color: var(--text-color);\n  border: none;\n  padding: 8px 16px;\n  border-radius: calc(var(--radius) / 2);\n  cursor: pointer;\n}'
-                        });
-                        setActiveCodeTab("html");
-                      }}
-                    >
-                      <h4 className="font-medium mb-1">CSS Variables</h4>
-                      <p className="text-sm text-gray-400">Card component using CSS custom properties</p>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </TabsContent>
-            
-            {/* Resources tab */}
-            <TabsContent value="resources" className="m-0">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-6">Additional Resources</h2>
-                
-                <div className="space-y-6">
-                  {/* Documentation links */}
-                  <div>
-                    <h3 className="text-xl font-medium mb-3 flex items-center">
-                      <ExternalLink className="h-5 w-5 mr-2" />
-                      External Resources
-                    </h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {resources.map((resource, index) => (
-                        <a
-                          key={index}
-                          href={resource.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="glass p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-colors group"
-                        >
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <h4 className="font-medium mb-1 group-hover:text-[#95FF66] transition-colors">{resource.title}</h4>
-                              <p className="text-sm text-gray-400">{resource.type}</p>
-                            </div>
-                            <div className="bg-white/5 rounded-full p-2 group-hover:bg-[#95FF66]/20 transition-colors">
-                              <ExternalLink className="h-4 w-4 group-hover:text-[#95FF66] transition-colors" />
-                            </div>
+                {quizData.length > 0 ? (
+                  <>
+                    {!quizCompleted ? (
+                      <div>
+                        <div className="mb-6">
+                          <div className="flex justify-between items-center mb-2">
+                            <h3 className="font-semibold text-white">Question {currentQuiz + 1} of {quizData.length}</h3>
+                            <Badge variant="outline" className="bg-white/5 text-white/70 border-white/10">
+                              {Math.round((currentQuiz / quizData.length) * 100)}% Complete
+                            </Badge>
                           </div>
-                        </a>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* Flashcards */}
-                  <div>
-                    <h3 className="text-xl font-medium mb-3 flex items-center">
-                      <BookOpen className="h-5 w-5 mr-2" />
-                      Study Flashcards
-                    </h3>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {[
-                        {id: 1, front: "What does CSS stand for?", back: "Cascading Style Sheets"},
-                        {id: 2, front: "What are the main components of the Box Model?", back: "Content, Padding, Border, and Margin"},
-                        {id: 3, front: "What is the purpose of semantic HTML?", back: "To give meaning to web content, making it more accessible and SEO-friendly"},
-                        {id: 4, front: "What's the difference between inline and block elements?", back: "Block elements start on a new line and take up the full width, while inline elements only take up as much width as necessary"}
-                      ].map(card => (
-                        <div 
-                          key={card.id}
-                          className={`glass rounded-lg border border-white/10 h-[150px] transition-all duration-500 cursor-pointer ${
-                            isFlipped[card.id] ? "bg-[#95FF66]/10" : "bg-transparent"
-                          }`}
-                          onClick={() => toggleFlip(card.id)}
-                        >
-                          <div className="p-4 flex items-center justify-center h-full">
-                            <div className="text-center">
-                              {isFlipped[card.id] ? (
-                                <p>{card.back}</p>
-                              ) : (
-                                <p className="font-medium">{card.front}</p>
-                              )}
-                              <p className="text-xs text-gray-400 absolute bottom-2 left-0 right-0">
-                                Click to {isFlipped[card.id] ? "flip back" : "reveal answer"}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                  
-                  {/* AI Assistant */}
-                  <div>
-                    <h3 className="text-xl font-medium mb-3 flex items-center">
-                      <Bot className="h-5 w-5 mr-2" />
-                      AI Learning Assistant
-                    </h3>
-                    
-                    <Button 
-                      onClick={() => setShowAiAssistant(!showAiAssistant)}
-                      variant="outline"
-                      className="mb-4"
-                    >
-                      {showAiAssistant ? "Hide Assistant" : "Show Assistant"}
-                    </Button>
-                    
-                    {showAiAssistant && (
-                      <div className="glass rounded-lg border border-white/10 overflow-hidden">
-                        <div className="p-4 bg-white/5 border-b border-white/10">
-                          <h4 className="font-medium">Ask a question about HTML/CSS</h4>
+                          <Progress value={(currentQuiz / quizData.length) * 100} className="h-1" />
                         </div>
                         
-                        <div className="p-4">
-                          <div className="flex gap-2 mb-4">
-                            <Input
-                              value={aiAssistantMessage}
-                              onChange={(e) => setAiAssistantMessage(e.target.value)}
-                              placeholder="e.g., What's the difference between flex and grid?"
-                              className="bg-white/5 border-white/10"
-                            />
-                            <Button onClick={submitAiQuestion}>
-                              <Send className="h-4 w-4" />
-                            </Button>
-                          </div>
+                        <div className="mb-6">
+                          <h3 className="text-lg font-medium mb-4">{quizData[currentQuiz].question}</h3>
                           
-                          <div className="space-y-4 max-h-[300px] overflow-y-auto">
-                            {aiResponses.map((response, index) => (
-                              <div key={index} className="rounded-lg">
-                                <div className="bg-white/5 p-3 rounded-t-lg">
-                                  <p className="font-medium text-white">{response.question}</p>
-                                </div>
-                                <div className="bg-white/10 p-3 rounded-b-lg">
-                                  <p className="text-gray-200">{response.answer}</p>
-                                </div>
+                          <div className="space-y-3">
+                            {quizData[currentQuiz].options.map((option, index) => (
+                              <div 
+                                key={index}
+                                className={`
+                                  quiz-option ${selectedAnswer === option ? 'selected' : ''}
+                                  ${showQuizResult && option === quizData[currentQuiz].correctAnswer ? 'correct' : ''}
+                                  ${showQuizResult && selectedAnswer === option && option !== quizData[currentQuiz].correctAnswer ? 'incorrect' : ''}
+                                `}
+                                onClick={() => !showQuizResult && setSelectedAnswer(option)}
+                              >
+                                {option}
+                                
+                                {showQuizResult && option === quizData[currentQuiz].correctAnswer && (
+                                  <CheckCircle className="h-5 w-5 text-green-500 ml-2 inline" />
+                                )}
                               </div>
                             ))}
                           </div>
                         </div>
+                        
+                        {showQuizResult && (
+                          <div className={`p-4 rounded-md mb-6 ${
+                            selectedAnswer === quizData[currentQuiz].correctAnswer 
+                              ? 'bg-green-500/10 border border-green-500/20' 
+                              : 'bg-red-500/10 border border-red-500/20'
+                          }`}>
+                            <p className="font-medium mb-2">
+                              {selectedAnswer === quizData[currentQuiz].correctAnswer 
+                                ? 'Correct!' 
+                                : 'Incorrect!'
+                              }
+                            </p>
+                            <p className="text-sm">{quizData[currentQuiz].explanation}</p>
+                          </div>
+                        )}
+                        
+                        <div className="flex justify-between">
+                          <Button
+                            variant="outline"
+                            className="border-white/10 hover:bg-white/5"
+                            onClick={() => {
+                              if (currentQuiz > 0) {
+                                setCurrentQuiz(currentQuiz - 1);
+                                setSelectedAnswer(null);
+                                setShowQuizResult(false);
+                              }
+                            }}
+                            disabled={currentQuiz === 0}
+                          >
+                            Previous
+                          </Button>
+                          
+                          {!showQuizResult ? (
+                            <Button
+                              className="bg-[#95FF66]/20 text-[#95FF66] hover:bg-[#95FF66]/30"
+                              onClick={() => setShowQuizResult(true)}
+                              disabled={!selectedAnswer}
+                            >
+                              Check Answer
+                            </Button>
+                          ) : (
+                            <Button
+                              className="bg-[#95FF66] text-black hover:bg-[#95FF66]/80"
+                              onClick={() => {
+                                if (currentQuiz < quizData.length - 1) {
+                                  setCurrentQuiz(currentQuiz + 1);
+                                  setSelectedAnswer(null);
+                                  setShowQuizResult(false);
+                                } else {
+                                  setQuizCompleted(true);
+                                }
+                              }}
+                            >
+                              {currentQuiz < quizData.length - 1 ? 'Next Question' : 'Complete Quiz'}
+                            </Button>
+                          )}
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center py-10">
+                        <div className="inline-block rounded-full p-3 bg-[#95FF66]/10 mb-4">
+                          <Award className="h-8 w-8 text-[#95FF66]" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">Quiz Completed!</h3>
+                        <p className="text-white/70 max-w-md mx-auto mb-6">
+                          You've successfully completed this module's knowledge check.
+                        </p>
+                        <Button
+                          className="bg-[#95FF66] text-black hover:bg-[#95FF66]/80"
+                          onClick={() => {
+                            setQuizCompleted(false);
+                            setCurrentQuiz(0);
+                            setSelectedAnswer(null);
+                            setShowQuizResult(false);
+                          }}
+                        >
+                          Retake Quiz
+                        </Button>
                       </div>
                     )}
+                  </>
+                ) : (
+                  <div className="py-10 text-center">
+                    <div className="inline-block rounded-full p-3 bg-white/5 mb-4">
+                      <Sparkles className="h-8 w-8 text-[#95FF66]" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Quiz is being developed</h3>
+                    <p className="text-white/70 max-w-md mx-auto">
+                      Test your knowledge with interactive quizzes coming soon!
+                    </p>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="resources" className="space-y-6 animate-fade-in">
+              <div className="frost-card p-6 rounded-lg">
+                <h2 className="text-2xl font-bold mb-6 flowing-gradient">Additional Resources</h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {resources.map((resource, index) => (
+                    <a 
+                      key={index}
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="border border-white/10 rounded-lg p-4 hover:bg-white/5 transition-colors hover-scale flex justify-between items-center"
+                    >
+                      <div>
+                        <div className="font-medium text-white mb-1">{resource.title}</div>
+                        <Badge variant="outline" className="bg-white/5 border-white/10 text-xs">
+                          {resource.type}
+                        </Badge>
+                      </div>
+                      <ExternalLink className="h-4 w-4 text-white/50" />
+                    </a>
+                  ))}
+                </div>
+                
+                {resources.length === 0 && (
+                  <div className="py-10 text-center">
+                    <div className="inline-block rounded-full p-3 bg-white/5 mb-4">
+                      <Sparkles className="h-8 w-8 text-[#95FF66]" />
+                    </div>
+                    <h3 className="text-xl font-semibold mb-2">Resources are being curated</h3>
+                    <p className="text-white/70 max-w-md mx-auto">
+                      We're gathering the best resources for this module. Check back soon!
+                    </p>
+                  </div>
+                )}
+                
+                {/* Download section */}
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <h3 className="font-semibold mb-4">Downloads</h3>
+                  
+                  <div className="space-y-3">
+                    <a 
+                      href="#"
+                      className="flex items-center justify-between p-3 border border-white/10 rounded-md hover:bg-white/5 transition-colors"
+                    >
+                      <div className="flex items-center">
+                        <div className="h-10 w-10 rounded bg-white/5 flex items-center justify-center mr-3">
+                          <FileText className="h-5 w-5 text-[#95FF66]" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">HTML CSS Cheat Sheet</div>
+                          <div className="text-xs text-white/50">PDF • 2.4 MB</div>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="gap-1">
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </a>
+                    
+                    <a 
+                      href="#"
+                      className="flex items-center justify-between p-3 border border-white/10 rounded-md hover:bg-white/5 transition-colors"
+                    >
+                      <div className="flex items-center">
+                        <div className="h-10 w-10 rounded bg-white/5 flex items-center justify-center mr-3">
+                          <Code className="h-5 w-5 text-[#95FF66]" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium">Starter Code Templates</div>
+                          <div className="text-xs text-white/50">ZIP • 1.8 MB</div>
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="gap-1">
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+                
+                {/* Community forums */}
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-semibold">Community Forums</h3>
+                    <Button variant="outline" size="sm" className="text-xs border-white/10 hover:bg-white/5">
+                      View All
+                    </Button>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="p-3 border border-white/10 rounded-md hover:bg-white/5 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium">Flexbox vs CSS Grid</h4>
+                        <Badge variant="outline" className="bg-white/5 text-xs border-white/10">
+                          <Users className="h-3 w-3 mr-1" /> 24 users
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-white/70 mb-2">A discussion about when to use Flexbox versus CSS Grid for different layout challenges.</p>
+                      <div className="flex justify-between items-center">
+                        <div className="text-xs text-white/50">Last active 2 hours ago</div>
+                        <Button variant="ghost" size="sm" className="text-xs h-7 px-2 hover:bg-white/5">
+                          Join Discussion
+                        </Button>
+                      </div>
+                    </div>
+                    
+                    <div className="p-3 border border-white/10 rounded-md hover:bg-white/5 transition-colors">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-medium">CSS Variables Best Practices</h4>
+                        <Badge variant="outline" className="bg-white/5 text-xs border-white/10">
+                          <Users className="h-3 w-3 mr-1" /> 18 users
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-white/70 mb-2">Share your techniques for organizing and using CSS custom properties effectively.</p>
+                      <div className="flex justify-between items-center">
+                        <div className="text-xs text-white/50">Last active 1 day ago</div>
+                        <Button variant="ghost" size="sm" className="text-xs h-7 px-2 hover:bg-white/5">
+                          Join Discussion
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Related modules */}
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <h3 className="font-semibold mb-4">Related Modules</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="p-4 border border-white/10 rounded-lg hover:bg-white/5 transition-colors">
+                      <h4 className="font-medium mb-1">Modern JavaScript Basics</h4>
+                      <p className="text-sm text-white/70 mb-3">Learn the fundamentals of modern JavaScript to complement your HTML & CSS skills.</p>
+                      <Button variant="outline" size="sm" className="w-full border-white/10 hover:bg-white/5">
+                        View Module
+                      </Button>
+                    </div>
+                    
+                    <div className="p-4 border border-white/10 rounded-lg hover:bg-white/5 transition-colors">
+                      <h4 className="font-medium mb-1">Responsive Web Design</h4>
+                      <p className="text-sm text-white/70 mb-3">Take a deep dive into creating websites that work well on all devices and screen sizes.</p>
+                      <Button variant="outline" size="sm" className="w-full border-white/10 hover:bg-white/5">
+                        View Module
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>
             </TabsContent>
           </Tabs>
-          
-          {/* Discussion section */}
-          <div className="glass rounded-lg border border-white/10 overflow-hidden mt-6">
-            <div className="p-4 bg-white/5 border-b border-white/10 flex justify-between items-center">
-              <h3 className="font-medium flex items-center">
-                <MessageSquare className="h-4 w-4 mr-2" />
-                Discussion
-              </h3>
-              <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => setShowDiscussion(!showDiscussion)}
-              >
-                {showDiscussion ? "Hide" : "Show"}
-              </Button>
-            </div>
-            
-            {showDiscussion && (
-              <div className="p-4">
-                <div className="mb-4">
-                  <textarea
-                    placeholder="Share your thoughts or ask a question..."
-                    className="w-full p-3 rounded-md bg-white/5 border border-white/10 focus:outline-none focus:border-[#95FF66]/50 resize-none h-[100px]"
-                    value={discussionInput}
-                    onChange={(e) => setDiscussionInput(e.target.value)}
-                  />
-                  <div className="flex justify-end mt-2">
-                    <Button size="sm">
-                      <MessageSquare className="h-4 w-4 mr-1" />
-                      Post Comment
-                    </Button>
-                  </div>
-                </div>
-                
-                <div className="space-y-4">
-                  {discussions.map(discussion => (
-                    <div key={discussion.id} className="p-4 rounded-md bg-white/5">
-                      <div className="flex items-start gap-3">
-                        <img 
-                          src={discussion.avatar} 
-                          alt={discussion.user} 
-                          className="h-8 w-8 rounded-full"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-medium">{discussion.user}</h4>
-                            <span className="text-xs text-gray-400">{discussion.time}</span>
-                          </div>
-                          <p className="mt-1 text-gray-200">{discussion.content}</p>
-                          <div className="flex items-center mt-2 gap-4">
-                            <button className="text-xs text-gray-400 flex items-center">
-                              <ThumbsUp className="h-3 w-3 mr-1" />
-                              Like ({discussion.likes})
-                            </button>
-                            <button className="text-xs text-gray-400 flex items-center">
-                              <MessageSquare className="h-3 w-3 mr-1" />
-                              Reply
-                            </button>
-                          </div>
-                          
-                          {/* Replies */}
-                          {discussion.replies && discussion.replies.length > 0 && (
-                            <div className="mt-3 pl-4 border-l border-white/10 space-y-3">
-                              {discussion.replies.map(reply => (
-                                <div key={reply.id} className="pt-3">
-                                  <div className="flex items-start gap-2">
-                                    <img 
-                                      src={reply.avatar} 
-                                      alt={reply.user} 
-                                      className="h-6 w-6 rounded-full"
-                                    />
-                                    <div>
-                                      <div className="flex items-center gap-2">
-                                        <h5 className="font-medium text-sm">{reply.user}</h5>
-                                        <span className="text-xs text-gray-400">{reply.time}</span>
-                                      </div>
-                                      <p className="mt-1 text-sm text-gray-200">{reply.content}</p>
-                                    </div>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+        </div>
+      </div>
+      
+      {/* Module navigation */}
+      <div className="mt-10 pt-6 border-t border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {prevModule && (
+            <Button
+              variant="outline"
+              className="flex items-center justify-start border-white/10 hover:bg-white/5"
+              onClick={() => navigate(`/module/${prevModule.id}`)}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              <div className="text-left">
+                <div className="text-xs text-white/50">Previous Module</div>
+                <div className="font-medium">{prevModule.title}</div>
               </div>
-            )}
-          </div>
+            </Button>
+          )}
           
-          {/* Module navigation */}
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-            {prevModule && (
-              <button 
-                onClick={() => navigate(`/modules/${prevModule.id}`)}
-                className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left flex items-center"
-              >
-                <ChevronLeft className="h-5 w-5 mr-3" />
-                <div>
-                  <p className="text-sm text-gray-400 mb-1">Previous Module</p>
-                  <h4 className="font-medium">{prevModule.title}</h4>
-                </div>
-              </button>
-            )}
-            
-            {nextModule && (
-              <button 
-                onClick={() => navigate(`/modules/${nextModule.id}`)}
-                className="glass p-4 rounded-lg border border-white/10 hover:border-white/20 transition-colors text-left flex items-center justify-between"
-              >
-                <div className="text-right">
-                  <p className="text-sm text-gray-400 mb-1">Next Module</p>
-                  <h4 className="font-medium">{nextModule.title}</h4>
-                </div>
-                <ChevronRight className="h-5 w-5 ml-3" />
-              </button>
-            )}
-          </div>
+          {nextModule && (
+            <Button
+              variant="outline"
+              className={`flex items-center justify-end border-white/10 hover:bg-white/5 ${
+                !prevModule ? 'md:col-start-2' : ''
+              }`}
+              onClick={() => navigate(`/module/${nextModule.id}`)}
+            >
+              <div className="text-right">
+                <div className="text-xs text-white/50">Next Module</div>
+                <div className="font-medium">{nextModule.title}</div>
+              </div>
+              <ArrowLeft className="w-4 h-4 ml-2 transform rotate-180" />
+            </Button>
+          )}
         </div>
       </div>
     </div>

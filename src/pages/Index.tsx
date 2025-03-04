@@ -4,7 +4,8 @@ import {
   Code, Zap, Target, Crown, Trophy, Book, Users, Star, MessagesSquare, 
   BrainCircuit, Rocket, ChevronRight, Database, Globe, 
   ArrowRight, LineChart, BookOpen, Calendar, Briefcase, Clock, 
-  FileCode, TrendingUp, Sparkles, Blocks, LockOpen, Bot, Video
+  FileCode, TrendingUp, Sparkles, Blocks, LockOpen, Bot, Video,
+  CheckCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {

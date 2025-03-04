@@ -19,8 +19,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        // Add new variant for educational buttons
-        educational: "bg-[#95FF66] text-black hover:bg-[#95FF66]/80 shadow-glow",
+        // Enhanced educational button
+        educational: "bg-[#95FF66] text-black hover:bg-[#95FF66]/80 shadow-glow font-semibold transition duration-300 ease-in-out transform hover:translate-y-[-2px]",
       },
       size: {
         default: "h-10 px-4 py-2",

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Clock, Award, CheckCircle, Star, ChevronRight, Bookmark, Coffee, Brain } from 'lucide-react';
+import { Clock, Award, CheckCircle, Star, ChevronRight, Bookmark, Coffee, Brain, BookOpen } from 'lucide-react';
 import { Module } from '@/constants';
 import { Button } from '@/components/ui/button';
 

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -749,4 +750,25 @@ const TrackDetails = () => {
               <TabsContent value="notes" className="mt-0">
                 <div className="glass p-6 rounded-lg animate-fade-in">
                   <div className="text-center mb-6">
-                    <PenSquare className="h
+                    <PenSquare className="h-12 w-12 text-[#95FF66] mx-auto mb-2" />
+                    <h3 className="text-xl font-bold text-white">Your Notes</h3>
+                    <p className="text-gray-400">Keep track of important concepts and ideas</p>
+                  </div>
+                  <div className="text-center text-gray-500 p-10 border border-dashed border-gray-700 rounded-lg">
+                    <p>You haven't made any notes for this track yet.</p>
+                    <Button variant="outline" className="mt-4">
+                      <PenSquare className="mr-2 h-4 w-4" />
+                      Create New Note
+                    </Button>
+                  </div>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default TrackDetails;

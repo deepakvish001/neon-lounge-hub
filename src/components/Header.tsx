@@ -1,10 +1,14 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { LogOut, LogIn, Command, Gamepad2, Code2, Trophy, Book } from "lucide-react";
+import { 
+  LogOut, LogIn, Command, Gamepad2, Code2, 
+  Trophy, Book, Bell, User 
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import GlobalSearch from "./GlobalSearch";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -61,10 +65,15 @@ export const Header = () => {
             className="flex items-center gap-2 cursor-pointer" 
             onClick={navigateToHome}
           >
-            <Command className="w-8 h-8 text-[#95FF66] animate-spin-slow" />
+            <Command className="w-8 h-8 text-[#95FF66] animate-pulse" />
             <span className="text-2xl font-bold bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent hover-scale transition-transform">
               NeonLounge
             </span>
+          </div>
+
+          {/* Search Bar - New Addition */}
+          <div className="hidden md:flex items-center mx-4 flex-1 justify-center">
+            <GlobalSearch />
           </div>
 
           {/* Navigation Links */}
@@ -109,9 +118,19 @@ export const Header = () => {
               <>
                 <Button
                   variant="ghost"
-                  className="hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all hidden sm:flex"
+                  size="icon"
+                  className="relative hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all"
                 >
-                  Join Game
+                  <Bell size={18} />
+                  <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-[#95FF66]"></span>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-[#95FF66]/10 hover:text-[#95FF66] transition-all"
+                  onClick={() => navigate('/profile')}
+                >
+                  <User size={18} />
                 </Button>
                 <Button
                   onClick={handleSignOut}

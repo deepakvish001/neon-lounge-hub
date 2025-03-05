@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import Battle from "./pages/Battle";
 import { Header } from "./components/Header";
+import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
 import Learn from "./pages/Learn";
 import TrackDetails from "./pages/TrackDetails";
@@ -107,6 +108,7 @@ const App = () => {
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
+            <Footer />
           </div>
         </BrowserRouter>
       </TooltipProvider>

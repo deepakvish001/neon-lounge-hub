@@ -1,12 +1,11 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { 
   Code, Zap, Target, Crown, Trophy, Book, Users, Star, MessagesSquare, 
-  BrainCircuit, Rocket, ChevronRight, CheckCircle, Database, Globe, 
+  BrainCircuit, Rocket, ChevronRight, Database, Globe, 
   ArrowRight, LineChart, BookOpen, Calendar, Briefcase, Clock, 
-  FileCode, TrendingUp, Sparkles,
-  Blocks, LockOpen, Bot, Video
+  FileCode, TrendingUp, Sparkles, Blocks, LockOpen, Bot, Video,
+  CheckCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -38,6 +37,10 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import WelcomeStats from "@/components/WelcomeStats";
+import ContinueLearning from "@/components/ContinueLearning";
+import WeeklyChallenges from "@/components/WeeklyChallenges";
+import { CareerPathSection } from "@/components/CareerPathSection";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -272,27 +275,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-[#0C0C0C] text-white">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-16">
+      {/* Hero Section - Modified with improved animations */}
+      <section className="relative pt-24 pb-12">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto">
             <div className="mb-8 inline-block">
               <div className="relative">
-                <div className="absolute inset-0 bg-[#95FF66] blur-3xl opacity-20 rounded-full"></div>
-                <BrainCircuit className="w-20 h-20 text-[#95FF66] mx-auto relative" />
+                <div className="absolute inset-0 bg-[#95FF66] blur-3xl opacity-20 rounded-full animate-pulse"></div>
+                <BrainCircuit className="w-20 h-20 text-[#95FF66] mx-auto relative animate-float" />
               </div>
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent neon-glow">
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-[#95FF66] to-[#67B346] bg-clip-text text-transparent animate-fade-in">
               Level Up Your Coding Skills
             </h1>
-            <p className="text-xl text-muted-foreground mb-8">
+            <p className="text-xl text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
               Join the ultimate platform for competitive programming. Challenge others,
               learn from real-time battles, and climb the global rankings.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
               <Button 
                 onClick={handleStartMatch}
-                className="bg-[#95FF66] hover:bg-[#95FF66]/80 transition-colors text-black text-lg px-8 py-6 float"
+                className="bg-[#95FF66] hover:bg-[#95FF66]/80 transition-colors text-black text-lg px-8 py-6 animate-float"
               >
                 Start Battle Now
               </Button>
@@ -307,6 +310,27 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Welcome Stats Section - New Addition */}
+      <div className="container mx-auto px-4">
+        <WelcomeStats />
+      </div>
+
+      {/* Continue Learning Section - New Addition */}
+      <div className="container mx-auto px-4">
+        <ContinueLearning />
+      </div>
+
+      {/* Weekly Challenges Section - New Addition */}
+      <div className="container mx-auto px-4">
+        <WeeklyChallenges />
+      </div>
+
+      {/* Career Path Section - New Addition */}
+      <div className="container mx-auto px-4">
+        <CareerPathSection />
+      </div>
+
+      {/* Battle Dialog - Keep unchanged */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="bg-[#1C1C1C] border-white/10 text-white">
           <DialogHeader>
@@ -367,10 +391,10 @@ const Index = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Stats Section */}
+      {/* Stats Section - Modified with improved styling */}
       <section className="py-16 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 animate-stagger">
             <div className="text-center">
               <div className="text-3xl font-bold text-[#95FF66] mb-2">10K+</div>
               <div className="text-muted-foreground">Active Users</div>
@@ -391,7 +415,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Learning Tracks Section */}
+      {/* Learning Tracks Section - Modified with improved animations */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
@@ -410,7 +434,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 animate-stagger">
             {popularTracks.map((track, index) => (
               <Card 
                 key={index} 
@@ -449,7 +473,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Features Grid */}
+      {/* Features Grid - Unchanged */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Why Choose Code Battles?</h2>
@@ -473,7 +497,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Upcoming Events Section */}
+      {/* Upcoming Events Section - Unchanged */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
@@ -535,7 +559,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Battle Arena Section */}
+      {/* Battle Arena Section - Unchanged */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
@@ -582,7 +606,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Live Workshops Section */}
+      {/* Live Workshops Section - Unchanged */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center mb-12">
@@ -646,7 +670,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Learning Paths */}
+      {/* Learning Paths - Unchanged */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Learning Paths</h2>
@@ -675,7 +699,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Developer Tips Section */}
+      {/* Developer Tips Section - Unchanged */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Pro Coding Tips</h2>
@@ -701,7 +725,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Learning Resources Section */}
+      {/* Learning Resources Section - Unchanged */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -748,7 +772,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Achievements Section */}
+      {/* Achievements Section - Unchanged */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 text-[#95FF66]">Our Achievements</h2>
@@ -768,7 +792,7 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials Section */}
+      {/* Testimonials Section - Unchanged */}
       <section className="py-20 bg-[#0A0A0A]">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-4 text-[#95FF66]">What Our Users Say</h2>

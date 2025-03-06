@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { tracks } from "@/constants";
@@ -33,7 +32,6 @@ const Learn = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
   const [showHowToLearn, setShowHowToLearn] = useState(false);
   
-  // Featured courses - hardcoded for now
   const featuredCourses = [
     {
       id: "modern-html-css",
@@ -77,7 +75,6 @@ const Learn = () => {
     }
   ];
 
-  // Learning paths
   const learningPaths = [
     {
       id: "frontend-specialist",
@@ -105,7 +102,6 @@ const Learn = () => {
     }
   ];
 
-  // Daily challenges
   const dailyChallenges = [
     {
       id: "css-flexbox",
@@ -133,7 +129,6 @@ const Learn = () => {
     }
   ];
 
-  // Study groups
   const studyGroups = [
     {
       id: "js-study-group",
@@ -161,7 +156,6 @@ const Learn = () => {
     }
   ];
 
-  // Learning strategies
   const learningStrategies = [
     {
       title: "Spaced Repetition",
@@ -190,7 +184,6 @@ const Learn = () => {
     }
   ];
 
-  // Interactive quizzes
   const quizzes = [
     {
       id: "html-basics",
@@ -215,7 +208,6 @@ const Learn = () => {
     }
   ];
 
-  // Learning roadmap timeline stages
   const roadmapStages = [
     {
       title: "HTML & CSS Fundamentals",
@@ -254,7 +246,6 @@ const Learn = () => {
     }
   ];
 
-  // Learning resources
   const learningResources = [
     {
       title: "Interactive Tutorials",
@@ -282,7 +273,6 @@ const Learn = () => {
     }
   ];
 
-  // Career paths
   const careerPaths = [
     {
       title: "Frontend Developer",
@@ -314,7 +304,6 @@ const Learn = () => {
     }
   ];
 
-  // How to learn effectively tips
   const learningTips = [
     {
       title: "Create a Learning Schedule",
@@ -348,13 +337,11 @@ const Learn = () => {
     }
   ];
 
-  // Filter tracks based on search query
   const filteredTracks = tracks.filter(track => 
     track.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     track.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Animation on scroll effect
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -369,7 +356,6 @@ const Learn = () => {
       observer.observe(el);
     });
 
-    // Animation for roadmap timeline
     const timelineElements = document.querySelectorAll('.timeline-item');
     
     const timelineObserver = new IntersectionObserver((entries) => {
@@ -377,7 +363,7 @@ const Learn = () => {
         if (entry.isIntersecting) {
           setTimeout(() => {
             entry.target.classList.add('animate-fade-in');
-          }, index * 150); // Staggered animation
+          }, index * 150);
           timelineObserver.unobserve(entry.target);
         }
       });
@@ -398,7 +384,6 @@ const Learn = () => {
     };
   }, [activeLearningPathTab]);
 
-  // Handle scrolling the timeline
   const scrollTimeline = (direction: 'left' | 'right') => {
     if (timelineRef.current) {
       const scrollAmount = 300;
@@ -412,14 +397,12 @@ const Learn = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 mb-16">
-      {/* Hero section with enhanced animated background */}
       <div className="mb-12 text-center relative overflow-hidden rounded-2xl p-10 glass">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-[#95FF66]/10 rounded-full filter blur-3xl opacity-30 transform -translate-x-1/2 -translate-y-1/2 subtle-bg-animation"></div>
           <div className="absolute bottom-0 right-0 w-2/3 h-2/3 bg-green-400/10 rounded-full filter blur-3xl opacity-30 transform translate-x-1/2 translate-y-1/2 subtle-bg-animation" style={{animationDelay: '1s'}}></div>
           <div className="absolute top-1/2 left-1/2 w-full h-full bg-[#95FF66]/5 rounded-full filter blur-3xl opacity-20 transform -translate-x-1/2 -translate-y-1/2 subtle-bg-animation" style={{animationDelay: '2s'}}></div>
           
-          {/* Floating code blocks decoration */}
           <div className="absolute top-[20%] right-[10%] opacity-20 animate-float delay-100">
             <div className="text-xs text-[#95FF66] font-mono">
               &lt;div&gt;<br/>
@@ -429,9 +412,9 @@ const Learn = () => {
           </div>
           <div className="absolute bottom-[20%] left-[15%] opacity-20 animate-float delay-300">
             <div className="text-xs text-[#95FF66] font-mono">
-              function learn() {<br/>
+              function learn() {'{'}<br/>
               &nbsp;&nbsp;return skills++;<br/>
-              }
+              {'}'}
             </div>
           </div>
         </div>
@@ -457,7 +440,6 @@ const Learn = () => {
             </Button>
           </div>
           
-          {/* Quick stats */}
           <div className="flex flex-wrap justify-center gap-6 mt-10">
             <div className="flex flex-col items-center bg-white/5 p-3 px-6 rounded-lg border border-white/10">
               <Sparkles className="h-5 w-5 text-[#95FF66] mb-1" />
@@ -483,7 +465,6 @@ const Learn = () => {
         </div>
       </div>
 
-      {/* Search and filter bar with improved visuals */}
       <div className="mb-10 glass rounded-lg border border-white/10 p-4">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow group">
@@ -521,7 +502,6 @@ const Learn = () => {
               Recommended
             </Button>
             
-            {/* How to learn toggle */}
             <Button 
               variant={showHowToLearn ? "secondary" : "outline"} 
               size="sm"
@@ -535,7 +515,6 @@ const Learn = () => {
         </div>
       </div>
 
-      {/* Learning Tips Guide */}
       {showHowToLearn && (
         <section className="mb-12 reveal-on-scroll opacity-0">
           <Card className="bg-gray-800/50 border-white/10">
@@ -585,7 +564,6 @@ const Learn = () => {
         </section>
       )}
 
-      {/* Personal Learning Dashboard */}
       {featuredCourses.some(course => course.progress > 0) && (
         <section className="mb-12 reveal-on-scroll opacity-0">
           <div className="flex justify-between items-center mb-6">
@@ -627,7 +605,6 @@ const Learn = () => {
                     <Progress value={course.progress} className="h-1.5 bg-gray-700" indicatorClassName="bg-[#95FF66]" />
                   </div>
                   
-                  {/* Enhanced UI: Add next lesson information */}
                   <div className="mt-4 p-2 bg-white/5 rounded border border-white/10 flex items-center">
                     <Play className="h-4 w-4 text-[#95FF66] mr-2" />
                     <div>
@@ -642,7 +619,6 @@ const Learn = () => {
         </section>
       )}
 
-      {/* Interactive Learning Roadmap */}
       <section className="mb-12 reveal-on-scroll opacity-0">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
@@ -683,10 +659,8 @@ const Learn = () => {
               <h3 className="text-white text-xl font-medium mb-6">Fullstack Web Development Journey</h3>
               
               <div className="relative">
-                {/* Timeline connector */}
                 <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#95FF66] to-gray-800/50"></div>
                 
-                {/* Timeline items */}
                 <div ref={timelineRef} className="pl-12 space-y-8 relative">
                   {roadmapStages.map((stage, index) => (
                     <div key={index} className="timeline-item opacity-0 transition-all duration-300">
@@ -797,7 +771,6 @@ const Learn = () => {
         </Tabs>
       </section>
 
-      {/* Interactive Quizzes Section */}
       <section className="mb-12 reveal-on-scroll opacity-0">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
@@ -840,7 +813,6 @@ const Learn = () => {
         </div>
       </section>
 
-      {/* Study Groups Section */}
       <section className="mb-12 reveal-on-scroll opacity-0">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
@@ -887,7 +859,6 @@ const Learn = () => {
         </div>
       </section>
 
-      {/* Learning Resources Section */}
       <section className="mb-12 reveal-on-scroll opacity-0">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
@@ -917,7 +888,6 @@ const Learn = () => {
         </div>
       </section>
 
-      {/* Daily Challenges Section */}
       <section className="mb-12 reveal-on-scroll opacity-0">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
@@ -972,7 +942,6 @@ const Learn = () => {
         </div>
       </section>
 
-      {/* Footer CTA */}
       <section className="mb-8 reveal-on-scroll opacity-0">
         <div className="bg-gray-800/30 rounded-lg p-8 border border-white/10 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to master coding?</h2>

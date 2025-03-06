@@ -31,7 +31,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground overflow-x-hidden;
+    @apply bg-background text-foreground overflow-x-hidden min-h-screen;
   }
 }
 
@@ -288,38 +288,20 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
-@keyframes subtle-pulse {
-  0% {
-    opacity: 0.3;
-    transform: translateX(-100%);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
+/* Reveal animation */
+.reveal-on-scroll {
+  position: relative;
+  z-index: 20;
+  will-change: transform, opacity;
 }
 
-.animate-pulse-subtle {
-  animation: subtle-pulse 2s ease-in-out infinite;
-}
-
-/* Let's add a staggered animation for the timeline items */
-@keyframes timeline-appear {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.timeline-item.animate-fade-in {
-  animation: timeline-appear 0.5s ease-out forwards;
+/* Timeline items */
+.timeline-item {
+  position: relative;
+  z-index: 30;
 }
 
 /* Enhance card hover effects */
@@ -360,11 +342,12 @@
 /* Enhancing z-index for elements that need to be visible */
 .reveal-on-scroll {
   position: relative;
-  z-index: 1;
+  z-index: 20;
+  will-change: transform, opacity;
 }
 
 /* Ensure elements are visible during scroll */
 .timeline-item {
   position: relative;
-  z-index: 2;
+  z-index: 30;
 }

@@ -396,7 +396,7 @@ const Learn = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 mb-16 relative z-0">
+    <div className="container mx-auto px-4 py-8 mb-16 relative z-0 min-h-screen overflow-x-hidden">
       <div className="mb-12 text-center relative overflow-hidden rounded-2xl p-10 glass">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-[#95FF66]/10 rounded-full filter blur-3xl opacity-30 transform -translate-x-1/2 -translate-y-1/2 subtle-bg-animation"></div>
@@ -465,500 +465,502 @@ const Learn = () => {
         </div>
       </div>
 
-      <div className="mb-10 glass rounded-lg border border-white/10 p-4 relative z-10">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="relative flex-grow group">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 group-focus-within:text-[#95FF66] transition-colors" />
-            <Input
-              placeholder="Search for courses, tracks or topics..."
-              className="pl-10 bg-white/5 border-white/10 focus:border-[#95FF66]/50 transition-all"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            {searchQuery && (
+      <div className="relative z-20 flex flex-col gap-8">
+        <div className="mb-10 glass rounded-lg border border-white/10 p-4 relative z-20">
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="relative flex-grow group">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 group-focus-within:text-[#95FF66] transition-colors" />
+              <Input
+                placeholder="Search for courses, tracks or topics..."
+                className="pl-10 bg-white/5 border-white/10 focus:border-[#95FF66]/50 transition-all"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
+                  onClick={() => setSearchQuery("")}
+                >
+                  <span className="sr-only">Clear</span>
+                  <span className="text-gray-500">×</span>
+                </Button>
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+                <Filter className="h-4 w-4 mr-2" />
+                Filters
+              </Button>
               <Button 
-                variant="ghost" 
-                size="sm" 
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0"
-                onClick={() => setSearchQuery("")}
+                variant={showRecommended ? "secondary" : "outline"} 
+                size="sm"
+                onClick={() => setShowRecommended(!showRecommended)}
+                className={showRecommended ? "" : "border-white/10 hover:bg-white/5"}
               >
-                <span className="sr-only">Clear</span>
-                <span className="text-gray-500">×</span>
+                <Zap className="h-4 w-4 mr-2 text-[#95FF66]" />
+                Recommended
               </Button>
-            )}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-              <Filter className="h-4 w-4 mr-2" />
-              Filters
-            </Button>
-            <Button 
-              variant={showRecommended ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setShowRecommended(!showRecommended)}
-              className={showRecommended ? "" : "border-white/10 hover:bg-white/5"}
-            >
-              <Zap className="h-4 w-4 mr-2 text-[#95FF66]" />
-              Recommended
-            </Button>
-            
-            <Button 
-              variant={showHowToLearn ? "secondary" : "outline"} 
-              size="sm"
-              onClick={() => setShowHowToLearn(!showHowToLearn)}
-              className={showHowToLearn ? "" : "border-white/10 hover:bg-white/5"}
-            >
-              <Lightbulb className="h-4 w-4 mr-2 text-[#95FF66]" />
-              Learning Tips
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {showHowToLearn && (
-        <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-          <Card className="bg-gray-800/50 border-white/10">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-white flex items-center text-2xl">
-                <Lightbulb className="mr-2 h-5 w-5 text-[#95FF66]" />
-                How to Learn Effectively
-              </CardTitle>
-              <CardDescription className="text-gray-400">
-                Optimize your learning experience with these proven techniques
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {learningTips.map((tip, index) => (
-                  <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10 hover:border-[#95FF66]/20 transition-all group">
-                    <div className="flex items-start mb-3">
-                      <div className="mr-3 bg-[#95FF66]/10 p-2 rounded-lg text-[#95FF66] group-hover:bg-[#95FF66]/20 transition-colors">
-                        <tip.icon className="h-5 w-5" />
-                      </div>
-                      <div>
-                        <h3 className="font-medium text-white group-hover:text-[#95FF66] transition-colors">{tip.title}</h3>
-                        <p className="text-sm text-gray-400 mt-1">{tip.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
               
-              <div className="mt-6 p-4 bg-[#95FF66]/10 rounded-lg border border-[#95FF66]/20">
-                <h3 className="text-[#95FF66] font-medium mb-2 flex items-center">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Personalize Your Learning
-                </h3>
-                <p className="text-sm text-gray-300">
-                  Everyone learns differently. Experiment with different techniques to find what works best for you.
-                  Track your progress, celebrate small wins, and adjust your approach as needed.
-                </p>
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Button variant="outline" className="w-full border-white/10 hover:bg-white/5" onClick={() => setShowHowToLearn(false)}>
-                Close Learning Tips
-              </Button>
-            </CardFooter>
-          </Card>
-        </section>
-      )}
-
-      {featuredCourses.some(course => course.progress > 0) && (
-        <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-white flex items-center">
-              <ListCheck className="mr-2 h-5 w-5 text-[#95FF66]" />
-              Continue Learning
-            </h2>
-            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-              View All
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredCourses.filter(course => course.progress > 0).map((course) => (
-              <div 
-                key={course.id}
-                className="bg-gray-800/50 rounded-lg overflow-hidden border border-white/10 hover:border-[#95FF66]/30 transition-all duration-300 group cursor-pointer hover:translate-y-[-5px]"
-                onClick={() => navigate(`/module/${course.id}`)}
+              <Button 
+                variant={showHowToLearn ? "secondary" : "outline"} 
+                size="sm"
+                onClick={() => setShowHowToLearn(!showHowToLearn)}
+                className={showHowToLearn ? "" : "border-white/10 hover:bg-white/5"}
               >
-                <div className="relative p-5">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <div className="text-xs text-[#95FF66] mb-1">{course.track}</div>
-                      <h3 className="text-lg font-bold text-white group-hover:text-[#95FF66] transition-colors">
-                        {course.title}
-                      </h3>
-                    </div>
-                    <div className="bg-[#95FF66]/20 text-[#95FF66] text-xs py-1 px-2 rounded-full">
-                      Continue
-                    </div>
-                  </div>
-                  
-                  <div className="mt-4">
-                    <div className="flex justify-between text-xs text-gray-400 mb-1">
-                      <span>Progress</span>
-                      <span>{course.progress}%</span>
-                    </div>
-                    <Progress value={course.progress} className="h-1.5 bg-gray-700" indicatorClassName="bg-[#95FF66]" />
-                  </div>
-                  
-                  <div className="mt-4 p-2 bg-white/5 rounded border border-white/10 flex items-center">
-                    <Play className="h-4 w-4 text-[#95FF66] mr-2" />
-                    <div>
-                      <div className="text-xs text-white">Next: Introduction to Flexbox</div>
-                      <div className="text-xs text-gray-500">15 minutes</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <BrainCircuit className="mr-2 h-5 w-5 text-[#95FF66]" />
-            Learning Paths
-          </h2>
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5 md:hidden"
-              onClick={() => scrollTimeline('left')}>
-              &larr;
-            </Button>
-            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5 md:hidden"
-              onClick={() => scrollTimeline('right')}>
-              &rarr;
-            </Button>
-            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-              View All
-              <ChevronRight className="ml-1 h-4 w-4" />
-            </Button>
+                <Lightbulb className="h-4 w-4 mr-2 text-[#95FF66]" />
+                Learning Tips
+              </Button>
+            </div>
           </div>
         </div>
 
-        <Tabs defaultValue="roadmap" value={activeLearningPathTab} onValueChange={setActiveLearningPathTab} className="mb-6">
-          <TabsList className="mb-6 bg-gray-800/30 p-1">
-            <TabsTrigger value="roadmap" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
-              Development Roadmap
-            </TabsTrigger>
-            <TabsTrigger value="paths" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
-              Guided Paths
-            </TabsTrigger>
-            <TabsTrigger value="careers" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
-              Career Tracks
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="roadmap" className="animate-fade-in">
-            <div className="bg-gray-800/30 rounded-lg p-6 border border-white/10">
-              <h3 className="text-white text-xl font-medium mb-6">Fullstack Web Development Journey</h3>
-              
-              <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#95FF66] to-gray-800/50"></div>
-                
-                <div ref={timelineRef} className="pl-12 space-y-8 relative">
-                  {roadmapStages.map((stage, index) => (
-                    <div key={index} className="timeline-item opacity-0 transition-all duration-300">
-                      <div className="absolute left-1 w-6 h-6 rounded-full bg-[#95FF66]/20 flex items-center justify-center border-2 border-[#95FF66]">
-                        <stage.icon className="h-3 w-3 text-[#95FF66]" />
-                      </div>
-                      
-                      <div className="bg-gray-800/50 p-4 rounded-lg border border-white/10">
-                        <div className="text-[#95FF66] text-xs mb-1">{stage.duration}</div>
-                        <h4 className="text-white text-lg font-medium mb-1">{stage.title}</h4>
-                        <p className="text-gray-400 text-sm mb-3">{stage.description}</p>
-                        
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {stage.courses.map((course, i) => (
-                            <Badge key={i} variant="outline" className="bg-white/5 hover:bg-white/10 cursor-pointer">
-                              {course}
-                            </Badge>
-                          ))}
+        {showHowToLearn && (
+          <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+            <Card className="bg-gray-800/50 border-white/10">
+              <CardHeader className="pb-2">
+                <CardTitle className="text-white flex items-center text-2xl">
+                  <Lightbulb className="mr-2 h-5 w-5 text-[#95FF66]" />
+                  How to Learn Effectively
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Optimize your learning experience with these proven techniques
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {learningTips.map((tip, index) => (
+                    <div key={index} className="bg-white/5 rounded-lg p-4 border border-white/10 hover:border-[#95FF66]/20 transition-all group">
+                      <div className="flex items-start mb-3">
+                        <div className="mr-3 bg-[#95FF66]/10 p-2 rounded-lg text-[#95FF66] group-hover:bg-[#95FF66]/20 transition-colors">
+                          <tip.icon className="h-5 w-5" />
                         </div>
-                        
-                        <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10">
-                          Start This Phase
-                          <ChevronRight className="ml-1 h-4 w-4" />
-                        </Button>
+                        <div>
+                          <h3 className="font-medium text-white group-hover:text-[#95FF66] transition-colors">{tip.title}</h3>
+                          <p className="text-sm text-gray-400 mt-1">{tip.description}</p>
+                        </div>
                       </div>
                     </div>
                   ))}
                 </div>
-              </div>
-              
-              <div className="flex justify-center mt-8">
-                <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-                  Download Complete Roadmap
+                
+                <div className="mt-6 p-4 bg-[#95FF66]/10 rounded-lg border border-[#95FF66]/20">
+                  <h3 className="text-[#95FF66] font-medium mb-2 flex items-center">
+                    <Settings className="h-4 w-4 mr-2" />
+                    Personalize Your Learning
+                  </h3>
+                  <p className="text-sm text-gray-300">
+                    Everyone learns differently. Experiment with different techniques to find what works best for you.
+                    Track your progress, celebrate small wins, and adjust your approach as needed.
+                  </p>
+                </div>
+              </CardContent>
+              <CardFooter>
+                <Button variant="outline" className="w-full border-white/10 hover:bg-white/5" onClick={() => setShowHowToLearn(false)}>
+                  Close Learning Tips
                 </Button>
-              </div>
+              </CardFooter>
+            </Card>
+          </section>
+        )}
+
+        {featuredCourses.some(course => course.progress > 0) && (
+          <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white flex items-center">
+                <ListCheck className="mr-2 h-5 w-5 text-[#95FF66]" />
+                Continue Learning
+              </h2>
+              <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+                View All
+                <ChevronRight className="ml-1 h-4 w-4" />
+              </Button>
             </div>
-          </TabsContent>
 
-          <TabsContent value="paths" className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-            {learningPaths.map((path) => (
-              <div 
-                key={path.id}
-                className="bg-gray-800/50 rounded-lg overflow-hidden border border-white/10 hover:border-[#95FF66]/30 transition-all duration-300 cursor-pointer group"
-                onClick={() => navigate(`/path/${path.id}`)}
-              >
-                <div className="relative h-40 overflow-hidden">
-                  <img 
-                    src={path.image} 
-                    alt={path.title} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
-                  <div className="absolute bottom-0 left-0 p-4">
-                    <h3 className="text-xl font-bold text-white group-hover:text-[#95FF66] transition-colors">
-                      {path.title}
-                    </h3>
-                    <p className="text-sm text-gray-300 mt-1">{path.description}</p>
-                    <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="outline" className="bg-white/10">
-                        {path.duration}
-                      </Badge>
-                      <Badge variant="outline" className="bg-white/10">
-                        {path.coursesCount} Courses
-                      </Badge>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </TabsContent>
-
-          <TabsContent value="careers" className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
-            {careerPaths.map((career, index) => (
-              <div key={index} className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all card-hover-effect">
-                <div className="flex items-start gap-4">
-                  <div className="bg-[#95FF66]/10 p-3 rounded-lg text-[#95FF66]">
-                    <career.icon className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-white">{career.title}</h3>
-                    <div className="flex items-center gap-3 mt-2">
-                      <div className="text-xs bg-white/10 px-2 py-1 rounded-full text-gray-300">
-                        Avg: {career.avgSalary}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredCourses.filter(course => course.progress > 0).map((course) => (
+                <div 
+                  key={course.id}
+                  className="bg-gray-800/50 rounded-lg overflow-hidden border border-white/10 hover:border-[#95FF66]/30 transition-all duration-300 group cursor-pointer hover:translate-y-[-5px]"
+                  onClick={() => navigate(`/module/${course.id}`)}
+                >
+                  <div className="relative p-5">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <div className="text-xs text-[#95FF66] mb-1">{course.track}</div>
+                        <h3 className="text-lg font-bold text-white group-hover:text-[#95FF66] transition-colors">
+                          {course.title}
+                        </h3>
                       </div>
-                      <div className="text-xs bg-[#95FF66]/10 px-2 py-1 rounded-full text-[#95FF66]">
-                        Demand: {career.demand}
+                      <div className="bg-[#95FF66]/20 text-[#95FF66] text-xs py-1 px-2 rounded-full">
+                        Continue
                       </div>
                     </div>
+                    
                     <div className="mt-4">
-                      <p className="text-xs text-gray-400 mb-1">Required Skills:</p>
-                      <div className="flex flex-wrap gap-1">
-                        {career.skills.map((skill, i) => (
-                          <Badge key={i} variant="outline" className="bg-white/5 text-xs">
-                            {skill}
-                          </Badge>
-                        ))}
+                      <div className="flex justify-between text-xs text-gray-400 mb-1">
+                        <span>Progress</span>
+                        <span>{course.progress}%</span>
+                      </div>
+                      <Progress value={course.progress} className="h-1.5 bg-gray-700" indicatorClassName="bg-[#95FF66]" />
+                    </div>
+                    
+                    <div className="mt-4 p-2 bg-white/5 rounded border border-white/10 flex items-center">
+                      <Play className="h-4 w-4 text-[#95FF66] mr-2" />
+                      <div>
+                        <div className="text-xs text-white">Next: Introduction to Flexbox</div>
+                        <div className="text-xs text-gray-500">15 minutes</div>
                       </div>
                     </div>
-                    <Button variant="ghost" size="sm" className="mt-3 text-[#95FF66] hover:bg-[#95FF66]/10">
-                      View Career Path
-                      <ChevronRight className="ml-1 h-4 w-4" />
-                    </Button>
                   </div>
                 </div>
-              </div>
-            ))}
-          </TabsContent>
-        </Tabs>
-      </section>
+              ))}
+            </div>
+          </section>
+        )}
 
-      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <Target className="mr-2 h-5 w-5 text-[#95FF66]" />
-            Test Your Knowledge
-          </h2>
-          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-            All Quizzes
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {quizzes.map((quiz) => (
-            <div 
-              key={quiz.id} 
-              className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
-            >
-              <div className="flex justify-between mb-3">
-                <Badge className="bg-[#95FF66]/10 text-[#95FF66] border-0">
-                  {quiz.category}
-                </Badge>
-                <div className="text-xs text-gray-400 flex items-center">
-                  <Clock className="h-3 w-3 mr-1" />
-                  {quiz.timeToComplete}
-                </div>
-              </div>
-              <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
-                {quiz.title}
-              </h3>
-              <p className="text-sm text-gray-400 mb-3">
-                {quiz.questions} multiple choice questions to test your understanding
-              </p>
-              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
-                Start Quiz
-                <ArrowUpRight className="ml-1 h-4 w-4" />
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <BrainCircuit className="mr-2 h-5 w-5 text-[#95FF66]" />
+              Learning Paths
+            </h2>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5 md:hidden"
+                onClick={() => scrollTimeline('left')}>
+                &larr;
+              </Button>
+              <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5 md:hidden"
+                onClick={() => scrollTimeline('right')}>
+                &rarr;
+              </Button>
+              <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+                View All
+                <ChevronRight className="ml-1 h-4 w-4" />
               </Button>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
 
-      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <Users className="mr-2 h-5 w-5 text-[#95FF66]" />
-            Study Groups
-          </h2>
-          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-            Create a Group
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
+          <Tabs defaultValue="roadmap" value={activeLearningPathTab} onValueChange={setActiveLearningPathTab} className="mb-6">
+            <TabsList className="mb-6 bg-gray-800/30 p-1">
+              <TabsTrigger value="roadmap" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
+                Development Roadmap
+              </TabsTrigger>
+              <TabsTrigger value="paths" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
+                Guided Paths
+              </TabsTrigger>
+              <TabsTrigger value="careers" className="data-[state=active]:bg-[#95FF66]/20 data-[state=active]:text-[#95FF66]">
+                Career Tracks
+              </TabsTrigger>
+            </TabsList>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {studyGroups.map((group) => (
-            <div 
-              key={group.id} 
-              className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
-            >
-              <div className="flex justify-between mb-3">
-                <h3 className="text-white text-lg font-medium group-hover:text-[#95FF66] transition-colors">
-                  {group.title}
-                </h3>
-                <Badge className={group.active ? "bg-[#95FF66]/10 text-[#95FF66] border-0" : "bg-gray-700 text-gray-300 border-0"}>
-                  {group.active ? "Active" : "Upcoming"}
-                </Badge>
-              </div>
-              <p className="text-sm text-gray-400 mb-3">{group.topic}</p>
-              <div className="flex justify-between text-xs text-gray-400 mb-4">
-                <div className="flex items-center">
-                  <Users className="h-3 w-3 mr-1" />
-                  {group.members} members
+            <TabsContent value="roadmap" className="animate-fade-in">
+              <div className="bg-gray-800/30 rounded-lg p-6 border border-white/10">
+                <h3 className="text-white text-xl font-medium mb-6">Fullstack Web Development Journey</h3>
+                
+                <div className="relative">
+                  <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#95FF66] to-gray-800/50"></div>
+                  
+                  <div ref={timelineRef} className="pl-12 space-y-8 relative">
+                    {roadmapStages.map((stage, index) => (
+                      <div key={index} className="timeline-item opacity-0 transition-all duration-300">
+                        <div className="absolute left-1 w-6 h-6 rounded-full bg-[#95FF66]/20 flex items-center justify-center border-2 border-[#95FF66]">
+                          <stage.icon className="h-3 w-3 text-[#95FF66]" />
+                        </div>
+                        
+                        <div className="bg-gray-800/50 p-4 rounded-lg border border-white/10">
+                          <div className="text-[#95FF66] text-xs mb-1">{stage.duration}</div>
+                          <h4 className="text-white text-lg font-medium mb-1">{stage.title}</h4>
+                          <p className="text-gray-400 text-sm mb-3">{stage.description}</p>
+                          
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {stage.courses.map((course, i) => (
+                              <Badge key={i} variant="outline" className="bg-white/5 hover:bg-white/10 cursor-pointer">
+                                {course}
+                              </Badge>
+                            ))}
+                          </div>
+                          
+                          <Button variant="ghost" size="sm" className="text-[#95FF66] hover:bg-[#95FF66]/10">
+                            Start This Phase
+                            <ChevronRight className="ml-1 h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center">
-                  <Clock className="h-3 w-3 mr-1" />
-                  {group.meetingTime}
-                </div>
-              </div>
-              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
-                Join Group
-                <ArrowUpRight className="ml-1 h-4 w-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <BookOpen className="mr-2 h-5 w-5 text-[#95FF66]" />
-            Learning Resources
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {learningResources.map((resource, index) => (
-            <div key={index} className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all group cursor-pointer">
-              <div className="bg-[#95FF66]/10 p-3 rounded-lg inline-block mb-3 text-[#95FF66]">
-                <resource.icon className="h-6 w-6" />
-              </div>
-              <h3 className="text-white text-lg font-medium mb-2 group-hover:text-[#95FF66] transition-colors">
-                {resource.title}
-              </h3>
-              <p className="text-sm text-gray-400 mb-3">
-                {resource.description}
-              </p>
-              <div className="text-[#95FF66] text-sm flex items-center">
-                Explore
-                <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <Zap className="mr-2 h-5 w-5 text-[#95FF66]" />
-            Daily Challenges
-          </h2>
-          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
-            All Challenges
-            <ChevronRight className="ml-1 h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {dailyChallenges.map((challenge) => (
-            <div 
-              key={challenge.id} 
-              className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
-            >
-              <div className="flex justify-between mb-3">
-                <Badge className="bg-white/10 text-white border-0">
-                  {challenge.category}
-                </Badge>
-                <Badge className={
-                  challenge.difficulty === "Easy" 
-                    ? "bg-green-500/20 text-green-300 border-0" 
-                    : challenge.difficulty === "Medium"
-                      ? "bg-yellow-500/20 text-yellow-300 border-0"
-                      : "bg-red-500/20 text-red-300 border-0"
-                }>
-                  {challenge.difficulty}
-                </Badge>
-              </div>
-              <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
-                {challenge.title}
-              </h3>
-              <div className="flex justify-between text-xs text-gray-400 mb-4">
-                <div className="flex items-center">
-                  <Clock className="h-3 w-3 mr-1" />
-                  {challenge.timeEstimate}
-                </div>
-                <div className="flex items-center">
-                  <Trophy className="h-3 w-3 mr-1" />
-                  {challenge.points} points
+                
+                <div className="flex justify-center mt-8">
+                  <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+                    Download Complete Roadmap
+                  </Button>
                 </div>
               </div>
-              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
-                Start Challenge
-                <ArrowUpRight className="ml-1 h-4 w-4" />
-              </Button>
-            </div>
-          ))}
-        </div>
-      </section>
+            </TabsContent>
 
-      <section className="mb-8 reveal-on-scroll opacity-0 relative z-10">
-        <div className="bg-gray-800/30 rounded-lg p-8 border border-white/10 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to master coding?</h2>
-          <p className="text-gray-400 max-w-2xl mx-auto mb-6">
-            Start your learning journey today and join thousands of developers who have leveled up their skills.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button variant="educational" size="lg" className="shadow-glow">
-              Create Learning Plan
-              <ArrowUpRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="lg" className="border-white/10 hover:bg-white/5">
-              Browse All Courses
+            <TabsContent value="paths" className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+              {learningPaths.map((path) => (
+                <div 
+                  key={path.id}
+                  className="bg-gray-800/50 rounded-lg overflow-hidden border border-white/10 hover:border-[#95FF66]/30 transition-all duration-300 cursor-pointer group"
+                  onClick={() => navigate(`/path/${path.id}`)}
+                >
+                  <div className="relative h-40 overflow-hidden">
+                    <img 
+                      src={path.image} 
+                      alt={path.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
+                    <div className="absolute bottom-0 left-0 p-4">
+                      <h3 className="text-xl font-bold text-white group-hover:text-[#95FF66] transition-colors">
+                        {path.title}
+                      </h3>
+                      <p className="text-sm text-gray-300 mt-1">{path.description}</p>
+                      <div className="flex items-center gap-2 mt-2">
+                        <Badge variant="outline" className="bg-white/10">
+                          {path.duration}
+                        </Badge>
+                        <Badge variant="outline" className="bg-white/10">
+                          {path.coursesCount} Courses
+                        </Badge>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </TabsContent>
+
+            <TabsContent value="careers" className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+              {careerPaths.map((career, index) => (
+                <div key={index} className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all card-hover-effect">
+                  <div className="flex items-start gap-4">
+                    <div className="bg-[#95FF66]/10 p-3 rounded-lg text-[#95FF66]">
+                      <career.icon className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">{career.title}</h3>
+                      <div className="flex items-center gap-3 mt-2">
+                        <div className="text-xs bg-white/10 px-2 py-1 rounded-full text-gray-300">
+                          Avg: {career.avgSalary}
+                        </div>
+                        <div className="text-xs bg-[#95FF66]/10 px-2 py-1 rounded-full text-[#95FF66]">
+                          Demand: {career.demand}
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <p className="text-xs text-gray-400 mb-1">Required Skills:</p>
+                        <div className="flex flex-wrap gap-1">
+                          {career.skills.map((skill, i) => (
+                            <Badge key={i} variant="outline" className="bg-white/5 text-xs">
+                              {skill}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="mt-3 text-[#95FF66] hover:bg-[#95FF66]/10">
+                        View Career Path
+                        <ChevronRight className="ml-1 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </TabsContent>
+          </Tabs>
+        </section>
+
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Target className="mr-2 h-5 w-5 text-[#95FF66]" />
+              Test Your Knowledge
+            </h2>
+            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+              All Quizzes
+              <ChevronRight className="ml-1 h-4 w-4" />
             </Button>
           </div>
-        </div>
-      </section>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {quizzes.map((quiz) => (
+              <div 
+                key={quiz.id} 
+                className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+              >
+                <div className="flex justify-between mb-3">
+                  <Badge className="bg-[#95FF66]/10 text-[#95FF66] border-0">
+                    {quiz.category}
+                  </Badge>
+                  <div className="text-xs text-gray-400 flex items-center">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {quiz.timeToComplete}
+                  </div>
+                </div>
+                <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
+                  {quiz.title}
+                </h3>
+                <p className="text-sm text-gray-400 mb-3">
+                  {quiz.questions} multiple choice questions to test your understanding
+                </p>
+                <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                  Start Quiz
+                  <ArrowUpRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Users className="mr-2 h-5 w-5 text-[#95FF66]" />
+              Study Groups
+            </h2>
+            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+              Create a Group
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {studyGroups.map((group) => (
+              <div 
+                key={group.id} 
+                className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+              >
+                <div className="flex justify-between mb-3">
+                  <h3 className="text-white text-lg font-medium group-hover:text-[#95FF66] transition-colors">
+                    {group.title}
+                  </h3>
+                  <Badge className={group.active ? "bg-[#95FF66]/10 text-[#95FF66] border-0" : "bg-gray-700 text-gray-300 border-0"}>
+                    {group.active ? "Active" : "Upcoming"}
+                  </Badge>
+                </div>
+                <p className="text-sm text-gray-400 mb-3">{group.topic}</p>
+                <div className="flex justify-between text-xs text-gray-400 mb-4">
+                  <div className="flex items-center">
+                    <Users className="h-3 w-3 mr-1" />
+                    {group.members} members
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {group.meetingTime}
+                  </div>
+                </div>
+                <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                  Join Group
+                  <ArrowUpRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <BookOpen className="mr-2 h-5 w-5 text-[#95FF66]" />
+              Learning Resources
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {learningResources.map((resource, index) => (
+              <div key={index} className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all group cursor-pointer">
+                <div className="bg-[#95FF66]/10 p-3 rounded-lg inline-block mb-3 text-[#95FF66]">
+                  <resource.icon className="h-6 w-6" />
+                </div>
+                <h3 className="text-white text-lg font-medium mb-2 group-hover:text-[#95FF66] transition-colors">
+                  {resource.title}
+                </h3>
+                <p className="text-sm text-gray-400 mb-3">
+                  {resource.description}
+                </p>
+                <div className="text-[#95FF66] text-sm flex items-center">
+                  Explore
+                  <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-20">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-white flex items-center">
+              <Zap className="mr-2 h-5 w-5 text-[#95FF66]" />
+              Daily Challenges
+            </h2>
+            <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+              All Challenges
+              <ChevronRight className="ml-1 h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {dailyChallenges.map((challenge) => (
+              <div 
+                key={challenge.id} 
+                className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+              >
+                <div className="flex justify-between mb-3">
+                  <Badge className="bg-white/10 text-white border-0">
+                    {challenge.category}
+                  </Badge>
+                  <Badge className={
+                    challenge.difficulty === "Easy" 
+                      ? "bg-green-500/20 text-green-300 border-0" 
+                      : challenge.difficulty === "Medium"
+                        ? "bg-yellow-500/20 text-yellow-300 border-0"
+                        : "bg-red-500/20 text-red-300 border-0"
+                  }>
+                    {challenge.difficulty}
+                  </Badge>
+                </div>
+                <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
+                  {challenge.title}
+                </h3>
+                <div className="flex justify-between text-xs text-gray-400 mb-4">
+                  <div className="flex items-center">
+                    <Clock className="h-3 w-3 mr-1" />
+                    {challenge.timeEstimate}
+                  </div>
+                  <div className="flex items-center">
+                    <Trophy className="h-3 w-3 mr-1" />
+                    {challenge.points} points
+                  </div>
+                </div>
+                <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                  Start Challenge
+                  <ArrowUpRight className="ml-1 h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-8 reveal-on-scroll opacity-0 relative z-20">
+          <div className="bg-gray-800/30 rounded-lg p-8 border border-white/10 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to master coding?</h2>
+            <p className="text-gray-400 max-w-2xl mx-auto mb-6">
+              Start your learning journey today and join thousands of developers who have leveled up their skills.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Button variant="educational" size="lg" className="shadow-glow">
+                Create Learning Plan
+                <ArrowUpRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button variant="outline" size="lg" className="border-white/10 hover:bg-white/5">
+                Browse All Courses
+              </Button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-<lov-code>
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { tracks } from "@/constants";
@@ -741,3 +740,4 @@ const Learn = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4">
                     <h3 className="text-xl font-bold text-white group-hover:text-[#95FF66] transition-colors">
+                      {path

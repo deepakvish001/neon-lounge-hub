@@ -1,4 +1,4 @@
-
+<lov-codelov-code>
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -289,3 +289,70 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+@keyframes subtle-pulse {
+  0% {
+    opacity: 0.3;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+.animate-pulse-subtle {
+  animation: subtle-pulse 2s ease-in-out infinite;
+}
+
+/* Let's add a staggered animation for the timeline items */
+@keyframes timeline-appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.timeline-item.animate-fade-in {
+  animation: timeline-appear 0.5s ease-out forwards;
+}
+
+/* Enhance card hover effects */
+.card-hover-effect {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Badge animations */
+.badge-pulse {
+  animation: badge-pulse 2s infinite;
+}
+
+@keyframes badge-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Improved glow effect for educational buttons */
+.shadow-glow {
+  box-shadow: 0 0 15px rgba(149, 255, 102, 0.5);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.shadow-glow:hover {
+  box-shadow: 0 0 25px rgba(149, 255, 102, 0.7);
+  transform: translateY(-2px);
+}
+</lov-code>

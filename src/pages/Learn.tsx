@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { tracks } from "@/constants";
@@ -740,4 +741,257 @@ const Learn = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent"></div>
                   <div className="absolute bottom-0 left-0 p-4">
                     <h3 className="text-xl font-bold text-white group-hover:text-[#95FF66] transition-colors">
-                      {path
+                      {path.title}
+                    </h3>
+                    <p className="text-sm text-gray-300 mt-1">{path.description}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="outline" className="bg-white/10">
+                        {path.duration}
+                      </Badge>
+                      <Badge variant="outline" className="bg-white/10">
+                        {path.coursesCount} Courses
+                      </Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </TabsContent>
+
+          <TabsContent value="careers" className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+            {careerPaths.map((career, index) => (
+              <div key={index} className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all card-hover-effect">
+                <div className="flex items-start gap-4">
+                  <div className="bg-[#95FF66]/10 p-3 rounded-lg text-[#95FF66]">
+                    <career.icon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{career.title}</h3>
+                    <div className="flex items-center gap-3 mt-2">
+                      <div className="text-xs bg-white/10 px-2 py-1 rounded-full text-gray-300">
+                        Avg: {career.avgSalary}
+                      </div>
+                      <div className="text-xs bg-[#95FF66]/10 px-2 py-1 rounded-full text-[#95FF66]">
+                        Demand: {career.demand}
+                      </div>
+                    </div>
+                    <div className="mt-4">
+                      <p className="text-xs text-gray-400 mb-1">Required Skills:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {career.skills.map((skill, i) => (
+                          <Badge key={i} variant="outline" className="bg-white/5 text-xs">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <Button variant="ghost" size="sm" className="mt-3 text-[#95FF66] hover:bg-[#95FF66]/10">
+                      View Career Path
+                      <ChevronRight className="ml-1 h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </TabsContent>
+        </Tabs>
+      </section>
+
+      {/* Interactive Quizzes Section */}
+      <section className="mb-12 reveal-on-scroll opacity-0">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <Target className="mr-2 h-5 w-5 text-[#95FF66]" />
+            Test Your Knowledge
+          </h2>
+          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+            All Quizzes
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {quizzes.map((quiz) => (
+            <div 
+              key={quiz.id} 
+              className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+            >
+              <div className="flex justify-between mb-3">
+                <Badge className="bg-[#95FF66]/10 text-[#95FF66] border-0">
+                  {quiz.category}
+                </Badge>
+                <div className="text-xs text-gray-400 flex items-center">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {quiz.timeToComplete}
+                </div>
+              </div>
+              <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
+                {quiz.title}
+              </h3>
+              <p className="text-sm text-gray-400 mb-3">
+                {quiz.questions} multiple choice questions to test your understanding
+              </p>
+              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                Start Quiz
+                <ArrowUpRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Study Groups Section */}
+      <section className="mb-12 reveal-on-scroll opacity-0">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <Users className="mr-2 h-5 w-5 text-[#95FF66]" />
+            Study Groups
+          </h2>
+          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+            Create a Group
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {studyGroups.map((group) => (
+            <div 
+              key={group.id} 
+              className="bg-gray-800/50 p-5 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+            >
+              <div className="flex justify-between mb-3">
+                <h3 className="text-white text-lg font-medium group-hover:text-[#95FF66] transition-colors">
+                  {group.title}
+                </h3>
+                <Badge className={group.active ? "bg-[#95FF66]/10 text-[#95FF66] border-0" : "bg-gray-700 text-gray-300 border-0"}>
+                  {group.active ? "Active" : "Upcoming"}
+                </Badge>
+              </div>
+              <p className="text-sm text-gray-400 mb-3">{group.topic}</p>
+              <div className="flex justify-between text-xs text-gray-400 mb-4">
+                <div className="flex items-center">
+                  <Users className="h-3 w-3 mr-1" />
+                  {group.members} members
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {group.meetingTime}
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                Join Group
+                <ArrowUpRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Learning Resources Section */}
+      <section className="mb-12 reveal-on-scroll opacity-0">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <BookOpen className="mr-2 h-5 w-5 text-[#95FF66]" />
+            Learning Resources
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {learningResources.map((resource, index) => (
+            <div key={index} className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all group cursor-pointer">
+              <div className="bg-[#95FF66]/10 p-3 rounded-lg inline-block mb-3 text-[#95FF66]">
+                <resource.icon className="h-6 w-6" />
+              </div>
+              <h3 className="text-white text-lg font-medium mb-2 group-hover:text-[#95FF66] transition-colors">
+                {resource.title}
+              </h3>
+              <p className="text-sm text-gray-400 mb-3">
+                {resource.description}
+              </p>
+              <div className="text-[#95FF66] text-sm flex items-center">
+                Explore
+                <ChevronRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Daily Challenges Section */}
+      <section className="mb-12 reveal-on-scroll opacity-0">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <Zap className="mr-2 h-5 w-5 text-[#95FF66]" />
+            Daily Challenges
+          </h2>
+          <Button variant="outline" size="sm" className="border-white/10 hover:bg-white/5">
+            All Challenges
+            <ChevronRight className="ml-1 h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {dailyChallenges.map((challenge) => (
+            <div 
+              key={challenge.id} 
+              className="bg-gray-800/50 p-4 rounded-lg border border-white/10 hover:border-[#95FF66]/30 transition-all cursor-pointer group"
+            >
+              <div className="flex justify-between mb-3">
+                <Badge className="bg-white/10 text-white border-0">
+                  {challenge.category}
+                </Badge>
+                <Badge className={
+                  challenge.difficulty === "Easy" 
+                    ? "bg-green-500/20 text-green-300 border-0" 
+                    : challenge.difficulty === "Medium"
+                      ? "bg-yellow-500/20 text-yellow-300 border-0"
+                      : "bg-red-500/20 text-red-300 border-0"
+                }>
+                  {challenge.difficulty}
+                </Badge>
+              </div>
+              <h3 className="text-white text-lg font-medium mb-1 group-hover:text-[#95FF66] transition-colors">
+                {challenge.title}
+              </h3>
+              <div className="flex justify-between text-xs text-gray-400 mb-4">
+                <div className="flex items-center">
+                  <Clock className="h-3 w-3 mr-1" />
+                  {challenge.timeEstimate}
+                </div>
+                <div className="flex items-center">
+                  <Trophy className="h-3 w-3 mr-1" />
+                  {challenge.points} points
+                </div>
+              </div>
+              <Button variant="ghost" size="sm" className="w-full text-[#95FF66] hover:bg-[#95FF66]/10">
+                Start Challenge
+                <ArrowUpRight className="ml-1 h-4 w-4" />
+              </Button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Footer CTA */}
+      <section className="mb-8 reveal-on-scroll opacity-0">
+        <div className="bg-gray-800/30 rounded-lg p-8 border border-white/10 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to master coding?</h2>
+          <p className="text-gray-400 max-w-2xl mx-auto mb-6">
+            Start your learning journey today and join thousands of developers who have leveled up their skills.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Button variant="educational" size="lg" className="shadow-glow">
+              Create Learning Plan
+              <ArrowUpRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="lg" className="border-white/10 hover:bg-white/5">
+              Browse All Courses
+            </Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default Learn;

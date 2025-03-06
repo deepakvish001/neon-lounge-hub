@@ -396,7 +396,7 @@ const Learn = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 mb-16">
+    <div className="container mx-auto px-4 py-8 mb-16 relative z-0">
       <div className="mb-12 text-center relative overflow-hidden rounded-2xl p-10 glass">
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 left-0 w-2/3 h-2/3 bg-[#95FF66]/10 rounded-full filter blur-3xl opacity-30 transform -translate-x-1/2 -translate-y-1/2 subtle-bg-animation"></div>
@@ -465,7 +465,7 @@ const Learn = () => {
         </div>
       </div>
 
-      <div className="mb-10 glass rounded-lg border border-white/10 p-4">
+      <div className="mb-10 glass rounded-lg border border-white/10 p-4 relative z-10">
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-grow group">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 h-4 w-4 group-focus-within:text-[#95FF66] transition-colors" />
@@ -516,7 +516,7 @@ const Learn = () => {
       </div>
 
       {showHowToLearn && (
-        <section className="mb-12 reveal-on-scroll opacity-0">
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
           <Card className="bg-gray-800/50 border-white/10">
             <CardHeader className="pb-2">
               <CardTitle className="text-white flex items-center text-2xl">
@@ -565,7 +565,7 @@ const Learn = () => {
       )}
 
       {featuredCourses.some(course => course.progress > 0) && (
-        <section className="mb-12 reveal-on-scroll opacity-0">
+        <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white flex items-center">
               <ListCheck className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -619,7 +619,7 @@ const Learn = () => {
         </section>
       )}
 
-      <section className="mb-12 reveal-on-scroll opacity-0">
+      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <BrainCircuit className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -771,7 +771,7 @@ const Learn = () => {
         </Tabs>
       </section>
 
-      <section className="mb-12 reveal-on-scroll opacity-0">
+      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <Target className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -813,7 +813,7 @@ const Learn = () => {
         </div>
       </section>
 
-      <section className="mb-12 reveal-on-scroll opacity-0">
+      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <Users className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -859,7 +859,7 @@ const Learn = () => {
         </div>
       </section>
 
-      <section className="mb-12 reveal-on-scroll opacity-0">
+      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <BookOpen className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -888,7 +888,7 @@ const Learn = () => {
         </div>
       </section>
 
-      <section className="mb-12 reveal-on-scroll opacity-0">
+      <section className="mb-12 reveal-on-scroll opacity-0 relative z-10">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <Zap className="mr-2 h-5 w-5 text-[#95FF66]" />
@@ -942,7 +942,7 @@ const Learn = () => {
         </div>
       </section>
 
-      <section className="mb-8 reveal-on-scroll opacity-0">
+      <section className="mb-8 reveal-on-scroll opacity-0 relative z-10">
         <div className="bg-gray-800/30 rounded-lg p-8 border border-white/10 text-center">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Ready to master coding?</h2>
           <p className="text-gray-400 max-w-2xl mx-auto mb-6">

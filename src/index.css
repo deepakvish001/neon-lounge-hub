@@ -31,7 +31,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
   }
 }
 
@@ -287,6 +287,8 @@
   background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes subtle-pulse {
@@ -353,4 +355,16 @@
 .shadow-glow:hover {
   box-shadow: 0 0 25px rgba(149, 255, 102, 0.7);
   transform: translateY(-2px);
+}
+
+/* Enhancing z-index for elements that need to be visible */
+.reveal-on-scroll {
+  position: relative;
+  z-index: 1;
+}
+
+/* Ensure elements are visible during scroll */
+.timeline-item {
+  position: relative;
+  z-index: 2;
 }

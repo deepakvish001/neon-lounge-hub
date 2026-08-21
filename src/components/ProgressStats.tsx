@@ -1,13 +1,12 @@
 
 import React from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  BarChart3, 
-  Clock, 
+import {
+  BarChart3,
+  Clock,
   Calendar,
-  TrendingUp, 
-  Award,
-  Zap
+  TrendingUp,
+  Award
 } from 'lucide-react';
 
 interface ProgressStatsProps {
@@ -23,9 +22,7 @@ export const ProgressStats: React.FC<ProgressStatsProps> = ({
 }) => {
   // Calculate more dynamic stats
   const progressPercentage = Math.round((completedModules / totalModules) * 100) || 0;
-  const streakDays = Math.floor(Math.random() * 10) + 1; // Simulated value - would be from user data
-  const lastActive = "Today"; // Simulated value - would be calculated from user data
-  
+
   // Time estimates
   const hoursPerWeek = 5; // Assumed study hours per week
   const weeksToComplete = estimatedCompletionTime > 0 
@@ -49,7 +46,7 @@ export const ProgressStats: React.FC<ProgressStatsProps> = ({
         Your Learning Analytics
       </h2>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Modules Progress */}
         <Card className="bg-gray-800/30 border-white/5 hover:shadow-[0_0_10px_rgba(149,255,102,0.1)] transition-shadow">
           <CardContent className="p-4">
@@ -81,23 +78,7 @@ export const ProgressStats: React.FC<ProgressStatsProps> = ({
             </div>
           </CardContent>
         </Card>
-        
-        {/* Learning Streak */}
-        <Card className="bg-gray-800/30 border-white/5 hover:shadow-[0_0_10px_rgba(149,255,102,0.1)] transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <div className="bg-[#FF66A6]/10 p-2 rounded-lg text-[#FF66A6]">
-                <Zap className="h-4 w-4" />
-              </div>
-              <div>
-                <div className="text-xs text-gray-400">Learning Streak</div>
-                <div className="text-white text-lg font-medium">{streakDays} {streakDays === 1 ? 'day' : 'days'}</div>
-                <div className="text-xs text-[#FF66A6]">Last active: {lastActive}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        
+
         {/* Estimated Completion */}
         <Card className="bg-gray-800/30 border-white/5 hover:shadow-[0_0_10px_rgba(149,255,102,0.1)] transition-shadow">
           <CardContent className="p-4">

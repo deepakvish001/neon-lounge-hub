@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Trophy, Crown, Star, ArrowUp, ArrowDown, Search, Users } from "lucide-react";
+import { Trophy, Crown, Star, Search, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -109,7 +109,6 @@ const Leaderboard = () => {
                       <th className="py-4 px-6 text-gray-400 font-medium">Player</th>
                       <th className="py-4 px-6 text-gray-400 font-medium">Rating</th>
                       <th className="py-4 px-6 text-gray-400 font-medium">Wins</th>
-                      <th className="py-4 px-6 text-gray-400 font-medium">Change</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -156,16 +155,6 @@ const Leaderboard = () => {
                           </span>
                         </td>
                         <td className="py-4 px-6">{player.matches_won}</td>
-                        <td className="py-4 px-6">
-                          <div className="flex items-center gap-1">
-                            {Math.random() > 0.5 ? (
-                              <ArrowUp className="w-4 h-4 text-green-500" />
-                            ) : (
-                              <ArrowDown className="w-4 h-4 text-red-500" />
-                            )}
-                            <span>{Math.floor(Math.random() * 100)}</span>
-                          </div>
-                        </td>
                       </tr>
                     ))}
                   </tbody>
